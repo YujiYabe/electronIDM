@@ -121,20 +121,6 @@ new Vue({
       })
     },
 
-    // encrypt: function () {
-    //   var str = $('#encrypt').val()
-    //   var encrypted = CryptoJS.AES.encrypt(str, key)
-    //   $('#decrypt').val(encrypted.toString())
-    //   console.log(encrypted.toString())
-    // },
-
-    // decrypt: function () {
-    //   var str = $('#decrypt').val()
-    //   var decrypted = CryptoJS.AES.decrypt(str, key)
-    //   console.log(decrypted)
-
-    //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
-    // },
 
     startResize() {
       this.isDragged = true;
@@ -149,6 +135,7 @@ new Vue({
           this.leftWidth = LEFT_FRAME_MIN_WIDTH;
           return;
         }
+        console.log(event.clientX)
         this.leftWidth = event.clientX + FRAME_ADJUSTED_SETTING;
       }
     },

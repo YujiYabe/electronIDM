@@ -16,16 +16,16 @@
 
 
 
-      <div class="frame" v-bind:class="{dragged: isDragged}" >
+      <div class="frame" v-bind:class="{dragged: isDragged}">
 
         <!-- <left-frame v-bind:width="leftWidth" @startResize="startResize"></left-frame> -->
-        <div class="left-frame" v-bind:style="{width:width + 'px'}">
+        <div class="left-frame" v-bind:style="{width:leftWidth + 'px'}">
           <div class="left-frame-content">ヒダリー</div>
           <div class="frame-border" @mousedown="startResize" @mousemove="resizeFrame" @mouseup="endResizeFrame"></div>
         </div>
-  
+
         <div class="right-frame">ミギー</div>
-      
+
       </div>
 
 
@@ -53,10 +53,11 @@
     }
 
     .frame-border {
-      width: 3px;
+      width: 10px;
       background-color: rgb(208, 208, 208);
-      border-left: solid 0.5px rgb(170, 170, 170);
-      border-right: solid 0.5px black;
+      border: solid 0.5px rgb(170, 170, 170);
+      /* border-left: solid 0.5px rgb(170, 170, 170); */
+      /* border-right: solid 0.5px black; */
     }
 
     .frame-border:hover {
