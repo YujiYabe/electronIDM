@@ -6,9 +6,10 @@
   <title>sample</title>
   <link rel="stylesheet" href="./lib/styles.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+  <!-- <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" /> -->
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css">
 
 </head>
 
@@ -22,7 +23,7 @@
         :class="changeWitdh()" @mousedown="startResize">
       </div>
       <div class="rght-frame inner">
-        <div class="container-fluid">
+        <!-- <div class="container-fluid">
           <div class="row">
               <div class="col-3 alert alert-success">
                   <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
@@ -33,22 +34,19 @@
               <div class="col-3 alert alert-success">col-3</div>
               <div class="col-8 alert alert-primary">col-8</div>
           </div>
-        </div>
+        </div> -->
         <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
-        <!-- <v-app id="">
-              <v-content>
+        <v-app id="vapp">
+          <v-content>
             <v-container fluid grid-list-md>
               <v-layout justify-start>
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs4>
-                        <v-btn >Normal</v-btn>
+                      <v-text-field placeholder="Placeholder" outline></v-text-field>
                     </v-flex>
                     <v-flex xs8>
-                        <v-text-field
-                        placeholder="Placeholder"
-                        outlined
-                      ></v-text-field>
+                      <v-text-field placeholder="Placeholder" outline></v-text-field>
                     </v-flex>
                   </v-layout>
 
@@ -57,7 +55,7 @@
 
             </v-container>
           </v-content>
-        </v-app> -->
+        </v-app>
 
 
         <!-- <button v-on:click="openFile">Open</button>
@@ -75,6 +73,10 @@
   </div>
 
   <style>
+    #vapp {
+      width: 100%;
+    }
+
     body {
       margin: 0;
     }
@@ -114,7 +116,7 @@
     .rght-frame {
       background-color: white;
       flex-grow: 1;
-      padding-left: 10px;
+      /* padding-left: 10px; */
     }
 
     .frame {
@@ -139,9 +141,9 @@
 
   <script src="./lib/vue.min.js"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CMutationObserver"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CMutationObserver" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.js"></script>
 
   <script src="index.js"></script>
 
