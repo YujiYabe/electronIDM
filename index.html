@@ -13,17 +13,72 @@
   <div id="app">
     <v-app id="inspire">
 
-      <h3 v-on:click="reload">File Open/Save</h3>
+
+
+
+      <div class="frame" v-bind:class="{dragged: isDragged}" >
+
+        <!-- <left-frame v-bind:width="leftWidth" @startResize="startResize"></left-frame> -->
+        <div class="left-frame" v-bind:style="{width:width + 'px'}">
+          <div class="left-frame-content">ヒダリー</div>
+          <div class="frame-border" @mousedown="startResize" @mousemove="resizeFrame" @mouseup="endResizeFrame"></div>
+        </div>
+  
+        <div class="right-frame">ミギー</div>
+      
+      </div>
+
+
+
+
+      <!-- <h3 v-on:click="reload">File Open/Save</h3>
       <button v-on:click="openFile">Open</button>
       <button v-on:click="saveFile">Save</button>
       <br>
       <textarea id="preview" v-model="aaa"></textarea>
-      <br>
+      <br> -->
 
     </v-app>
   </div>
 
+  <style>
+    .left-frame {
+      background-color: rgb(240, 240, 255);
+      display: flex;
+    }
 
+    .left-frame-content {
+      flex-grow: 1;
+      padding-left: 10px;
+    }
+
+    .frame-border {
+      width: 3px;
+      background-color: rgb(208, 208, 208);
+      border-left: solid 0.5px rgb(170, 170, 170);
+      border-right: solid 0.5px black;
+    }
+
+    .frame-border:hover {
+      cursor: col-resize;
+    }
+
+    .right-frame {
+      background-color: white;
+      flex-grow: 1;
+      padding-left: 10px;
+    }
+
+    .frame {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+    }
+
+    .dragged * {
+      cursor: col-resize;
+    }
+  </style>
 
   <script src="./lib/vue.min.js"></script>
   <script src="./lib/vuetify.js"></script>

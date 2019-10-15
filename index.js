@@ -3,6 +3,8 @@ const { BrowserWindow, dialog } = require('electron').remote
 
 const key = 'ssssssssssssssss'
 const isSecret = true
+const LEFT_FRAME_MIN_WIDTH = 45;
+const FRAME_ADJUSTED_SETTING = 2;
 
 // html内の要素取得とリスナーの設定
 
@@ -16,6 +18,10 @@ new Vue({
   el: '#app',
   data: {
     aaa: '',
+    width: null,
+    isDragged: false,
+    leftWidth: 200,
+    
   },
   mounted() {
   },
@@ -130,7 +136,25 @@ new Vue({
     //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
     // },
 
-
+    startResize() {
+      this.isDragged = true;
+    },
+    resizeFrame(event) {
+      if (event.buttons === 0) {
+        this.endResizeFrame();
+        return;
+      }
+      if (this.isDragged) {
+        if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
+          this.leftWidth = LEFT_FRAME_MIN_WIDTH;
+          return;
+        }
+        this.leftWidth = event.clientX + FRAME_ADJUSTED_SETTING;
+      }
+    },
+    endResizeFrame() {
+      this.isDragged = false;
+    }
   }
 })
 
