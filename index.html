@@ -13,11 +13,11 @@
     <div id="app">
         <v-app id="inspire">
 
-            <h3>File Open/Save</h3>
-            <button id="openFile">Open</button>
-            <button id="saveFile">Save</button>
+            <h3  v-on:click="reload">File Open/Save</h3>
+            <button v-on:click="openFile">Open</button>
+            <button v-on:click="saveFile">Save</button>
             <br>
-            <textarea id="preview"></textarea>
+            <textarea id="preview" v-model="aaa"></textarea>
 
             <br>
             <br>encrypt
@@ -30,9 +30,10 @@
         </v-app>
     </div>
 
-	<script src="./lib/vue.min.js"></script>
-	<script src="./lib/vuetify.js"></script>
 
+
+    <script src="./lib/vue.min.js"></script>
+    <script src="./lib/vuetify.js"></script>
     <script src="index.js"></script>
     <script>
         window.jQuery = window.$ = require('./lib/jquery.min');
