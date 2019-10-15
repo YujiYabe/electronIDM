@@ -15,33 +15,32 @@
 
 
 
+      <div class="content" @mousemove="resizeFrame">
 
-      <div class="frame" v-bind:class="{dragged: isDragged}">
-
-        <!-- <left-frame v-bind:width="leftWidth" @startResize="startResize"></left-frame> -->
-        <div class="left-frame" v-bind:style="{width:leftWidth + 'px'}">
-          <div class="left-frame-content">ヒダリー</div>
-          <div class="frame-border" @mousedown="startResize" @mousemove="resizeFrame" @mouseup="endResizeFrame"></div>
+        <div class="left-frame" v-bind:style="{width:leftWidth + 'px'}">ヒダリー</div>
+        <div class="cent-frame" v-bind:style="{width:centWidth + 'px'}" :class="changeWitdh()" @mousedown="startResize">
         </div>
-
-        <div class="right-frame">ミギー</div>
+        <div class="rght-frame">
+          <h3 v-on:click="reload">File Open/Save</h3>
+          <button v-on:click="openFile">Open</button>
+          <button v-on:click="saveFile">Save</button>
+          <br>
+          <textarea id="preview" v-model="aaa"></textarea>
+          <br>
+        </div>
 
       </div>
 
-
-
-
-      <!-- <h3 v-on:click="reload">File Open/Save</h3>
-      <button v-on:click="openFile">Open</button>
-      <button v-on:click="saveFile">Save</button>
-      <br>
-      <textarea id="preview" v-model="aaa"></textarea>
-      <br> -->
 
     </v-app>
   </div>
 
   <style>
+    .content {
+      width: 100%;
+      height: 100%;
+    }
+
     .left-frame {
       background-color: rgb(240, 240, 255);
       display: flex;
@@ -52,15 +51,14 @@
       padding-left: 10px;
     }
 
-    .frame-border {
-      width: 10px;
+    .cent-frame {
       background-color: rgb(208, 208, 208);
       border: solid 0.5px rgb(170, 170, 170);
       /* border-left: solid 0.5px rgb(170, 170, 170); */
       /* border-right: solid 0.5px black; */
     }
 
-    .frame-border:hover {
+    .cent-frame:hover {
       cursor: col-resize;
     }
 
