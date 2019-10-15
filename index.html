@@ -2,43 +2,36 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>sample</title>
-    <link rel="stylesheet" href="./lib/styles.css">
-    <link rel="stylesheet" href="./lib/vuetify.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <meta charset="utf-8">
+  <title>sample</title>
+  <link rel="stylesheet" href="./lib/styles.css">
+  <link rel="stylesheet" href="./lib/vuetify.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
 </head>
 
 <body>
-    <div id="app">
-        <v-app id="inspire">
+  <div id="app">
+    <v-app id="inspire">
 
-            <h3  v-on:click="reload">File Open/Save</h3>
-            <button v-on:click="openFile">Open</button>
-            <button v-on:click="saveFile">Save</button>
-            <br>
-            <textarea id="preview" v-model="aaa"></textarea>
+      <h3 v-on:click="reload">File Open/Save</h3>
+      <button v-on:click="openFile">Open</button>
+      <button v-on:click="saveFile">Save</button>
+      <br>
+      <textarea id="preview" v-model="aaa"></textarea>
+      <br>
 
-            <br>
-            <br>encrypt
-
-            <textarea name="" id="encrypt" cols="30" rows="2"></textarea>
-            <br>
-            <br>decrypt
-            <textarea name="" id="decrypt" cols="30" rows="2"></textarea>
-            <br>
-        </v-app>
-    </div>
+    </v-app>
+  </div>
 
 
 
-    <script src="./lib/vue.min.js"></script>
-    <script src="./lib/vuetify.js"></script>
-    <script src="index.js"></script>
-    <script>
-        window.jQuery = window.$ = require('./lib/jquery.min');
-    </script>
-    <script src="./lib/crypto-js.min.js"></script>
+  <script src="./lib/vue.min.js"></script>
+  <script src="./lib/vuetify.js"></script>
+  <script src="index.js"></script>
+  <script>
+    window.jQuery = window.$ = require('./lib/jquery.min');
+  </script>
+  <script src="./lib/crypto-js.min.js"></script>
 </body>
 
 </html>
