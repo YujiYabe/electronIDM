@@ -16,6 +16,7 @@ const preview = document.getElementById('preview')
 
 new Vue({
   el: '#app',
+  vuetify: new Vuetify(),
   data: {
     aaa: '',
     width: null,
