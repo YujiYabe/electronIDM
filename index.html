@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  
+
 </head>
 
 <body>
@@ -46,11 +46,13 @@
               <v-layout justify-start>
                 <v-flex xs12>
                   <v-layout justify-start>
-                    <v-flex xs4>
-                      <v-text-field placeholder="Placeholder" outlined></v-text-field>
+                    <v-flex xs3>
+                      <v-text-field placeholder="changable" value="ID" outlined></v-text-field>
                     </v-flex>
-                    <v-flex xs7>
-                      <v-text-field placeholder="Placeholder" outlined></v-text-field>
+                    <v-flex xs8>
+                      <v-text-field outlined
+                      prepend-inner-icon="place"
+                      ></v-text-field>
                     </v-flex>
                   </v-layout>
 
@@ -83,6 +85,7 @@
 
     body {
       margin: 0;
+      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
     }
 
     #app {
@@ -141,7 +144,11 @@
       background-color: lightgrey;
     }
   </style>
-
+  <style lang="scss">
+    * :not(.v-icon) {
+      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
+    }
+  </style>
 
   <script src="./lib/vue.min.js"></script>
 
