@@ -6,6 +6,10 @@
   <title>sample</title>
   <link rel="stylesheet" href="./lib/styles.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+
 </head>
 
 <body>
@@ -14,11 +18,17 @@
     <div class="content" @mousemove="resizeFrame">
 
       <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">ヒダリー</div>
-      <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}" :class="changeWitdh()"
-        @mousedown="startResize">
+      <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
+        :class="changeWitdh()" @mousedown="startResize">
       </div>
       <div class="rght-frame inner">
-
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-6">col-6</div>
+            <div class="col-3">col-3</div>
+            <div class="col-3">col-3</div>
+          </div>
+        </div>
 
         <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
         <!-- <v-app id="">
@@ -97,7 +107,7 @@
       cursor: col-resize;
     }
 
-    .right-frame {
+    .rght-frame {
       background-color: white;
       flex-grow: 1;
       padding-left: 10px;
@@ -120,12 +130,18 @@
     .grey {
       background-color: lightgrey;
     }
-</style>
+  </style>
+
 
   <script src="./lib/vue.min.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CMutationObserver"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
   <script src="index.js"></script>
 
-<script>
+  <script>
     window.jQuery = window.$ = require('./lib/jquery.min');
   </script>
   <script src="./lib/crypto-js.min.js"></script>
