@@ -125,12 +125,10 @@ new Vue({
     startResize() {
       this.isDragged = !this.isDragged;
     },
+
     changeWitdh() {
-      // return !this.isDragged;
       return this.isDragged ? "purple lighten-3 " : "grey";
-
     },
-
 
     resizeFrame(event) {
       if (this.isDragged) {
@@ -138,14 +136,10 @@ new Vue({
           this.leftWidth = LEFT_FRAME_MIN_WIDTH;
           return;
         }
-        console.log(event.clientX)
+        // console.log(event.clientX)
         this.leftWidth = event.clientX;
       }
     },
-    // endResizeFrame() {
-    //   this.isDragged = false;
-    //   // this.centWidth = this.centWidth / 2;
-    // }
   }
 })
 

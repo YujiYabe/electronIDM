@@ -11,9 +11,6 @@
 
 <body>
   <div id="app">
-    <v-app id="inspire">
-
-
 
       <div class="content" @mousemove="resizeFrame">
 
@@ -21,18 +18,44 @@
         <div class="cent-frame" v-bind:style="{width:centWidth + 'px'}" :class="changeWitdh()" @mousedown="startResize">
         </div>
         <div class="rght-frame">
-          <h3 v-on:click="reload">File Open/Save</h3>
-          <button v-on:click="openFile">Open</button>
+          <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
+          <v-app id="">
+              <v-content>
+            <v-container fluid grid-list-md>
+              <v-layout justify-start>
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs4>
+                        <v-btn small>Normal</v-btn>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-text-field
+                        placeholder="Placeholder"
+                        outlined
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+
+                </v-flex>
+              </v-layout>
+
+            </v-container>
+          </v-content>
+        </v-app>
+
+
+          <!-- <button v-on:click="openFile">Open</button>
           <button v-on:click="saveFile">Save</button>
+
           <br>
           <textarea id="preview" v-model="aaa"></textarea>
-          <br>
+          <br> -->
+
         </div>
 
       </div>
 
 
-    </v-app>
   </div>
 
   <style>
@@ -43,7 +66,6 @@
 
     .left-frame {
       background-color: rgb(240, 240, 255);
-      display: flex;
     }
 
     .left-frame-content {
