@@ -5,26 +5,33 @@
     <meta charset="utf-8">
     <title>sample</title>
     <link rel="stylesheet" href="./lib/styles.css">
+    <link rel="stylesheet" href="./lib/vuetify.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
 </head>
 
 <body>
-    <h3>File Open/Save</h3>
-    <button id="openFile">Open</button>
-    <button id="saveFile">Save</button>
-    <br>
-    <textarea id="preview"></textarea>
+    <div id="app">
+        <v-app id="inspire">
 
-    <br>
-    <br>encrypt
+            <h3>File Open/Save</h3>
+            <button id="openFile">Open</button>
+            <button id="saveFile">Save</button>
+            <br>
+            <textarea id="preview"></textarea>
 
-    <textarea name="" id="encrypt" cols="30" rows="2"></textarea>
-    <br>
-    <br>decrypt
-    <textarea name="" id="decrypt" cols="30" rows="2"></textarea>
-    <br>
+            <br>
+            <br>encrypt
 
+            <textarea name="" id="encrypt" cols="30" rows="2"></textarea>
+            <br>
+            <br>decrypt
+            <textarea name="" id="decrypt" cols="30" rows="2"></textarea>
+            <br>
+        </v-app>
+    </div>
 
-
+	<script src="./lib/vue.min.js"></script>
+	<script src="./lib/vuetify.js"></script>
 
     <script src="index.js"></script>
     <script>
