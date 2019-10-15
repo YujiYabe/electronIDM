@@ -5,21 +5,23 @@
   <meta charset="utf-8">
   <title>sample</title>
   <link rel="stylesheet" href="./lib/styles.css">
-  <link rel="stylesheet" href="./lib/vuetify.min.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
 </head>
 
 <body>
   <div id="app">
 
-      <div class="content" @mousemove="resizeFrame">
+    <div class="content" @mousemove="resizeFrame">
 
-        <div class="left-frame" v-bind:style="{width:leftWidth + 'px'}">ヒダリー</div>
-        <div class="cent-frame" v-bind:style="{width:centWidth + 'px'}" :class="changeWitdh()" @mousedown="startResize">
-        </div>
-        <div class="rght-frame">
-          <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
-          <v-app id="">
+      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">ヒダリー</div>
+      <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}" :class="changeWitdh()"
+        @mousedown="startResize">
+      </div>
+      <div class="rght-frame inner">
+
+
+        <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
+        <!-- <v-app id="">
               <v-content>
             <v-container fluid grid-list-md>
               <v-layout justify-start>
@@ -41,41 +43,52 @@
 
             </v-container>
           </v-content>
-        </v-app>
+        </v-app> -->
 
 
-          <!-- <button v-on:click="openFile">Open</button>
+        <!-- <button v-on:click="openFile">Open</button>
           <button v-on:click="saveFile">Save</button>
 
           <br>
           <textarea id="preview" v-model="aaa"></textarea>
           <br> -->
 
-        </div>
-
       </div>
+
+    </div>
 
 
   </div>
 
   <style>
+    body {
+      margin: 0;
+    }
+
+    #app {
+      width: 100vw;
+      height: 100vh;
+    }
+
     .content {
-      width: 100%;
-      height: 100%;
+      display: flex;
+    }
+
+    .inner {
+      display: inline-flex;
     }
 
     .left-frame {
       background-color: rgb(240, 240, 255);
+      height: 100vh;
+
     }
 
-    .left-frame-content {
-      flex-grow: 1;
-      padding-left: 10px;
-    }
 
     .cent-frame {
-      background-color: rgb(208, 208, 208);
-      border: solid 0.5px rgb(170, 170, 170);
+      height: 100vh;
+      /* background-color: rgb(208, 208, 208); */
+      /* border: solid 0.5px white; */
       /* border-left: solid 0.5px rgb(170, 170, 170); */
       /* border-right: solid 0.5px black; */
     }
@@ -99,12 +112,20 @@
     .dragged * {
       cursor: col-resize;
     }
-  </style>
+
+    .pink {
+      background-color: pink;
+    }
+
+    .grey {
+      background-color: lightgrey;
+    }
+</style>
 
   <script src="./lib/vue.min.js"></script>
-  <script src="./lib/vuetify.js"></script>
   <script src="index.js"></script>
-  <script>
+
+<script>
     window.jQuery = window.$ = require('./lib/jquery.min');
   </script>
   <script src="./lib/crypto-js.min.js"></script>

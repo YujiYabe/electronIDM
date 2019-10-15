@@ -127,7 +127,7 @@ new Vue({
     },
 
     changeWitdh() {
-      return this.isDragged ? "purple lighten-3 " : "grey";
+      return this.isDragged ? "pink " : "grey";
     },
 
     resizeFrame(event) {
