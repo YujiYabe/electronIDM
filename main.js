@@ -7,7 +7,7 @@ const path = require('path')
 // be closed automatically when the JavaScript object is garbage collected.
 
 
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 function createWindow() {
   // Create the browser window.

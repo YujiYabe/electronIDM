@@ -62,18 +62,19 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field dense placeholder="changable" value="ID" outlined></v-text-field>
+                      <v-text-field dense background-color="blue" dark placeholder="changable" value="ID" outlined>
+                      </v-text-field>
                     </v-flex>
                     <v-flex xs8>
-                      <v-text-field dense outlined prepend-inner-icon="mdi-content-copy"
-                        @click:prepend-inner="pasteToClipBoard"></v-text-field>
+                      <v-text-field dense background-color="blue lighten-5 " outlined
+                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard"></v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
 
               <!-- -------------------------------------------------- -->
-              <v-layout justify-start class="mt-n5">
+              <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
@@ -87,7 +88,7 @@
               </v-layout>
 
               <!-- -------------------------------------------------- -->
-              <v-layout justify-start class="mt-n5">
+              <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
@@ -101,7 +102,7 @@
               </v-layout>
 
               <!-- -------------------------------------------------- -->
-              <v-layout justify-start class="mt-n5">
+              <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
@@ -119,7 +120,7 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-textarea outlined name="" label="free input area" value="">
+                      <v-textarea outlined name="" label="free text area" value="" rows="8">
                       </v-textarea>
                     </v-flex>
                   </v-layout>
