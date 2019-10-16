@@ -29,7 +29,7 @@ new Vue({
 
 
     pasteToClipBoard: function (event) {
-      clipboard.writeText('Example String')
+      clipboard.writeText('Exasfdffdsmple String')
     },
 
     // 指定したファイルを読み込む

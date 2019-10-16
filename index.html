@@ -65,7 +65,8 @@
                       <v-text-field dense placeholder="changable" value="ID" outlined></v-text-field>
                     </v-flex>
                     <v-flex xs8>
-                      <v-text-field dense outlined prepend-inner-icon="mdi-content-copy"></v-text-field>
+                      <v-text-field dense outlined prepend-inner-icon="mdi-content-copy"
+                        @click:prepend-inner="pasteToClipBoard"></v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-flex>
