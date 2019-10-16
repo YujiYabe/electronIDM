@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { BrowserWindow, dialog } = require('electron').remote
+const { clipboard } = require('electron')
 
 const key = 'ssssssssssssssss'
 const isSecret = true
@@ -24,6 +25,11 @@ new Vue({
   methods: {
     reload: function (event) {
       location.reload()
+    },
+
+
+    pasteToClipBoard: function (event) {
+      clipboard.writeText('Example String')
     },
 
     // 指定したファイルを読み込む
