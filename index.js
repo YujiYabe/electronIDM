@@ -17,16 +17,52 @@ new Vue({
     aaa: '',
     width: null,
     isDragged: false,
-    leftWidth: 200,
-    centWidth: 10
+    leftWidth: 600,
+    centWidth: 10,
+    dataItemList: [],
+    dataItemtemplate: {
+      "index": "",
+      "key": {
+        "item": "Please input title",
+        "ID": "",
+        "Password": "",
+        "other1": "",
+        "other2": "",
+        "Text": "",
+      }
+    },
   },
   mounted() {
+    if (this.dataItemList == "") {
+      let dataItemList = [].concat(this.dataItemList);
+      let dataItemtemplate = this.dataItemtemplate;
+      dataItemtemplate.index = this.getUniqueStr();
+      dataItemList.push(dataItemtemplate);
+      this.dataItemList = dataItemList;
+    }
+    console.log("s")
   },
+
+
   methods: {
+
     reload: function (event) {
       location.reload()
     },
+    getUniqueStr: function () {
+      const strong = 1000;
+      return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+    },
 
+    addItem: function (event) {
+      
+      let dataItemList = [].concat(this.dataItemList);
+      let dataItemtemplate = this.dataItemtemplate;
+      dataItemtemplate.index = this.getUniqueStr();
+      dataItemList.push(dataItemtemplate);
+      this.dataItemList = dataItemList;
+      console.log(this.dataItemList)
+    },
 
     pasteToClipBoard: function (event) {
       clipboard.writeText('Exasfdffdsmple String')

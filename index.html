@@ -23,7 +23,32 @@
     <div class="content" @mousemove="resizeFrame">
 
       <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">
-        ヒダリー
+        <v-app id="vappleft">
+          <v-content>
+            <v-container fluid grid-list-md>
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-5">
+                <v-flex xs12>
+                  <v-btn @click="addItem" width="100%" color="primary" depressed rounded dark>add item
+                    <v-icon dark right>mdi-plus-circle</v-icon>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
+                <v-flex xs12 data-index="dataItem.index" >
+                  <v-card>{{dataItem.index}}</v-card>
+                </v-flex>
+              </v-layout>
+
+
+            </v-container>
+          </v-content>
+        </v-app>
+
+
+
       </div>
       <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
         :class="changeWitdh()" @mousedown="startResize">
@@ -42,7 +67,7 @@
           </div>
         </div> -->
         <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
-        <v-app id="vapp">
+        <v-app id="vappRight">
           <v-content>
             <v-container fluid grid-list-md>
               <!-- -------------------------------------------------- -->
@@ -50,7 +75,8 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-text-field outlined background-color="cyan  lighten-4" placeholder="Please input title" value="Please input title">
+                      <v-text-field outlined background-color="cyan  lighten-4" placeholder="Please input title"
+                        value="Please input title">
                       </v-text-field>
                     </v-flex>
                   </v-layout>
@@ -78,8 +104,8 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="green " placeholder="changable"
-                        value="Password"></v-text-field>
+                      <v-text-field outlined dense background-color="green " placeholder="changable" value="Password">
+                      </v-text-field>
                     </v-flex>
                     <v-flex xs8>
                       <v-text-field outlined dense background-color="green lighten-2"
@@ -94,8 +120,8 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="teal" placeholder="changable"
-                        value="other1" outlined></v-text-field>
+                      <v-text-field outlined dense background-color="teal" placeholder="changable" value="other1"
+                        outlined></v-text-field>
                     </v-flex>
                     <v-flex xs8>
                       <v-text-field outlined dense background-color="teal lighten-2"
@@ -110,8 +136,8 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="indigo" placeholder="changable"
-                        value="other2" outlined></v-text-field>
+                      <v-text-field outlined dense background-color="indigo" placeholder="changable" value="other2"
+                        outlined></v-text-field>
                     </v-flex>
                     <v-flex xs8>
                       <v-text-field outlined dense background-color="indigo lighten-2"
@@ -126,7 +152,8 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-textarea outlined background-color="deep-purple lighten-4" name="" label="free text area" value="" rows="8">
+                      <v-textarea outlined background-color="deep-purple lighten-4" name="" label="free text area"
+                        value="" rows="8">
                       </v-textarea>
                     </v-flex>
                   </v-layout>
@@ -154,7 +181,11 @@
   </div>
 
   <style>
-    #vapp {
+    #vappRight {
+      width: 100%;
+    }
+
+    #vappleft {
       width: 100%;
     }
 
