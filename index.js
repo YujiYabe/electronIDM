@@ -3,16 +3,11 @@ const { BrowserWindow, dialog } = require('electron').remote
 
 const key = 'ssssssssssssssss'
 const isSecret = true
-const LEFT_FRAME_MIN_WIDTH = 45;
-const FRAME_ADJUSTED_SETTING = 10;
+const LEFT_FRAME_MIN_WIDTH = 45
+const FRAME_ADJUSTED_SETTING = 10
 
 // html内の要素取得とリスナーの設定
-
-
-
 const preview = document.getElementById('preview')
-
-
 
 new Vue({
   el: '#app',
@@ -22,13 +17,13 @@ new Vue({
     width: null,
     isDragged: false,
     leftWidth: 200,
-    centWidth: 10,
+    centWidth: 10
   },
   mounted() {
   },
   methods: {
     reload: function (event) {
-      location.reload();
+      location.reload()
     },
 
     // 指定したファイルを読み込む
@@ -79,7 +74,6 @@ new Vue({
       )
     },
 
-
     // saveFileボタンが押されたとき
     saveFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
@@ -122,25 +116,23 @@ new Vue({
       })
     },
 
-
     startResize() {
-      this.isDragged = !this.isDragged;
+      this.isDragged = !this.isDragged
     },
 
     changeWitdh() {
-      return this.isDragged ? "pink " : "grey";
+      return this.isDragged ? 'pink ' : 'grey'
     },
 
     resizeFrame(event) {
       if (this.isDragged) {
         if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
-          this.leftWidth = LEFT_FRAME_MIN_WIDTH;
-          return;
+          this.leftWidth = LEFT_FRAME_MIN_WIDTH
+          return
         }
         // console.log(event.clientX)
-        this.leftWidth = event.clientX;
+        this.leftWidth = event.clientX
       }
-    },
+    }
   }
 })
-

@@ -22,7 +22,9 @@
 
     <div class="content" @mousemove="resizeFrame">
 
-      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">ヒダリー</div>
+      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">
+        ヒダリー
+      </div>
       <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
         :class="changeWitdh()" @mousedown="startResize">
       </div>
@@ -43,21 +45,85 @@
         <v-app id="vapp">
           <v-content>
             <v-container fluid grid-list-md>
-              <v-layout justify-start>
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-text-field outlined placeholder="Please input title" value="Please input title"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
                       <v-text-field placeholder="changable" value="ID" outlined></v-text-field>
                     </v-flex>
                     <v-flex xs8>
-                      <v-text-field outlined
-                      prepend-inner-icon="place"
-                      ></v-text-field>
+                      <v-text-field outlined prepend-inner-icon="mdi-content-copy"></v-text-field>
                     </v-flex>
                   </v-layout>
-
                 </v-flex>
               </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field placeholder="changable" value="Password" outlined></v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field placeholder="changable" value="other1" outlined></v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field placeholder="changable" value="other2" outlined></v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-textarea outlined name="" label="free input area" value="">
+                      </v-textarea>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
 
             </v-container>
           </v-content>
