@@ -2,35 +2,295 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>sample</title>
-    <link rel="stylesheet" href="./lib/styles.css">
+  <meta charset="utf-8">
+  <title>sample</title>
+  <link rel="stylesheet" href="./lib/styles.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <!-- <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+ <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" /> -->
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css"> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <h3>File Open/Save</h3>
-    <button id="openFile">Open</button>
-    <button id="saveFile">Save</button>
-    <br>
-    <textarea id="preview"></textarea>
+  <div id="app">
 
-    <br>
-    <br>encrypt
+    <div class="content" @mousemove="resizeFrame">
 
-    <textarea name="" id="encrypt" cols="30" rows="2"></textarea>
-    <br>
-    <br>decrypt
-    <textarea name="" id="decrypt" cols="30" rows="2"></textarea>
-    <br>
+      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">
+        <v-app id="vappleft">
+          <v-content>
+            <v-container fluid grid-list-md>
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-5">
+                <v-flex xs12>
+                  <v-btn @click="addItem" width="100%" color="primary" depressed rounded dark>add item
+                    <v-icon dark right>mdi-plus-circle</v-icon>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
+                <v-flex xs12>
+                  <v-card flat color="amber lighten-3" class="display-1 text--primary" :data-index="dataItem.index"
+                    data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
+                    :data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
+                    @click="selectDataCurrentItem">
+                    <p>
+                      {{dataItem.index}}
+                      {{dataItem.text}}
+                      {{dataItem.other1}}
+                    </p>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+
+            </v-container>
+          </v-content>
+        </v-app>
 
 
 
+      </div>
+      <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
+        :class="changeWitdh()" @mousedown="startResize">
+      </div>
+      <div class="rght-frame inner">
+        <!-- <div class="container-fluid">
+     <div class="row">
+       <div class="col-3 alert alert-success">
+         <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+       <div class="col-8 alert alert-primary">col-8</div>
+     </div>
+     <div class="row">
+       <div class="col-3 alert alert-success">col-3</div>
+       <div class="col-8 alert alert-primary">col-8</div>
+     </div>
+    </div> -->
+        <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
 
-    <script src="index.js"></script>
-    <script>
-        window.jQuery = window.$ = require('./lib/jquery.min');
-    </script>
-    <script src="./lib/crypto-js.min.js"></script>
+        <v-app id="vappRight">
+          <v-content>
+            <v-container fluid grid-list-md>
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
+                        v-model="dataSelectItem.index">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
+                        v-model="dataSelectItem.name" value="Please input title">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field outlined dense background-color="blue " placeholder="changable" value="ID">
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
+                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field outlined dense background-color="green " placeholder="changable" value="Password">
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined dense background-color="green lighten-2" v-model="dataSelectItem.password"
+                        prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field outlined dense background-color="teal" placeholder="changable" value="other1"
+                        outlined></v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined dense background-color="teal lighten-2" v-model="dataSelectItem.other1"
+                        prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field outlined dense background-color="indigo" placeholder="changable" value="other2"
+                        outlined></v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field outlined dense background-color="indigo lighten-2" v-model="dataSelectItem.other2"
+                        prepend-inner-icon="mdi-content-copy"></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-textarea outlined background-color="deep-purple lighten-4" name="" label="free text area"
+                        v-model="dataSelectItem.text" value="" rows="8">
+                      </v-textarea>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+
+            </v-container>
+          </v-content>
+        </v-app>
+
+
+        <!-- <button v-on:click="openFile">Open</button>
+     <button v-on:click="saveFile">Save</button>
+
+     <br>
+     <textarea id="preview" v-model="aaa"></textarea>
+     <br> -->
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <style>
+    #vappRight {
+      width: 100%;
+    }
+
+    #vappleft {
+      width: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
+    }
+
+    #app {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .content {
+      display: flex;
+    }
+
+    .inner {
+      display: inline-flex;
+    }
+
+    .left-frame {
+      background-color: rgb(240, 240, 255);
+      height: 100vh;
+
+    }
+
+
+    .cent-frame {
+      height: 100vh;
+      /* background-color: rgb(208, 208, 208); */
+      /* border: solid 0.5px white; */
+      /* border-left: solid 0.5px rgb(170, 170, 170); */
+      /* border-right: solid 0.5px black; */
+    }
+
+    .cent-frame:hover {
+      cursor: col-resize;
+    }
+
+    .rght-frame {
+      background-color: white;
+      flex-grow: 1;
+      /* padding-left: 10px; */
+    }
+
+    .frame {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+    }
+
+    .dragged * {
+      cursor: col-resize;
+    }
+
+    .pink {
+      background-color: pink;
+    }
+
+    .grey {
+      background-color: lightgrey;
+    }
+  </style>
+  <style lang="scss">
+    * :not(.v-icon) {
+      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
+    }
+  </style>
+
+  <script src="./lib/vue.min.js"></script>
+
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CMutationObserver" crossorigin="anonymous"></script>
+ <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="index.js"></script>
+
+  <script>
+    window.jQuery = window.$ = require('./lib/jquery.min');
+  </script>
+  <script src="./lib/crypto-js.min.js"></script>
 </body>
 
 </html>
