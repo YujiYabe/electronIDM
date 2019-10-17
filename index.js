@@ -20,48 +20,108 @@ new Vue({
     leftWidth: 600,
     centWidth: 10,
     dataItemList: [],
-    dataItemtemplate: {
-      "index": "",
-      "key": {
-        "item": "Please input title",
-        "ID": "",
-        "Password": "",
-        "other1": "",
-        "other2": "",
-        "Text": "",
-      }
+    dataSelectItem: {
+      index: "",
+      name: "",
+      id: "",
+      password: "",
+      other1: "",
+      other2: "",
+      text: "",
     },
+
+    dataItemtemplate: {
+      index: "",
+      name: "",
+      id: "please input",
+      password: "please input",
+      other1: "please input",
+      other2: "please input",
+      text: "please input",
+    }
+    // dataItemtemplate_index: "",
+    // dataItemtemplate_name: "",
+    // dataItemtemplate_id: "please input",
+    // dataItemtemplate_password: "please input",
+    // dataItemtemplate_other1: "please input",
+    // dataItemtemplate_other2: "please input",
+    // dataItemtemplate_text: "please input",
+
+
   },
   mounted() {
-    if (this.dataItemList == "") {
-      let dataItemList = [].concat(this.dataItemList);
-      let dataItemtemplate = this.dataItemtemplate;
-      dataItemtemplate.index = this.getUniqueStr();
-      dataItemList.push(dataItemtemplate);
-      this.dataItemList = dataItemList;
-    }
-    console.log("s")
+    // if (this.dataItemList == "") {
+    //   let dataItemList = [].concat(this.dataItemList);
+    //   let dataItemtemplate = this.dataItemtemplate;
+    //   dataItemtemplate.index = this.currentDateTimeString();
+    //   dataItemList.push(dataItemtemplate);
+    //   dataItemList.push(dataItemtemplate);
+    //   dataItemList.push(dataItemtemplate);
+    //   dataItemList.push(dataItemtemplate);
+    //   this.dataItemList = dataItemList;
+    //   console.log("s")
+    // }
   },
-
 
   methods: {
 
     reload: function (event) {
       location.reload()
     },
-    getUniqueStr: function () {
-      const strong = 1000;
-      return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+
+    // getUniqueStr: function () {
+    //   const strong = 1000;
+    //   return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+    // },
+
+    selectDataCurrentItem: function (event) {
+      console.log(event.target.dataset.index)
+      this.dataSelectItem.index = event.target.dataset.index;
+      this.dataSelectItem.name = event.target.dataset.name;
+      this.dataSelectItem.id = event.target.dataset.id;
+      this.dataSelectItem.password = event.target.dataset.password;
+      this.dataSelectItem.other1 = event.target.dataset.other1;
+      this.dataSelectItem.other2 = event.target.dataset.other2;
+      this.dataSelectItem.text = event.target.dataset.text;
+    },
+
+    // methodRemoveUrl: function (event) {
+    //   let targetUrl = event.target.dataset.targeturl;
+    //   let dataStoreUrlList = this.getDataStoreUrlList();
+    //   let index = dataStoreUrlList.findIndex((v) => v === targetUrl);
+    //   dataStoreUrlList.splice(index, 1);
+    //   this.setDataStoreUrlList(dataStoreUrlList);
+    // },
+
+
+    fillZero: function (number) {
+      return (0 + number).slice(-2);
+    },
+
+    currentDateTimeString: function () {
+      let dt = new Date();
+      let yyyy = dt.getFullYear();
+      let mm = ("00" + (dt.getMonth() + 1)).slice(-2);
+      let dd = ("00" + dt.getDate()).slice(-2);
+      let hh = ("00" + dt.getHours()).slice(-2);
+      let nn = ("00" + dt.getMinutes()).slice(-2);
+      let ss = ("00" + dt.getSeconds()).slice(-2);
+      let ddd = ("000" + dt.getMilliseconds()).slice(-3);
+      return yyyy + mm + dd + hh + nn + ss + ddd;
     },
 
     addItem: function (event) {
-      
-      let dataItemList = [].concat(this.dataItemList);
-      let dataItemtemplate = this.dataItemtemplate;
-      dataItemtemplate.index = this.getUniqueStr();
+      // var cloned = Object.create(original);
+      let dataItemList = Object.create(this.dataItemList);
+      let dataItemtemplate = Object.create(this.dataItemtemplate);
+
+      dataItemtemplate.index = this.currentDateTimeString();
       dataItemList.push(dataItemtemplate);
+
       this.dataItemList = dataItemList;
-      console.log(this.dataItemList)
+
+      // console.log(this.dataItemList)
+
     },
 
     pasteToClipBoard: function (event) {
