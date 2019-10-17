@@ -75,7 +75,6 @@ new Vue({
     // },
 
     selectDataCurrentItem: function (event) {
-      console.log(event.target.dataset.index)
       this.dataSelectItem.index = event.target.dataset.index;
       this.dataSelectItem.name = event.target.dataset.name;
       this.dataSelectItem.id = event.target.dataset.id;
@@ -109,19 +108,57 @@ new Vue({
       let ddd = ("000" + dt.getMilliseconds()).slice(-3);
       return yyyy + mm + dd + hh + nn + ss + ddd;
     },
+    setDataSelectItem: function () {
 
-    addItem: function (event) {
-      // var cloned = Object.create(original);
-      let dataItemList = Object.create(this.dataItemList);
-      let dataItemtemplate = Object.create(this.dataItemtemplate);
+      // this.setDataKeywordList(tempDataKeywordList);
+      const dataItemList = this.dataItemList.filter(function (value) {
+        if (
+          value.index == this.dataSelectItem.index
+        ) {
+          value.index = this.dataSelectItem.index
+          value.name = this.dataSelectItem.name
+          value.id = this.dataSelectItem.id
+          value.password = this.dataSelectItem.password
+          value.other1 = this.dataSelectItem.other1
+          value.other2 = this.dataSelectItem.other2
+          value.text = this.dataSelectItem.text
+          console.log(value.name)
+          return value;
+        } else {
+          return value;
+        }
+      })
 
-      dataItemtemplate.index = this.currentDateTimeString();
-      dataItemList.push(dataItemtemplate);
 
       this.dataItemList = dataItemList;
 
-      // console.log(this.dataItemList)
 
+      // this.dataSelectItem.index = event.target.dataset.index;
+      // this.dataSelectItem.name = event.target.dataset.name;
+      // this.dataSelectItem.id = event.target.dataset.id;
+      // this.dataSelectItem.password = event.target.dataset.password;
+      // this.dataSelectItem.other1 = event.target.dataset.other1;
+      // this.dataSelectItem.other2 = event.target.dataset.other2;
+      // this.dataSelectItem.text = event.target.dataset.text;
+
+    },
+
+
+    addItem: function (event) {
+      let dataItemList = Object.create(this.dataItemList);
+
+      const set = {
+        "index": this.currentDateTimeString(),
+        "name": this.dataItemtemplate.name,
+        "id": this.dataItemtemplate.id,
+        "password": this.dataItemtemplate.password,
+        "other1": this.dataItemtemplate.other1,
+        "other2": this.dataItemtemplate.other2,
+        "text": this.dataItemtemplate.text,
+      };
+
+      dataItemList.push(set);
+      this.dataItemList = dataItemList;
     },
 
     pasteToClipBoard: function (event) {
@@ -140,8 +177,6 @@ new Vue({
 
         // let data = content
         let data = content.toString()
-        // console.log(data)
-        console.log(data)
 
         if (isSecret) {
           const decrypted = CryptoJS.AES.decrypt(data, key)
@@ -195,7 +230,6 @@ new Vue({
           if (fileName) {
             // let data = preview.textContent
             let data = this.aaa
-            console.log(data)
 
             if (isSecret) {
               const encrypted = CryptoJS.AES.encrypt(data, key)
@@ -210,7 +244,6 @@ new Vue({
 
     // fileを保存（Pathと内容を指定）
     writeFile: function (path, data) {
-      console.log(data)
       fs.writeFile(path, data, (error) => {
         if (error != null) {
           alert('save error.')

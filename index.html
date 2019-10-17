@@ -42,11 +42,9 @@
                     data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
                     :data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
                     @click="selectDataCurrentItem">
-                    <p>
-                      {{dataItem.index}}
-                      {{dataItem.text}}
-                      {{dataItem.other1}}
-                    </p>
+                    {{dataItem.index}}
+                    {{dataItem.text}}
+                    {{dataItem.other1}}
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -63,16 +61,16 @@
       </div>
       <div class="rght-frame inner">
         <!-- <div class="container-fluid">
-     <div class="row">
-       <div class="col-3 alert alert-success">
-         <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    <div class="row">
+      <div class="col-3 alert alert-success">
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
         </div>
-       <div class="col-8 alert alert-primary">col-8</div>
-     </div>
-     <div class="row">
-       <div class="col-3 alert alert-success">col-3</div>
-       <div class="col-8 alert alert-primary">col-8</div>
-     </div>
+      <div class="col-8 alert alert-primary">col-8</div>
+    </div>
+    <div class="row">
+      <div class="col-3 alert alert-success">col-3</div>
+      <div class="col-8 alert alert-primary">col-8</div>
+    </div>
     </div> -->
         <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
 
@@ -98,7 +96,7 @@
                   <v-layout justify-start>
                     <v-flex xs11>
                       <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
-                        v-model="dataSelectItem.name" value="Please input title">
+                        v-model="dataSelectItem.name" @change="setDataSelectItem" value="Please input title">
                       </v-text-field>
                     </v-flex>
                   </v-layout>
@@ -189,11 +187,11 @@
 
 
         <!-- <button v-on:click="openFile">Open</button>
-     <button v-on:click="saveFile">Save</button>
+    <button v-on:click="saveFile">Save</button>
 
-     <br>
-     <textarea id="preview" v-model="aaa"></textarea>
-     <br> -->
+    <br>
+    <textarea id="preview" v-model="aaa"></textarea>
+    <br> -->
 
       </div>
 
