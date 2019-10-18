@@ -112,7 +112,7 @@
                     <v-flex xs8>
 
                       <v-text-field outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
-                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard('id')"
+                        prepend-icon="mdi-clipboard" @click:prepend="pasteToClipBoard('id')"
                         :append-icon="show2 ? 'visibility' : 'visibility_off'" :type=" show2 ? 'text' : 'password'"
                         class=" input-group--focused" @click:append="show2 = !show2">
                       </v-text-field>
