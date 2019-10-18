@@ -38,13 +38,11 @@
               <!-- -------------------------------------------------- -->
               <v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
                 <v-flex xs12>
-                  <v-card flat color="amber lighten-3" class="display-1 text--primary" :data-index="dataItem.index"
-                    data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
+                  <v-card flat color="amber lighten-3" class="display-1 text--primary" :data-index="index"
+                    :data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
                     :data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
                     @click="selectDataCurrentItem">
-                    {{dataItem.index}}
-                    {{dataItem.text}}
-                    {{dataItem.other1}}
+                    {{dataItem.name}}
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -96,7 +94,7 @@
                   <v-layout justify-start>
                     <v-flex xs11>
                       <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
-                        v-model="dataSelectItem.name" @change="setDataSelectItem" value="Please input title">
+                        v-model="dataSelectItem.name" @change="setDataSelectItem('name')" value="Please input title">
                       </v-text-field>
                     </v-flex>
                   </v-layout>

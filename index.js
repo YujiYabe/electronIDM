@@ -1,6 +1,11 @@
 const fs = require('fs')
-const { BrowserWindow, dialog } = require('electron').remote
-const { clipboard } = require('electron')
+const {
+  BrowserWindow,
+  dialog
+} = require('electron').remote
+const {
+  clipboard
+} = require('electron')
 
 const key = 'ssssssssssssssss'
 const isSecret = true
@@ -32,7 +37,7 @@ new Vue({
 
     dataItemtemplate: {
       index: "",
-      name: "",
+      name: "please input",
       id: "please input",
       password: "please input",
       other1: "please input",
@@ -108,38 +113,13 @@ new Vue({
       let ddd = ("000" + dt.getMilliseconds()).slice(-3);
       return yyyy + mm + dd + hh + nn + ss + ddd;
     },
-    setDataSelectItem: function () {
-
-      // this.setDataKeywordList(tempDataKeywordList);
-      const dataItemList = this.dataItemList.filter(function (value) {
-        if (
-          value.index == this.dataSelectItem.index
-        ) {
-          value.index = this.dataSelectItem.index
-          value.name = this.dataSelectItem.name
-          value.id = this.dataSelectItem.id
-          value.password = this.dataSelectItem.password
-          value.other1 = this.dataSelectItem.other1
-          value.other2 = this.dataSelectItem.other2
-          value.text = this.dataSelectItem.text
-          console.log(value.name)
-          return value;
-        } else {
-          return value;
-        }
-      })
 
 
-      this.dataItemList = dataItemList;
+    setDataSelectItem: function (position) {
 
-
-      // this.dataSelectItem.index = event.target.dataset.index;
-      // this.dataSelectItem.name = event.target.dataset.name;
-      // this.dataSelectItem.id = event.target.dataset.id;
-      // this.dataSelectItem.password = event.target.dataset.password;
-      // this.dataSelectItem.other1 = event.target.dataset.other1;
-      // this.dataSelectItem.other2 = event.target.dataset.other2;
-      // this.dataSelectItem.text = event.target.dataset.text;
+      let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
+      dataItem[position] = this.dataSelectItem[position];
+      this.dataItemList[this.dataSelectItem.index] = dataItem;
 
     },
 
@@ -191,16 +171,13 @@ new Vue({
     openFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
       dialog.showOpenDialog(
-        win,
-        {
+        win, {
           properties: ['openFile'],
-          filters: [
-            {
-              name: 'Document',
-              extensions: ['csv', 'txt']
-              // extensions: ['txt']
-            }
-          ]
+          filters: [{
+            name: 'Document',
+            extensions: ['csv', 'txt']
+            // extensions: ['txt']
+          }]
         },
         (fileNames) => {
           if (fileNames.length) {
@@ -215,16 +192,13 @@ new Vue({
     saveFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
       dialog.showSaveDialog(
-        win,
-        {
+        win, {
           properties: ['openFile'],
-          filters: [
-            {
-              name: 'Documents',
-              extensions: ['txt']
-              // extensions: ['csv', 'txt']
-            }
-          ]
+          filters: [{
+            name: 'Documents',
+            extensions: ['txt']
+            // extensions: ['csv', 'txt']
+          }]
         },
         (fileName) => {
           if (fileName) {
