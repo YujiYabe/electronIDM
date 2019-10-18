@@ -19,6 +19,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
+    show2: false,
     aaa: '',
     width: null,
     isDragged: false,
@@ -50,7 +51,6 @@ new Vue({
 
   },
   mounted() {},
-
   methods: {
 
     reload: function (event) {

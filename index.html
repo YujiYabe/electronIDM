@@ -110,8 +110,11 @@
                       </v-text-field>
                     </v-flex>
                     <v-flex xs8>
+
                       <v-text-field outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
-                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard('id')">
+                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard('id')"
+                        :append-icon="show2 ? 'visibility' : 'visibility_off'" :type=" show2 ? 'text' : 'password'"
+                        class=" input-group--focused" @click:append="show2 = !show2">
                       </v-text-field>
                     </v-flex>
                   </v-layout>
@@ -282,6 +285,7 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/v-tooltip"></script>
   <script src="index.js"></script>
 
   <script>
