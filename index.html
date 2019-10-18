@@ -111,7 +111,8 @@
                     </v-flex>
                     <v-flex xs8>
                       <v-text-field outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
-                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard"></v-text-field>
+                        prepend-inner-icon="mdi-content-copy" @click:prepend-inner="pasteToClipBoard('id')">
+                      </v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-flex>

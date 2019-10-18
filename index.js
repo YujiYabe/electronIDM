@@ -26,7 +26,6 @@ new Vue({
     centWidth: 10,
     dataItemList: [],
     dataSelectItem: {
-      index: "",
       name: "",
       id: "",
       password: "",
@@ -36,37 +35,21 @@ new Vue({
     },
 
     dataItemtemplate: {
-      index: "",
-      name: "please input",
-      id: "please input",
-      password: "please input",
-      other1: "please input",
-      other2: "please input",
-      text: "please input",
+      name: "please input name",
+      id: "please input id",
+      password: "please input password",
+      other1: " ",
+      other2: " ",
+      text: " ",
+      tagId: "ID",
+      tagPassword: "password",
+      tagOther1: "other1",
+      tagOther2: "other2",
     }
-    // dataItemtemplate_index: "",
-    // dataItemtemplate_name: "",
-    // dataItemtemplate_id: "please input",
-    // dataItemtemplate_password: "please input",
-    // dataItemtemplate_other1: "please input",
-    // dataItemtemplate_other2: "please input",
-    // dataItemtemplate_text: "please input",
 
 
   },
-  mounted() {
-    // if (this.dataItemList == "") {
-    //   let dataItemList = [].concat(this.dataItemList);
-    //   let dataItemtemplate = this.dataItemtemplate;
-    //   dataItemtemplate.index = this.currentDateTimeString();
-    //   dataItemList.push(dataItemtemplate);
-    //   dataItemList.push(dataItemtemplate);
-    //   dataItemList.push(dataItemtemplate);
-    //   dataItemList.push(dataItemtemplate);
-    //   this.dataItemList = dataItemList;
-    //   console.log("s")
-    // }
-  },
+  mounted() {},
 
   methods: {
 
@@ -74,10 +57,6 @@ new Vue({
       location.reload()
     },
 
-    // getUniqueStr: function () {
-    //   const strong = 1000;
-    //   return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
-    // },
 
     selectDataCurrentItem: function (event) {
       this.dataSelectItem.index = event.target.dataset.index;
@@ -88,15 +67,6 @@ new Vue({
       this.dataSelectItem.other2 = event.target.dataset.other2;
       this.dataSelectItem.text = event.target.dataset.text;
     },
-
-    // methodRemoveUrl: function (event) {
-    //   let targetUrl = event.target.dataset.targeturl;
-    //   let dataStoreUrlList = this.getDataStoreUrlList();
-    //   let index = dataStoreUrlList.findIndex((v) => v === targetUrl);
-    //   dataStoreUrlList.splice(index, 1);
-    //   this.setDataStoreUrlList(dataStoreUrlList);
-    // },
-
 
     fillZero: function (number) {
       return (0 + number).slice(-2);
@@ -116,11 +86,9 @@ new Vue({
 
 
     setDataSelectItem: function (position) {
-
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
       dataItem[position] = this.dataSelectItem[position];
       this.dataItemList[this.dataSelectItem.index] = dataItem;
-
     },
 
 
@@ -128,21 +96,24 @@ new Vue({
       let dataItemList = Object.create(this.dataItemList);
 
       const set = {
-        "index": this.currentDateTimeString(),
         "name": this.dataItemtemplate.name,
         "id": this.dataItemtemplate.id,
         "password": this.dataItemtemplate.password,
         "other1": this.dataItemtemplate.other1,
         "other2": this.dataItemtemplate.other2,
         "text": this.dataItemtemplate.text,
+        "tagId": this.dataItemtemplate.tagId,
+        "tagPassword": this.dataItemtemplate.tagPassword,
+        "tagOther1": this.dataItemtemplate.tagOther1,
+        "tagOther2": this.dataItemtemplate.tagOther2,
       };
 
       dataItemList.push(set);
       this.dataItemList = dataItemList;
     },
 
-    pasteToClipBoard: function (event) {
-      clipboard.writeText('Exasfdffdsmple String')
+    pasteToClipBoard: function (position) {
+      clipboard.writeText(this.dataSelectItem[position])
     },
 
     // 指定したファイルを読み込む
