@@ -15,14 +15,18 @@
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 
+
+  <link rel="stylesheet/less" href="./lib/additional.less" type="text/css">
+  <script src="./lib/less.min.js?ver=12302"></script>
+
 </head>
 
 <body>
   <div id="app">
 
-    <div class="content" @mousemove="resizeFrame">
+    <div  id="flexbox_container" >
 
-      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">
+      <div  id="flexbox_left_pane" >
         <v-app id="vappleft">
           <v-content>
             <v-container fluid grid-list-md>
@@ -38,7 +42,10 @@
               <!-- -------------------------------------------------- -->
               <v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
                 <v-flex xs12>
-                  <v-card flat color="amber lighten-3" class="display-1 text--primary" 
+                  <v-card flat 
+                    :id="index"
+                    :color="methodSetItemListColor(index)" 
+                    class="headline" 
                     :data-index="index"
                     :data-name="dataItem.name" 
                     :data-id="dataItem.id" 
@@ -52,7 +59,7 @@
                     :data-tagother1="dataItem.tagOther1" 
                     :data-tagother2="dataItem.tagOther2"
 
-                    @click="selectDataCurrentItem"
+                    @click="selectDataCurrentItem(index)"
                     >
                     {{dataItem.name}}
                   </v-card>
@@ -66,10 +73,10 @@
 
 
       </div>
-      <div class="cent-frame inner" :style="{width:centWidth + 'px', left:leftWidth + 'px'}"
+      <div  id="flexbox_cent_line" class="flexbox_cent_line "
         :class="changeWitdh()" @mousedown="startResize">
       </div>
-      <div class="rght-frame inner">
+      <div id="flexbox_rght_pane">
 
         <v-app id="vappRight">
           <v-content>
@@ -320,76 +327,11 @@
 
   </div>
 
-  <style>
-    #vappRight {
-      width: 100%;
-    }
+<style>
 
-    #vappleft {
-      width: 100%;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
-    }
-
-    #app {
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .content {
-      display: flex;
-    }
-
-    .inner {
-      display: inline-flex;
-    }
-
-    .left-frame {
-      background-color: rgb(240, 240, 255);
-      height: 100vh;
-
-    }
+</style>
 
 
-    .cent-frame {
-      height: 100vh;
-      /* background-color: rgb(208, 208, 208); */
-      /* border: solid 0.5px white; */
-      /* border-left: solid 0.5px rgb(170, 170, 170); */
-      /* border-right: solid 0.5px black; */
-    }
-
-    .cent-frame:hover {
-      cursor: col-resize;
-    }
-
-    .rght-frame {
-      background-color: white;
-      flex-grow: 1;
-      /* padding-left: 10px; */
-    }
-
-    .frame {
-      display: flex;
-      flex-direction: row;
-      height: 100vh;
-    }
-
-    .dragged * {
-      cursor: col-resize;
-    }
-
-    .pink {
-      background-color: pink;
-    }
-
-    .grey {
-      background-color: lightgrey;
-    }
-  </style>
   <style lang="scss">
     * :not(.v-icon) {
       font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
@@ -409,7 +351,10 @@
   <script>
     window.jQuery = window.$ = require('./lib/jquery.min');
   </script>
-  <script src="./lib/crypto-js.min.js"></script>
+    <script src="./lib/jquery-ui.min.js"></script>
+    <script src="./lib/crypto-js.min.js"></script>
+  <script src="./lib/edit.js?ver=12302"></script>
+
 </body>
 
 </html>

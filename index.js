@@ -43,6 +43,7 @@ new Vue({
       other1: false,
       other2: false,
     },
+
     dataDictionary: {
       placeholderBody: "Please input ",
       placeholderTag: "changeable",
@@ -50,6 +51,8 @@ new Vue({
     },
 
     dataColorList: {
+      itemList: "amber lighten-3",
+      itemSelect: "pink lighten-3",
       name: "cyan lighten-4",
 
       id: "blue lighten-4",
@@ -66,6 +69,7 @@ new Vue({
     
     dataItemList: [],
     dataSelectItem: {
+      index: null,
       name: "",
       id: "",
       password: "",
@@ -124,25 +128,32 @@ new Vue({
       return this.dataColorList[position] 
     },
 
+    methodSetItemListColor: function (index) {
+      return index == this.dataSelectItem.index ?  "pink lighten-3" : "amber lighten-3"
+    },
+
     reload: function (event) {
       location.reload()
     },
 
 
 
-    selectDataCurrentItem: function (event) {
-      this.dataSelectItem.index = event.target.dataset.index;
-      this.dataSelectItem.name = event.target.dataset.name;
-      this.dataSelectItem.id = event.target.dataset.id;
-      this.dataSelectItem.password = event.target.dataset.password;
-      this.dataSelectItem.other1 = event.target.dataset.other1;
-      this.dataSelectItem.other2 = event.target.dataset.other2;
-      this.dataSelectItem.text = event.target.dataset.text;
+    // selectDataCurrentItem: function (event) {
+    selectDataCurrentItem: function (index) {
+      let dataItem = Object.create(this.dataItemList[index]);
 
-      this.dataSelectItem.tagId = event.target.dataset.tagid;
-      this.dataSelectItem.tagPassword = event.target.dataset.tagpassword;
-      this.dataSelectItem.tagOther1 = event.target.dataset.tagother1;
-      this.dataSelectItem.tagOther2 = event.target.dataset.tagother2;
+      this.dataSelectItem.index = index;
+      this.dataSelectItem.name = dataItem.name;
+      this.dataSelectItem.id = dataItem.id;
+      this.dataSelectItem.password = dataItem.password;
+      this.dataSelectItem.other1 = dataItem.other1;
+      this.dataSelectItem.other2 = dataItem.other2;
+      this.dataSelectItem.text = dataItem.text;
+
+      this.dataSelectItem.tagId = dataItem.tagId;
+      this.dataSelectItem.tagPassword = dataItem.tagPassword;
+      this.dataSelectItem.tagOther1 = dataItem.tagOther1;
+      this.dataSelectItem.tagOther2 = dataItem.tagOther2;
 
     },
 
@@ -158,8 +169,9 @@ new Vue({
       let hh = ("00" + dt.getHours()).slice(-2);
       let nn = ("00" + dt.getMinutes()).slice(-2);
       let ss = ("00" + dt.getSeconds()).slice(-2);
-      let ddd = ("000" + dt.getMilliseconds()).slice(-3);
-      return yyyy + mm + dd + hh + nn + ss + ddd;
+      // let ddd = ("000" + dt.getMilliseconds()).slice(-3);
+      // return yyyy + mm + dd + hh + nn + ss + ddd;
+      return yyyy +"-"+ mm +"-"+ dd +" "+ hh +":"+ nn +":"+ ss;
     },
 
 
@@ -172,11 +184,11 @@ new Vue({
     },
 
 
-    addItem: function (event) {
+    addItem: function () {
       let dataItemList = Object.create(this.dataItemList);
 
       const set = {
-        "name": this.dataItemtemplate.name,
+        "name": "created at : " + this.currentDateTimeString(),
         "id": this.dataItemtemplate.id,
         "password": this.dataItemtemplate.password,
         "other1": this.dataItemtemplate.other1,
@@ -187,9 +199,11 @@ new Vue({
         "tagOther1": this.dataItemtemplate.tagOther1,
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
-      console.log(set)
       dataItemList.push(set);
       this.dataItemList = dataItemList;
+      let aaa = this.dataItemList.length-1;
+      this.selectDataCurrentItem(aaa)
+
     },
 
     pasteToClipBoard: function (position) {
