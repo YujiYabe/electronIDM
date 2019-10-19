@@ -21,11 +21,49 @@ new Vue({
   data: {
     show2: false,
     dataIdPrependIcon: false,
+
+
     aaa: '',
+
     width: null,
     isDragged: false,
     leftWidth: 600,
     centWidth: 10,
+
+    dataPrependIcon: {
+      id: false,
+      password: false,
+      other1: false,
+      other2: false,
+    },
+
+    dataAppendIcon: {
+      id: false,
+      password: false,
+      other1: false,
+      other2: false,
+    },
+    dataDictionary: {
+      placeholderBody: "Please input ",
+      placeholderTag: "changeable",
+      placeholderTag: "changeable",
+    },
+
+    dataColorList: {
+      name: "cyan lighten-4",
+
+      id: "blue lighten-4",
+      password: "green lighten-4",
+      other1: "teal lighten-4",
+      other2: "indigo lighten-4",
+      text: "deep-purple lighten-4",
+
+      tagId: "blue",
+      tagPassword: "green",
+      tagOther1: "teal",
+      tagOther2: "indigo",
+    },
+    
     dataItemList: [],
     dataSelectItem: {
       name: "",
@@ -37,12 +75,13 @@ new Vue({
     },
 
     dataItemtemplate: {
-      name: "please input name",
+      name: "please input id",
       id: "please input id",
       password: "please input password",
-      other1: " ",
-      other2: " ",
-      text: " ",
+      other1: "",
+      other2: "",
+      text: "",
+
       tagId: "ID",
       tagPassword: "password",
       tagOther1: "other1",
@@ -65,18 +104,30 @@ new Vue({
       }
     },
 
-    idPrependIcon: function () {
-      return this.dataIdPrependIcon ? 'mdi-check-bold' : 'mdi-clipboard'
+    methodSetPrependIcon: function (position) {
+      return this.dataPrependIcon[position] ? 'mdi-check-bold' : 'mdi-clipboard'
+    },
 
+    methodSetAppendIcon: function (position) {
+      return this.dataAppendIcon[position] ? 'visibility' : 'visibility_off'
+    },
+
+    methodSetAppendIconStatus: function (position) {
+      this.dataAppendIcon[position] = !this.dataAppendIcon[position]
+    },
+
+    methodSetTextType: function (position) {
+      return this.dataAppendIcon[position] ? 'text' : 'password'
+    },
+
+    methodSetColor: function (position) {
+      return this.dataColorList[position] 
     },
 
     reload: function (event) {
       location.reload()
     },
 
-    methodCopied: function (event) {
-
-    },
 
 
     selectDataCurrentItem: function (event) {
@@ -87,6 +138,12 @@ new Vue({
       this.dataSelectItem.other1 = event.target.dataset.other1;
       this.dataSelectItem.other2 = event.target.dataset.other2;
       this.dataSelectItem.text = event.target.dataset.text;
+
+      this.dataSelectItem.tagId = event.target.dataset.tagid;
+      this.dataSelectItem.tagPassword = event.target.dataset.tagpassword;
+      this.dataSelectItem.tagOther1 = event.target.dataset.tagother1;
+      this.dataSelectItem.tagOther2 = event.target.dataset.tagother2;
+
     },
 
     fillZero: function (number) {
@@ -128,16 +185,16 @@ new Vue({
         "tagOther1": this.dataItemtemplate.tagOther1,
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
-
+console.log(set)
       dataItemList.push(set);
       this.dataItemList = dataItemList;
     },
 
     pasteToClipBoard: function (position) {
       let self = this;
-      this.dataIdPrependIcon = true;
+      this.dataPrependIcon[position] = true;
       clipboard.writeText(this.dataSelectItem[position])
-      setTimeout(function () { self.dataIdPrependIcon = false }, 500)
+      setTimeout(function () { self.dataPrependIcon[position] = false }, 500)
     },
 
 

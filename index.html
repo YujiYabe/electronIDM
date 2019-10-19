@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./lib/styles.css">
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
   <!-- <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
- <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" /> -->
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" /> -->
 
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css"> -->
 
@@ -38,10 +38,22 @@
               <!-- -------------------------------------------------- -->
               <v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
                 <v-flex xs12>
-                  <v-card flat color="amber lighten-3" class="display-1 text--primary" :data-index="index"
-                    :data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
-                    :data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
-                    @click="selectDataCurrentItem">
+                  <v-card flat color="amber lighten-3" class="display-1 text--primary" 
+                    :data-index="index"
+                    :data-name="dataItem.name" 
+                    :data-id="dataItem.id" 
+                    :data-password="dataItem.password"
+                    :data-other1="dataItem.other1" 
+                    :data-other2="dataItem.other2"
+                    :data-text="dataItem.text"
+
+                    :data-tagid="dataItem.tagId" 
+                    :data-tagpassword="dataItem.tagPassword"
+                    :data-tagother1="dataItem.tagOther1" 
+                    :data-tagother2="dataItem.tagOther2"
+
+                    @click="selectDataCurrentItem"
+                    >
                     {{dataItem.name}}
                   </v-card>
                 </v-flex>
@@ -54,23 +66,10 @@
 
 
       </div>
-      <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
+      <div class="cent-frame inner" :style="{width:centWidth + 'px', left:leftWidth + 'px'}"
         :class="changeWitdh()" @mousedown="startResize">
-      </div>              
+      </div>
       <div class="rght-frame inner">
-        <!-- <div class="container-fluid">
-    <div class="row">
-      <div class="col-3 alert alert-success">
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-      <div class="col-8 alert alert-primary">col-8</div>
-    </div>
-    <div class="row">
-      <div class="col-3 alert alert-success">col-3</div>
-      <div class="col-8 alert alert-primary">col-8</div>
-    </div>
-    </div> -->
-        <!-- <h3 v-on:click="reload">File Open/Save</h3> -->
 
         <v-app id="vappRight">
           <v-content>
@@ -80,41 +79,64 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
-                        v-model="dataSelectItem.index">
+                      <v-text-field 
+                        outlined 
+                        v-model="dataSelectItem.index"
+                        >
                       </v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- name -------------------------------------------------- -->
               <v-layout justify-start class="mt-5">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-text-field outlined background-color="cyan lighten-4" placeholder="Please input title"
-                        v-model="dataSelectItem.name" @change="setDataSelectItem('name')" value="Please input title">
+                      <v-text-field outlined 
+                        :background-color="methodSetColor('name')" 
+                        :placeholder="dataDictionary.placeholderBody"
+                        v-model="dataSelectItem.name" 
+                        @change="setDataSelectItem('name')" 
+                        >
                       </v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
 
-              <!-- ■■■ -------------------------------------------------- -->
+              <!-- ■■■ id -------------------------------------------------- -->
               <v-layout justify-start class="mt-n5">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="blue " placeholder="changable" value="ID">
+                      <v-text-field 
+                        id="tagId"
+                        outlined 
+                        dense 
+                        :background-color="methodSetColor('tagId')" 
+                        :placeholder="dataDictionary.placeholderTag"
+                        v-model="dataSelectItem.tagId"
+                      >
                       </v-text-field>
                     </v-flex>
                     <v-flex xs8>
 
-                      <v-text-field id="id" outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
-                        :prepend-icon="idPrependIcon()" @click:prepend="pasteToClipBoard('id')"
-                        :append-icon="show2 ? 'visibility' : 'visibility_off'" :type=" show2 ? 'text' : 'password'"
-                        class=" input-group--focused" @click:append="show2 = !show2">
+                      <v-text-field 
+                        id="id"
+                        outlined dense 
+                        :background-color="methodSetColor('id')" 
+                        v-model="dataSelectItem.id"
+
+                        :prepend-inner-icon="methodSetPrependIcon('id')" 
+                        @click:prepend-inner="pasteToClipBoard('id')" 
+                        :placeholder="dataDictionary.placeholderBody"
+
+                        :append-icon="methodSetAppendIcon('id')" 
+                        @click:append="methodSetAppendIconStatus('id')"
+                        :type="methodSetTextType('id')" 
+                      >
                       </v-text-field>
                     </v-flex>
                   </v-layout>
@@ -126,12 +148,76 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="green " placeholder="changable" value="Password">
+                      <v-text-field 
+                        id="tagPassword"
+                        outlined 
+                        dense 
+                        :background-color="methodSetColor('tagPassword')" 
+                        :placeholder="dataDictionary.placeholderTag"
+                        v-model="dataSelectItem.tagPassword"
+                      >
                       </v-text-field>
+
                     </v-flex>
                     <v-flex xs8>
-                      <v-text-field outlined dense background-color="green lighten-2" v-model="dataSelectItem.password"
-                        prepend-inner-icon="mdi-content-copy"></v-text-field>
+                      <v-text-field 
+                      id="password"
+
+                        outlined dense 
+                        :background-color="methodSetColor('password')" 
+                        v-model="dataSelectItem.password"
+
+                        :prepend-inner-icon="methodSetPrependIcon('password')" 
+                        @click:prepend-inner="pasteToClipBoard('password')" 
+                        :placeholder="dataDictionary.placeholderBody"
+
+                        :append-icon="methodSetAppendIcon('password')" 
+                        @click:append="methodSetAppendIconStatus('password')"
+                        :type="methodSetTextType('password')" 
+                      >
+                      </v-text-field>
+
+                      </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+
+                        <v-text-field 
+                        id="tagOther1"
+                        outlined 
+                        dense 
+                        :background-color="methodSetColor('tagOther1')" 
+                        :placeholder="dataDictionary.placeholderTag"
+                        v-model="dataSelectItem.tagOther1"
+                        ></v-text-field>
+
+                        
+                      </v-flex>
+                    <v-flex xs8>
+
+
+                        <v-text-field 
+                        id="other1"
+                        outlined dense 
+                        :background-color="methodSetColor('other1')" 
+                        v-model="dataSelectItem.other1"
+
+                        :prepend-inner-icon="methodSetPrependIcon('other1')" 
+                        @click:prepend-inner="pasteToClipBoard('other1')" 
+                        :placeholder="dataDictionary.placeholderBody"
+
+                        :append-icon="methodSetAppendIcon('other1')" 
+                        @click:append="methodSetAppendIconStatus('other1')"
+                        :type="methodSetTextType('other1')" 
+                      >
+                      </v-text-field>
+
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -142,29 +228,38 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-                      <v-text-field outlined dense background-color="teal" placeholder="changable" value="other1"
-                        outlined></v-text-field>
-                    </v-flex>
-                    <v-flex xs8>
-                      <v-text-field outlined dense background-color="teal lighten-2" v-model="dataSelectItem.other1"
-                        prepend-inner-icon="mdi-content-copy"></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                </v-flex>
-              </v-layout>
+                        <v-text-field 
+                        id="tagOther2"
+                        outlined 
+                        dense 
+                        :background-color="methodSetColor('tagOther2')" 
+                        :placeholder="dataDictionary.placeholderTag"
+                        v-model="dataSelectItem.tagOther2"
+                      >
+                      </v-text-field>
 
-              <!-- -------------------------------------------------- -->
-              <v-layout justify-start class="mt-n6">
-                <v-flex xs12>
-                  <v-layout justify-start>
-                    <v-flex xs3>
-                      <v-text-field outlined dense background-color="indigo" placeholder="changable" value="other2"
-                        outlined></v-text-field>
-                    </v-flex>
+                      </v-flex>
                     <v-flex xs8>
-                      <v-text-field outlined dense background-color="indigo lighten-2" v-model="dataSelectItem.other2"
-                        prepend-inner-icon="mdi-content-copy"></v-text-field>
-                    </v-flex>
+                        <v-text-field 
+                        id="other2"
+                        outlined dense 
+                        :background-color="methodSetColor('other2')" 
+                        v-model="dataSelectItem.other2"
+
+                        :prepend-inner-icon="methodSetPrependIcon('other2')" 
+                        @click:prepend-inner="pasteToClipBoard('other2')" 
+                        :placeholder="dataDictionary.placeholderBody"
+
+                        :append-icon="methodSetAppendIcon('other2')" 
+                        @click:append="methodSetAppendIconStatus('other2')"
+                        :type="methodSetTextType('other2')" 
+                      >
+
+
+
+
+
+                      </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -174,9 +269,17 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
-                      <v-textarea outlined background-color="deep-purple lighten-4" name="" label="free text area"
-                        v-model="dataSelectItem.text" value="" rows="8">
+                        <v-textarea
+                        id="text"
+                        label="free text area"
+                        outlined dense 
+                        rows="8"
+                        :background-color="methodSetColor('text')" 
+                        v-model="dataSelectItem.text"
+                        :placeholder="dataDictionary.placeholderBody"
+                      >
                       </v-textarea>
+
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -188,7 +291,8 @@
         </v-app>
 
 
-        <!-- <button v-on:click="openFile">Open</button>
+    <!-- 
+    <button v-on:click="openFile">Open</button>
     <button v-on:click="saveFile">Save</button>
 
     <br>
