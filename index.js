@@ -19,12 +19,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
-    show2: false,
-    dataIdPrependIcon: false,
-
-
     aaa: '',
-
     width: null,
     isDragged: false,
     leftWidth: 600,
@@ -38,6 +33,7 @@ new Vue({
     },
 
     dataAppendIcon: {
+      all: false,
       id: false,
       password: false,
       other1: false,
@@ -95,6 +91,11 @@ new Vue({
 
   },
   mounted() { },
+  computed: {
+    // reversedataItemList() {
+    //     return this.dataItemList.slice().reverse();
+    // },
+  },
   methods: {
 
 
@@ -132,6 +133,21 @@ new Vue({
       return index == this.dataSelectItem.index ? "pink lighten-3" : "amber lighten-3"
     },
 
+    methodSetAllAppend: function (statusString) {
+      if (statusString == "neutral") {
+        this.dataAppendIcon.all = !this.dataAppendIcon.all
+      } else if (statusString == "true") {
+        this.dataAppendIcon.all = true
+      } else { 
+        this.dataAppendIcon.all = false
+      }
+
+      this.dataAppendIcon.id = this.dataAppendIcon.all
+      this.dataAppendIcon.password = this.dataAppendIcon.all
+      this.dataAppendIcon.other1 = this.dataAppendIcon.all
+      this.dataAppendIcon.other2 = this.dataAppendIcon.all
+    },
+    
     reload: function (event) {
       location.reload()
     },
@@ -154,6 +170,7 @@ new Vue({
       this.dataSelectItem.tagPassword = dataItem.tagPassword;
       this.dataSelectItem.tagOther1 = dataItem.tagOther1;
       this.dataSelectItem.tagOther2 = dataItem.tagOther2;
+      this.methodSetAllAppend("false")
 
     },
 
@@ -199,11 +216,10 @@ new Vue({
         "tagOther1": this.dataItemtemplate.tagOther1,
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
-      dataItemList.push(set);
-      this.dataItemList = dataItemList;
-      this.selectDataCurrentItem(this.dataItemList.length - 1)
-
-      window.location.hash = 'pageBottom';
+      dataItemList.unshift(set);
+      this.dataItemList = dataItemList;0
+      this.selectDataCurrentItem(0)
+      this.methodSetAllAppend("true")
     },
 
     pasteToClipBoard: function (position) {

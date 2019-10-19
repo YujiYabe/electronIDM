@@ -108,6 +108,8 @@
                         :placeholder="dataDictionary.placeholderBody"
                         v-model="dataSelectItem.name" 
                         @change="setDataSelectItem('name')" 
+                        :append-icon="methodSetAppendIcon('all')" 
+                        @click:append="methodSetAllAppend('neutral')"
                         >
                       </v-text-field>
                     </v-flex>
