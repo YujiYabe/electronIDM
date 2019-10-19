@@ -66,7 +66,7 @@ new Vue({
       tagOther1: "teal",
       tagOther2: "indigo",
     },
-    
+
     dataItemList: [],
     dataSelectItem: {
       index: null,
@@ -125,11 +125,11 @@ new Vue({
     },
 
     methodSetColor: function (position) {
-      return this.dataColorList[position] 
+      return this.dataColorList[position]
     },
 
     methodSetItemListColor: function (index) {
-      return index == this.dataSelectItem.index ?  "pink lighten-3" : "amber lighten-3"
+      return index == this.dataSelectItem.index ? "pink lighten-3" : "amber lighten-3"
     },
 
     reload: function (event) {
@@ -171,7 +171,7 @@ new Vue({
       let ss = ("00" + dt.getSeconds()).slice(-2);
       // let ddd = ("000" + dt.getMilliseconds()).slice(-3);
       // return yyyy + mm + dd + hh + nn + ss + ddd;
-      return yyyy +"-"+ mm +"-"+ dd +" "+ hh +":"+ nn +":"+ ss;
+      return yyyy + "-" + mm + "-" + dd + " " + hh + ":" + nn + ":" + ss;
     },
 
 
@@ -201,9 +201,9 @@ new Vue({
       };
       dataItemList.push(set);
       this.dataItemList = dataItemList;
-      let aaa = this.dataItemList.length-1;
-      this.selectDataCurrentItem(aaa)
+      this.selectDataCurrentItem(this.dataItemList.length - 1)
 
+      window.location.hash = 'pageBottom';
     },
 
     pasteToClipBoard: function (position) {
