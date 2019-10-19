@@ -293,11 +293,11 @@
                         id="text"
                         label="free text area"
                         outlined dense 
-                        rows="8"
+                        rows="100"
                         :background-color="methodSetColor('text')" 
                         v-model="dataSelectItem.text"
                         @change="setDataSelectItem('text')" 
-
+                        auto-grow
                       >
                       </v-textarea>
 

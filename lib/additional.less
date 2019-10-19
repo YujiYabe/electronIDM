@@ -15,18 +15,21 @@ body {
     background-color: whitesmoke;
     margin: 0;
     padding: 0;
-    height: 99vh;
+    // height: 99vh;
+    height: 100vh;
     font-family: NotoSansMono, Consolas, 'Courier New', Courier, Monaco, monospace;
     #flexbox_container {
         display: flex;
         width: 100%;
-        height: 99vh;
+        // height: 99vh;
+        height: 100%;
         #flexbox_left_pane {
             display: flex;
             flex-direction: column;
             margin: 1px;
             background: whitesmoke;
-            height: 99vh;
+            // height: 99vh;
+            height: 100vh;
             width: @left_pane_witdh;
             min-width: @left_pane_witdh_min;
             overflow: auto; // padding: 10px;
@@ -96,6 +99,8 @@ body {
             flex-direction: column;
             background-color: whitesmoke;
             width: @rght_pane_witdh; // padding-bottom: 10px;
+            height: 100vh;
+            overflow: auto; // padding: 10px;
             margin: 1px;
             #flexbox_page_pane {
                 display: flex;
