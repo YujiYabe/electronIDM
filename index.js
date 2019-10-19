@@ -20,6 +20,7 @@ new Vue({
   vuetify: new Vuetify(),
   data: {
     show2: false,
+    dataIdPrependIcon: false,
     aaa: '',
     width: null,
     isDragged: false,
@@ -50,11 +51,31 @@ new Vue({
 
 
   },
-  mounted() {},
+  mounted() { },
   methods: {
+
+
+    sleep: function (time) {
+      const d1 = new Date();
+      while (true) {
+        const d2 = new Date();
+        if (d2 - d1 > time) {
+          return;
+        }
+      }
+    },
+
+    idPrependIcon: function () {
+      return this.dataIdPrependIcon ? 'mdi-check-bold' : 'mdi-clipboard'
+
+    },
 
     reload: function (event) {
       location.reload()
+    },
+
+    methodCopied: function (event) {
+
     },
 
 
@@ -113,8 +134,13 @@ new Vue({
     },
 
     pasteToClipBoard: function (position) {
+      let self = this;
+      this.dataIdPrependIcon = true;
       clipboard.writeText(this.dataSelectItem[position])
+      setTimeout(function () { self.dataIdPrependIcon = false }, 500)
     },
+
+
 
     // 指定したファイルを読み込む
     readFile: function (path) {
@@ -143,13 +169,13 @@ new Vue({
       const win = BrowserWindow.getFocusedWindow()
       dialog.showOpenDialog(
         win, {
-          properties: ['openFile'],
-          filters: [{
-            name: 'Document',
-            extensions: ['csv', 'txt']
-            // extensions: ['txt']
-          }]
-        },
+        properties: ['openFile'],
+        filters: [{
+          name: 'Document',
+          extensions: ['csv', 'txt']
+          // extensions: ['txt']
+        }]
+      },
         (fileNames) => {
           if (fileNames.length) {
             // alert(fileNames[0])
@@ -164,13 +190,13 @@ new Vue({
       const win = BrowserWindow.getFocusedWindow()
       dialog.showSaveDialog(
         win, {
-          properties: ['openFile'],
-          filters: [{
-            name: 'Documents',
-            extensions: ['txt']
-            // extensions: ['csv', 'txt']
-          }]
-        },
+        properties: ['openFile'],
+        filters: [{
+          name: 'Documents',
+          extensions: ['txt']
+          // extensions: ['csv', 'txt']
+        }]
+      },
         (fileName) => {
           if (fileName) {
             // let data = preview.textContent

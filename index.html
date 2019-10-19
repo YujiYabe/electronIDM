@@ -56,7 +56,7 @@
       </div>
       <div class="cent-frame inner" v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}"
         :class="changeWitdh()" @mousedown="startResize">
-      </div>
+      </div>              
       <div class="rght-frame inner">
         <!-- <div class="container-fluid">
     <div class="row">
@@ -101,7 +101,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- ■■■ -------------------------------------------------- -->
               <v-layout justify-start class="mt-n5">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -111,8 +111,8 @@
                     </v-flex>
                     <v-flex xs8>
 
-                      <v-text-field outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
-                        prepend-icon="mdi-clipboard" @click:prepend="pasteToClipBoard('id')"
+                      <v-text-field id="id" outlined dense background-color="blue lighten-2" v-model="dataSelectItem.id"
+                        :prepend-icon="idPrependIcon()" @click:prepend="pasteToClipBoard('id')"
                         :append-icon="show2 ? 'visibility' : 'visibility_off'" :type=" show2 ? 'text' : 'password'"
                         class=" input-group--focused" @click:append="show2 = !show2">
                       </v-text-field>
