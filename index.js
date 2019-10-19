@@ -165,6 +165,8 @@ new Vue({
 
     setDataSelectItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
+      console.log(dataItem)
+
       dataItem[position] = this.dataSelectItem[position];
       this.dataItemList[this.dataSelectItem.index] = dataItem;
     },
@@ -185,7 +187,7 @@ new Vue({
         "tagOther1": this.dataItemtemplate.tagOther1,
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
-console.log(set)
+      console.log(set)
       dataItemList.push(set);
       this.dataItemList = dataItemList;
     },

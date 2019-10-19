@@ -89,7 +89,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- name -------------------------------------------------- -->
+              <!-- ■■■ name -------------------------------------------------- -->
               <v-layout justify-start class="mt-5">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -118,6 +118,7 @@
                         :background-color="methodSetColor('tagId')" 
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagId"
+                        @change="setDataSelectItem('tagId')" 
                       >
                       </v-text-field>
                     </v-flex>
@@ -136,6 +137,7 @@
                         :append-icon="methodSetAppendIcon('id')" 
                         @click:append="methodSetAppendIconStatus('id')"
                         :type="methodSetTextType('id')" 
+                        @change="setDataSelectItem('id')" 
                       >
                       </v-text-field>
                     </v-flex>
@@ -143,7 +145,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- ■■■ password -------------------------------------------------- -->
               <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -155,6 +157,7 @@
                         :background-color="methodSetColor('tagPassword')" 
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagPassword"
+                        @change="setDataSelectItem('tagPassword')" 
                       >
                       </v-text-field>
 
@@ -174,6 +177,8 @@
                         :append-icon="methodSetAppendIcon('password')" 
                         @click:append="methodSetAppendIconStatus('password')"
                         :type="methodSetTextType('password')" 
+                        @change="setDataSelectItem('password')" 
+
                       >
                       </v-text-field>
 
@@ -182,7 +187,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- ■■■ other1 -------------------------------------------------- -->
               <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -195,6 +200,8 @@
                         :background-color="methodSetColor('tagOther1')" 
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagOther1"
+                        @change="setDataSelectItem('tagOther1')" 
+
                         ></v-text-field>
 
                         
@@ -215,6 +222,8 @@
                         :append-icon="methodSetAppendIcon('other1')" 
                         @click:append="methodSetAppendIconStatus('other1')"
                         :type="methodSetTextType('other1')" 
+                        @change="setDataSelectItem('other1')" 
+
                       >
                       </v-text-field>
 
@@ -223,7 +232,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- ■■■ other2 -------------------------------------------------- -->
               <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -235,6 +244,8 @@
                         :background-color="methodSetColor('tagOther2')" 
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagOther2"
+                        @change="setDataSelectItem('tagOther2')" 
+
                       >
                       </v-text-field>
 
@@ -253,6 +264,8 @@
                         :append-icon="methodSetAppendIcon('other2')" 
                         @click:append="methodSetAppendIconStatus('other2')"
                         :type="methodSetTextType('other2')" 
+                        @change="setDataSelectItem('other2')" 
+
                       >
 
 
@@ -264,7 +277,7 @@
                 </v-flex>
               </v-layout>
 
-              <!-- -------------------------------------------------- -->
+              <!-- ■■■ text -------------------------------------------------- -->
               <v-layout justify-start class="mt-n5">
                 <v-flex xs12>
                   <v-layout justify-start>
@@ -276,7 +289,8 @@
                         rows="8"
                         :background-color="methodSetColor('text')" 
                         v-model="dataSelectItem.text"
-                        :placeholder="dataDictionary.placeholderBody"
+                        @change="setDataSelectItem('text')" 
+
                       >
                       </v-textarea>
 
