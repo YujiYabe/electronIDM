@@ -139,7 +139,7 @@
       </div>
       <div id="flexbox_rght_pane">
 
-        <v-app id="vappRight">
+        <v-app id="vappRight" v-if="dataItemList.length > 0 ">
           <v-content>
             <v-container fluid grid-list-md>
               <!-- -------------------------------------------------- -->
@@ -343,10 +343,6 @@
                         @change="setDataSelectItem('other2')" 
                         tabindex="5"
                       >
-
-
-
-
 
                       </v-flex>
                   </v-layout>
