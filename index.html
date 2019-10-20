@@ -26,19 +26,19 @@
     <div id="dialogSave" >
         <v-row justify="center">
           <v-dialog
-            v-model="dialogSave"
-            max-width="290"
+          v-model="dataDialog.save"
+          max-width="290"
           >
             <v-card
             >
               <v-card-title class="headline">save to file</v-card-title>
               <v-card-text>
-                <v-radio-group v-model="saveFileType" :mandatory="true">
+                <v-radio-group v-model="dataConfig.saveFileType" :mandatory="true">
                   <v-radio label="normal(json)" value="normal"></v-radio>
                   <v-radio label="encrypt()" value="encrypt"></v-radio>
                 </v-radio-group>
 
-                <v-text-field v-if="saveFileType == 'encrypt'"
+                <v-text-field v-if="dataConfig.saveFileType == 'encrypt'"
                   outlined 
                   v-model="encryptKeyword"
                   class="mb-n4"
@@ -54,7 +54,7 @@
                 <v-btn
                   color="grey darken-1"
                   dark
-                  @click="dialogSave = false"
+                  @click="dataDialog.save = false"
                 >
                   cancel
                 </v-btn>
@@ -62,7 +62,7 @@
                 <v-btn
                   color="primary darken-1"
                   dark
-                  @click="saveFile"
+                  @click="methodSaveFile"
                 >
                   save
                 </v-btn>
@@ -71,8 +71,57 @@
           </v-dialog>
         </v-row>
 
-      </div>
+    </div> <!-- dialogSave -->
 
+    <div id="dialogOpen" >
+        <v-row justify="center">
+          <v-dialog
+            v-model="dataDialog.open"
+            max-width="290"
+          >
+            <v-card
+            >
+              <v-card-title class="headline">open file</v-card-title>
+              <v-card-text>
+                <v-radio-group v-model="dataConfig.saveFileType" :mandatory="true">
+                  <v-radio label="normal(json)" value="normal"></v-radio>
+                  <v-radio label="encrypt()" value="encrypt"></v-radio>
+                </v-radio-group>
+
+                <v-text-field v-if="dataConfig.saveFileType == 'encrypt'"
+                  outlined 
+                  v-model="encryptKeyword"
+                  class="mb-n4"
+                  >
+                </v-text-field>
+
+              </v-card-text>
+
+              <v-card-actions
+                class="mt-n6 pb-5"
+              >
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="grey darken-1"
+                  dark
+                  @click="dataDialog.open = false"
+                >
+                  cancel
+                </v-btn>
+      
+                <v-btn
+                  color="primary darken-1"
+                  dark
+                  @click="methodOpenFile"
+                >
+                  save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+
+    </div> <!-- dialogOpen -->
 
     <div id="flexbox_container" >
 
@@ -80,14 +129,14 @@
         <v-app id="vappleft">
           <v-content>
             <v-container fluid grid-list-md>
-              <v-btn
-              color="primary"
-              dark
-              @click.stop="dialogSave = true"
-            >
-              save
-            </v-btn>
-  
+              <v-layout justify-center class="mt-5">
+                <v-flex xs6>
+                  <v-btn color="primary" dark @click.stop="dataDialog.save = true"> save </v-btn>
+                </v-flex>
+                <v-flex xs6>
+                  <v-btn color="primary" dark @click.stop="dataDialog.open = true"> open </v-btn>
+                </v-flex>
+              </v-layout>
 
               <!-- -------------------------------------------------- -->
               <v-layout justify-start class="mt-5">
@@ -134,9 +183,10 @@
       </div>
 
 
-      <div  id="flexbox_cent_line" class="flexbox_cent_line "
+      <div id="flexbox_cent_line" class="flexbox_cent_line"
         :class="changeWitdh()" @mousedown="startResize">
-      </div>
+      </div> <!-- flexbox_cent_line -->
+
       <div id="flexbox_rght_pane">
 
         <v-app id="vappRight" v-if="dataItemList.length > 0 ">
@@ -379,8 +429,8 @@
 
 
     
-    <button v-on:click="openFile">Open</button>
-    <button v-on:click="saveFile">Save</button>
+    <button v-on:click="methodOpenFile">Open</button>
+    <button v-on:click="methodSaveFile">Save</button>
 
     <br>
     <!-- <textarea id="preview" v-model="aaa"></textarea> -->

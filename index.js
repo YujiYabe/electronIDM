@@ -19,9 +19,12 @@ new Vue({
   vuetify: new Vuetify(),
   data: {
     encryptKeyword: "",
-    dialogSave: false,
-    saveFileType: 'normal',
-    // saveFileType: 'encrypt',
+
+
+    dataDialog: {
+      save: false,
+      open: false,
+    },
 
     aaa: '',
     width: null,
@@ -43,6 +46,7 @@ new Vue({
       other1: false,
       other2: false,
     },
+
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
@@ -51,6 +55,12 @@ new Vue({
       placeholderBody: "Please input",
       placeholderOther: "optional",
       placeholderTag: "changeable",
+    },
+
+    dataConfig: {
+      saveFileType: 'normal',
+      // saveFileType: 'encrypt',
+      saveFileHistory: [],
     },
 
     dataColorList: {
@@ -97,16 +107,26 @@ new Vue({
 
 
   },
-  mounted() { },
+  mounted() {
+    this.methodOpenConfig()
+  },
+
   computed: {
     // reversedataItemList() {
     //     return this.dataItemList.slice().reverse();
     // },
   },
   methods: {
+    // methodOpenConfig: function (time) {
+    // },
+
+    methodOpenConfig: function () {
+
+    },
 
 
-    sleep: function (time) {
+
+    methodSleep: function (time) {
       const d1 = new Date();
       while (true) {
         const d2 = new Date();
@@ -155,7 +175,7 @@ new Vue({
       this.dataAppendIcon.other2 = this.dataAppendIcon.all
     },
 
-    reload: function (event) {
+    methodReload: function (event) {
       location.reload()
     },
 
@@ -263,7 +283,13 @@ new Vue({
       })
     },
 
-    openFile: function (event) {
+    methodReadConfig: function () {
+      this.readFile("config.json")
+    },
+
+
+    
+    methodOpenFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
       dialog.showOpenDialog(
         win, {
@@ -284,7 +310,7 @@ new Vue({
     },
 
     // saveFileボタンが押されたとき
-    saveFile: function (event) {
+    methodSaveFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
       const self = this
       console.log(self.dataItemList)
@@ -312,7 +338,7 @@ new Vue({
             // }
 
             this.writeFile(fileName, tagetSaveData)
-            this.dialogSave = false
+            this.dataDialog.save = false
           }
         }
       )
@@ -335,15 +361,5 @@ new Vue({
       return this.isDragged ? 'pink ' : 'grey'
     },
 
-    resizeFrame(event) {
-      if (this.isDragged) {
-        if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
-          this.leftWidth = LEFT_FRAME_MIN_WIDTH
-          return
-        }
-        // console.log(event.clientX)
-        this.leftWidth = event.clientX
-      }
-    }
   }
 })
