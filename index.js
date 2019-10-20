@@ -7,7 +7,6 @@ const {
   clipboard
 } = require('electron')
 
-const key = 'ssssssssssssssss'
 const isSecret = true
 const LEFT_FRAME_MIN_WIDTH = 45
 const FRAME_ADJUSTED_SETTING = 10
@@ -19,7 +18,11 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
+    encryptKeyword: "",
     dialogSave: false,
+    saveFileType: 'normal',
+    // saveFileType: 'encrypt',
+
     aaa: '',
     width: null,
     isDragged: false,
@@ -142,7 +145,7 @@ new Vue({
         this.dataAppendIcon.all = !this.dataAppendIcon.all
       } else if (statusString == "true") {
         this.dataAppendIcon.all = true
-      } else { 
+      } else {
         this.dataAppendIcon.all = false
       }
 
@@ -151,7 +154,7 @@ new Vue({
       this.dataAppendIcon.other1 = this.dataAppendIcon.all
       this.dataAppendIcon.other2 = this.dataAppendIcon.all
     },
-    
+
     reload: function (event) {
       location.reload()
     },
@@ -199,7 +202,7 @@ new Vue({
     setDataSelectItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
       // console.log(dataItem)
-      if (position == "name" && this.dataSelectItem[position] == "") { 
+      if (position == "name" && this.dataSelectItem[position] == "") {
         this.dataSelectItem[position] = "can't empty"
       }
       dataItem[position] = this.dataSelectItem[position];
@@ -223,7 +226,7 @@ new Vue({
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
       dataItemList.unshift(set);
-      this.dataItemList = dataItemList;0
+      this.dataItemList = dataItemList; 0
       this.selectDataCurrentItem(0)
       this.methodSetAllAppend("true")
     },
@@ -248,14 +251,14 @@ new Vue({
         }
 
         // let data = content
-        let data = content.toString()
+        let tagetReadData = content.toString()
 
         if (isSecret) {
-          const decrypted = CryptoJS.AES.decrypt(data, key)
-          data = decrypted.toString(CryptoJS.enc.Utf8)
+          const decrypted = CryptoJS.AES.decrypt(tagetReadData, encryptKeyword)
+          tagetReadData = decrypted.toString(CryptoJS.enc.Utf8)
           console.log(decrypted.toString(CryptoJS.enc.Utf8))
         }
-        this.aaa = data
+        this.dataItemList = tagetReadData
         // preview.value = decrypted.toString(CryptoJS.enc.Utf8)
       })
     },
@@ -283,8 +286,12 @@ new Vue({
     // saveFileボタンが押されたとき
     saveFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
+      const self = this
+      console.log(self.dataItemList)
+
       dialog.showSaveDialog(
-        win, {
+        // win, {
+        null, {
         properties: ['openFile'],
         filters: [{
           name: 'Documents',
@@ -295,14 +302,17 @@ new Vue({
         (fileName) => {
           if (fileName) {
             // let data = preview.textContent
-            let data = this.aaa
+            // let tagetSaveData = "ssdfsdfsdsd"
+            const tagetSaveData = JSON.stringify(this.dataItemList);
+            console.log(tagetSaveData)
 
-            if (isSecret) {
-              const encrypted = CryptoJS.AES.encrypt(data, key)
-              data = encrypted.toString()
-            }
+            // if (saveFileType == 'encrypt') {
+            //   const encrypted = CryptoJS.AES.encrypt(tagetSaveData, encryptKeyword)
+            //   tagetSaveData = encrypted.toString()
+            // }
 
-            this.writeFile(fileName, data)
+            this.writeFile(fileName, tagetSaveData)
+            this.dialogSave = false
           }
         }
       )

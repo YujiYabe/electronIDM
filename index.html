@@ -29,28 +29,42 @@
             v-model="dialogSave"
             max-width="290"
           >
-            <v-card>
-              <v-card-title class="headline">Use Google's location service?</v-card-title>
+            <v-card
+            >
+              <v-card-title class="headline">save to file</v-card-title>
               <v-card-text>
-                Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                <v-radio-group v-model="saveFileType" :mandatory="true">
+                  <v-radio label="normal(json)" value="normal"></v-radio>
+                  <v-radio label="encrypt()" value="encrypt"></v-radio>
+                </v-radio-group>
+
+                <v-text-field v-if="saveFileType == 'encrypt'"
+                  outlined 
+                  v-model="encryptKeyword"
+                  class="mb-n4"
+                  >
+                </v-text-field>
+
               </v-card-text>
 
-              <v-card-actions>
+              <v-card-actions
+                class="mt-n6 pb-5"
+              >
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="green darken-1"
-                  text
+                  color="grey darken-1"
+                  dark
                   @click="dialogSave = false"
                 >
-                  Disagree
+                  cancel
                 </v-btn>
       
                 <v-btn
-                  color="green darken-1"
-                  text
-                  @click="dialogSave = false"
+                  color="primary darken-1"
+                  dark
+                  @click="saveFile"
                 >
-                  Agree
+                  save
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -71,7 +85,7 @@
               dark
               @click.stop="dialogSave = true"
             >
-              Open Dialog
+              save
             </v-btn>
   
 
@@ -117,8 +131,6 @@
           </v-content>
         </v-app>
 
-
-
       </div>
 
 
@@ -159,6 +171,7 @@
                         @change="setDataSelectItem('name')" 
                         :append-icon="methodSetAppendIcon('all')" 
                         @click:append="methodSetAllAppend('neutral')"
+                        tabindex="1"
                         >
                       </v-text-field>
                     </v-flex>
@@ -179,6 +192,7 @@
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagId"
                         @change="setDataSelectItem('tagId')" 
+                        tabindex="0"
                       >
                       </v-text-field>
                     </v-flex>
@@ -198,6 +212,7 @@
                         @click:append="methodSetAppendIconStatus('id')"
                         :type="methodSetTextType('id')" 
                         @change="setDataSelectItem('id')" 
+                        tabindex="2"
                       >
                       </v-text-field>
                     </v-flex>
@@ -218,6 +233,7 @@
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagPassword"
                         @change="setDataSelectItem('tagPassword')" 
+                        tabindex="0"
                       >
                       </v-text-field>
 
@@ -238,7 +254,7 @@
                         @click:append="methodSetAppendIconStatus('password')"
                         :type="methodSetTextType('password')" 
                         @change="setDataSelectItem('password')" 
-
+                        tabindex="3"
                       >
                       </v-text-field>
 
@@ -261,7 +277,7 @@
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagOther1"
                         @change="setDataSelectItem('tagOther1')" 
-
+                        tabindex="0"
                         ></v-text-field>
 
                         
@@ -283,7 +299,7 @@
                         @click:append="methodSetAppendIconStatus('other1')"
                         :type="methodSetTextType('other1')" 
                         @change="setDataSelectItem('other1')" 
-
+                        tabindex="4"
                       >
                       </v-text-field>
 
@@ -305,7 +321,7 @@
                         :placeholder="dataDictionary.placeholderTag"
                         v-model="dataSelectItem.tagOther2"
                         @change="setDataSelectItem('tagOther2')" 
-
+                        tabindex="0"
                       >
                       </v-text-field>
 
@@ -325,7 +341,7 @@
                         @click:append="methodSetAppendIconStatus('other2')"
                         :type="methodSetTextType('other2')" 
                         @change="setDataSelectItem('other2')" 
-
+                        tabindex="5"
                       >
 
 
@@ -351,7 +367,8 @@
                         v-model="dataSelectItem.text"
                         @change="setDataSelectItem('text')" 
                         auto-grow
-                      >
+                        tabindex="6"
+                        >
                       </v-textarea>
 
                     </v-flex>
@@ -365,13 +382,13 @@
         </v-app>
 
 
-    <!-- 
+    
     <button v-on:click="openFile">Open</button>
     <button v-on:click="saveFile">Save</button>
 
     <br>
-    <textarea id="preview" v-model="aaa"></textarea>
-    <br> -->
+    <!-- <textarea id="preview" v-model="aaa"></textarea> -->
+    <br>
 
       </div>
 
