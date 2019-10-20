@@ -19,6 +19,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
+    dialogSave: false,
     aaa: '',
     width: null,
     isDragged: false,
@@ -39,10 +40,13 @@ new Vue({
       other1: false,
       other2: false,
     },
-
+    rules: {
+      required: value => !!value || 'Required.',
+      min: v => v.length >= 8 || 'Min 8 characters',
+    },
     dataDictionary: {
-      placeholderBody: "Please input ",
-      placeholderTag: "changeable",
+      placeholderBody: "Please input",
+      placeholderOther: "optional",
       placeholderTag: "changeable",
     },
 
@@ -75,9 +79,9 @@ new Vue({
     },
 
     dataItemtemplate: {
-      name: "please input id",
-      id: "please input id",
-      password: "please input password",
+      name: "",
+      id: "",
+      password: "",
       other1: "",
       other2: "",
       text: "",
@@ -194,8 +198,10 @@ new Vue({
 
     setDataSelectItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
-      console.log(dataItem)
-
+      // console.log(dataItem)
+      if (position == "name" && this.dataSelectItem[position] == "") { 
+        this.dataSelectItem[position] = "can't empty"
+      }
       dataItem[position] = this.dataSelectItem[position];
       this.dataItemList[this.dataSelectItem.index] = dataItem;
     },

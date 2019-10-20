@@ -23,13 +23,58 @@
 
 <body>
   <div id="app">
+    <div id="dialogSave" >
+        <v-row justify="center">
+          <v-dialog
+            v-model="dialogSave"
+            max-width="290"
+          >
+            <v-card>
+              <v-card-title class="headline">Use Google's location service?</v-card-title>
+              <v-card-text>
+                Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+              </v-card-text>
 
-    <div  id="flexbox_container" >
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialogSave = false"
+                >
+                  Disagree
+                </v-btn>
+      
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialogSave = false"
+                >
+                  Agree
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
 
-      <div  id="flexbox_left_pane" >
+      </div>
+
+
+    <div id="flexbox_container" >
+
+      <div id="flexbox_left_pane" >
         <v-app id="vappleft">
           <v-content>
             <v-container fluid grid-list-md>
+              <v-btn
+              color="primary"
+              dark
+              @click.stop="dialogSave = true"
+            >
+              Open Dialog
+            </v-btn>
+  
+
               <!-- -------------------------------------------------- -->
               <v-layout justify-start class="mt-5">
                 <v-flex xs12>
@@ -45,7 +90,7 @@
                   <v-card flat 
                     :id="index"
                     :color="methodSetItemListColor(index)" 
-                    class="headline" 
+                    class="" 
                     :data-index="index"
                     :data-name="dataItem.name" 
                     :data-id="dataItem.id" 
@@ -65,7 +110,9 @@
                   </v-card>
                 </v-flex>
               </v-layout>
-              <a name="pageBottom">ddd</a>
+
+
+
             </v-container>
           </v-content>
         </v-app>
@@ -84,12 +131,13 @@
           <v-content>
             <v-container fluid grid-list-md>
               <!-- -------------------------------------------------- -->
-              <v-layout justify-start class="mt-5">
+              <v-layout justify-start class="mt-5" style="display: none;">
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs11>
                       <v-text-field 
                         outlined 
+                        disabled
                         v-model="dataSelectItem.index"
                         >
                       </v-text-field>
@@ -104,6 +152,7 @@
                   <v-layout justify-start>
                     <v-flex xs11>
                       <v-text-field outlined 
+                        :rules="[rules.required]"
                         :background-color="methodSetColor('name')" 
                         :placeholder="dataDictionary.placeholderBody"
                         v-model="dataSelectItem.name" 
@@ -228,7 +277,7 @@
 
                         :prepend-inner-icon="methodSetPrependIcon('other1')" 
                         @click:prepend-inner="pasteToClipBoard('other1')" 
-                        :placeholder="dataDictionary.placeholderBody"
+                        :placeholder="dataDictionary.placeholderOther"
 
                         :append-icon="methodSetAppendIcon('other1')" 
                         @click:append="methodSetAppendIconStatus('other1')"
@@ -270,7 +319,7 @@
 
                         :prepend-inner-icon="methodSetPrependIcon('other2')" 
                         @click:prepend-inner="pasteToClipBoard('other2')" 
-                        :placeholder="dataDictionary.placeholderBody"
+                        :placeholder="dataDictionary.placeholderOther"
 
                         :append-icon="methodSetAppendIcon('other2')" 
                         @click:append="methodSetAppendIconStatus('other2')"
@@ -297,7 +346,7 @@
                         id="text"
                         label="free text area"
                         outlined dense 
-                        rows="100"
+                        rows="10"
                         :background-color="methodSetColor('text')" 
                         v-model="dataSelectItem.text"
                         @change="setDataSelectItem('text')" 
