@@ -63,7 +63,7 @@
 
             <v-layout justify-start v-for="(dataHistoryFile, index) in dataHistoryFileList" :key="index">
               <v-flex xs12>
-                <v-card flat :id="index" color="primary" @click="methodOpenHistoryFile(dataHistoryFile)">
+                <v-card flat :id="index" color="primary" @click="methodReadFile(dataHistoryFile)">
                   <v-card-title class="headline">{{dataHistoryFile}}</v-card-title>
 
                 </v-card>

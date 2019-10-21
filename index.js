@@ -223,7 +223,11 @@ new Vue({
     },
 
     methodOpenHistoryFile: function (name) {
+
+
       console.log(name)
+
+
     },
 
     setDataSelectItem: function (position) {
@@ -271,10 +275,10 @@ new Vue({
 
 
     // 指定したファイルを読み込む
-    readFile: function (path) {
+    methodReadFile: function (fileName) {
       // alert(path)
 
-      fs.readFile(path, (error, content) => {
+      fs.readFile(__dirname + path.sep + this.dataDirectory + path.sep + fileName, (error, content) => {
         if (error != null) {
           alert('file open error.')
           return
@@ -282,13 +286,15 @@ new Vue({
 
         // let data = content
         let tagetReadData = content.toString()
+        // if (isSecret) {
+        //   const decrypted = CryptoJS.AES.decrypt(tagetReadData, this.encryptKeyword)
+        //   tagetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+        //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
+        // }
+        this.dataItemList = JSON.parse(tagetReadData); 
+        this.dataDialog.open = false
+        console.log(this.dataItemList)
 
-        if (isSecret) {
-          const decrypted = CryptoJS.AES.decrypt(tagetReadData, this.encryptKeyword)
-          tagetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-          console.log(decrypted.toString(CryptoJS.enc.Utf8))
-        }
-        this.dataItemList = tagetReadData
         // preview.value = decrypted.toString(CryptoJS.enc.Utf8)
       })
     },
@@ -304,40 +310,20 @@ new Vue({
           console.log("not found files");
         }
         self.dataHistoryFileList = files;
-
       });
-
-
     },
 
 
-    methodOpenFile: function (event) {
-      console.log(this.dataHistoryFileList);
+    // methodOpenFile: function (event) {
+    //   console.log(this.dataHistoryFileList);
 
-      this.dataHistoryFileList.forEach(function (key) {
-        if (key) {
-          console.log(key);
-        }
-      })
+    //   this.dataHistoryFileList.forEach(function (key) {
+    //     if (key) {
+    //       console.log(key);
+    //     }
+    //   })
 
-      // const win = BrowserWindow.getFocusedWindow()
-      // dialog.showOpenDialog(
-      //   win, {
-      //     properties: ['openFile'],
-      //     filters: [{
-      //       name: 'Document',
-      //       extensions: ['csv', 'txt']
-      //       // extensions: ['txt']
-      //     }]
-      //   },
-      //   (fileNames) => {
-      //     if (fileNames.length) {
-      //       // alert(fileNames[0])
-      //       this.readFile(fileNames[0]) // 複数選択の可能性もあるので配列となる。
-      //     }
-      //   }
-      // )
-    },
+    // },
 
     // saveFileボタンが押されたとき
     methodSaveFile: function (event) {
@@ -377,13 +363,13 @@ new Vue({
         fs.mkdirSync(this.dataDirectory);
       }
 
-      this.writeFile(this.dataDirectory + path.sep + fileName + fileExtension, targetSaveData)
+      this.methodWriteFile(this.dataDirectory + path.sep + fileName + fileExtension, targetSaveData)
       this.dataDialog.save = false
 
     },
 
     // fileを保存（Pathと内容を指定）
-    writeFile: function (path, data) {
+    methodWriteFile: function (path, data) {
       fs.writeFile(path, data, (error) => {
         if (error != null) {
           alert('save error.')
