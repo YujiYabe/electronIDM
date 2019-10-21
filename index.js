@@ -1,18 +1,20 @@
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 const {
   BrowserWindow,
   dialog
-} = require('electron').remote
+} = require('electron').remote;
+
 const {
   clipboard
-} = require('electron')
+} = require('electron');
 
 const isSecret = true
-const LEFT_FRAME_MIN_WIDTH = 45
-const FRAME_ADJUSTED_SETTING = 10
+const LEFT_FRAME_MIN_WIDTH = 45;
+const FRAME_ADJUSTED_SETTING = 10;
 
 // html内の要素取得とリスナーの設定
-const preview = document.getElementById('preview')
+const preview = document.getElementById('preview');
 
 new Vue({
   el: '#app',
@@ -59,8 +61,6 @@ new Vue({
 
     dataConfig: {
       saveFileType: 'normal',
-      // saveFileType: 'encrypt',
-      saveFileHistory: [],
     },
 
     dataColorList: {
@@ -215,7 +215,8 @@ new Vue({
       let ss = ("00" + dt.getSeconds()).slice(-2);
       // let ddd = ("000" + dt.getMilliseconds()).slice(-3);
       // return yyyy + mm + dd + hh + nn + ss + ddd;
-      return yyyy + "-" + mm + "-" + dd + " " + hh + ":" + nn + ":" + ss;
+      // return yyyy + "-" + mm + "-" + dd + " " + hh + ":" + nn + ":" + ss;
+      return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
     },
 
 
@@ -246,7 +247,8 @@ new Vue({
         "tagOther2": this.dataItemtemplate.tagOther2,
       };
       dataItemList.unshift(set);
-      this.dataItemList = dataItemList; 0
+      this.dataItemList = dataItemList;
+      0
       this.selectDataCurrentItem(0)
       this.methodSetAllAppend("true")
     },
@@ -255,7 +257,9 @@ new Vue({
       let self = this;
       this.dataPrependIcon[position] = true;
       clipboard.writeText(this.dataSelectItem[position])
-      setTimeout(function () { self.dataPrependIcon[position] = false }, 500)
+      setTimeout(function () {
+        self.dataPrependIcon[position] = false
+      }, 500)
     },
 
 
@@ -274,7 +278,7 @@ new Vue({
         let tagetReadData = content.toString()
 
         if (isSecret) {
-          const decrypted = CryptoJS.AES.decrypt(tagetReadData, encryptKeyword)
+          const decrypted = CryptoJS.AES.decrypt(tagetReadData, this.encryptKeyword)
           tagetReadData = decrypted.toString(CryptoJS.enc.Utf8)
           console.log(decrypted.toString(CryptoJS.enc.Utf8))
         }
@@ -283,65 +287,65 @@ new Vue({
       })
     },
 
-    methodReadConfig: function () {
-      this.readFile("config.json")
-    },
+    // methodReadConfig: function () {
+    //   this.readFile("config.json")
+    // },
 
 
-    
+
     methodOpenFile: function (event) {
       const win = BrowserWindow.getFocusedWindow()
-      dialog.showOpenDialog(
-        win, {
-        properties: ['openFile'],
-        filters: [{
-          name: 'Document',
-          extensions: ['csv', 'txt']
-          // extensions: ['txt']
-        }]
-      },
-        (fileNames) => {
-          if (fileNames.length) {
-            // alert(fileNames[0])
-            this.readFile(fileNames[0]) // 複数選択の可能性もあるので配列となる。
-          }
-        }
-      )
+      // dialog.showOpenDialog(
+      //   win, {
+      //     properties: ['openFile'],
+      //     filters: [{
+      //       name: 'Document',
+      //       extensions: ['csv', 'txt']
+      //       // extensions: ['txt']
+      //     }]
+      //   },
+      //   (fileNames) => {
+      //     if (fileNames.length) {
+      //       // alert(fileNames[0])
+      //       this.readFile(fileNames[0]) // 複数選択の可能性もあるので配列となる。
+      //     }
+      //   }
+      // )
     },
 
     // saveFileボタンが押されたとき
     methodSaveFile: function (event) {
-      const win = BrowserWindow.getFocusedWindow()
-      const self = this
-      console.log(self.dataItemList)
-
-      dialog.showSaveDialog(
-        // win, {
-        null, {
-        properties: ['openFile'],
-        filters: [{
-          name: 'Documents',
-          extensions: ['txt']
-          // extensions: ['csv', 'txt']
-        }]
-      },
-        (fileName) => {
-          if (fileName) {
-            // let data = preview.textContent
-            // let tagetSaveData = "ssdfsdfsdsd"
-            const tagetSaveData = JSON.stringify(this.dataItemList);
-            console.log(tagetSaveData)
-
-            // if (saveFileType == 'encrypt') {
-            //   const encrypted = CryptoJS.AES.encrypt(tagetSaveData, encryptKeyword)
-            //   tagetSaveData = encrypted.toString()
-            // }
-
-            this.writeFile(fileName, tagetSaveData)
-            this.dataDialog.save = false
+      let temp = []
+      this.dataItemList.forEach(function (key) {
+        if (key) {
+          const set = {
+            name: key.name,
+            id: key.id,
+            password: key.password,
+            other1: key.other1,
+            other2: key.other2,
+            text: key.text,
+            tagId: key.tagId,
+            tagPassword: key.tagPassword,
+            tagOther1: key.tagOther1,
+            tagOther2: key.tagOther2,
           }
+          temp.push(set)
         }
-      )
+      })
+
+      let targetSaveData = JSON.stringify(temp);
+
+      const fileName = this.currentDateTimeString()
+      let fileExtension = ".json"
+
+      if (this.dataConfig.saveFileType == 'encrypt') {
+        fileExtension = ".encjson"
+        const encrypted = CryptoJS.AES.encrypt(targetSaveData, this.encryptKeyword)
+        targetSaveData = encrypted.toString()
+      }
+
+      this.writeFile("data" + path.sep + fileName + fileExtension, targetSaveData)
     },
 
     // fileを保存（Pathと内容を指定）

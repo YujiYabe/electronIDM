@@ -131,10 +131,10 @@
             <v-container fluid grid-list-md>
               <v-layout justify-center class="mt-5">
                 <v-flex xs6>
-                  <v-btn color="primary" dark @click.stop="dataDialog.save = true"> save </v-btn>
+                  <v-btn color="primary" dark @click.stop="dataDialog.open = true"> open </v-btn>
                 </v-flex>
                 <v-flex xs6>
-                  <v-btn color="primary" dark @click.stop="dataDialog.open = true"> open </v-btn>
+                  <v-btn color="primary" dark @click.stop="dataDialog.save = true"> save </v-btn>
                 </v-flex>
               </v-layout>
 
@@ -426,15 +426,6 @@
             </v-container>
           </v-content>
         </v-app>
-
-
-    
-    <button v-on:click="methodOpenFile">Open</button>
-    <button v-on:click="methodSaveFile">Save</button>
-
-    <br>
-    <!-- <textarea id="preview" v-model="aaa"></textarea> -->
-    <br>
 
       </div>
 
