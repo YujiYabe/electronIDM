@@ -63,6 +63,7 @@ new Vue({
       saveFileType: 'normal',
     },
 
+    dataHistoryFileList: null,
     dataColorList: {
       itemList: "amber lighten-3",
       itemSelect: "pink lighten-3",
@@ -108,7 +109,8 @@ new Vue({
 
   },
   mounted() {
-    this.methodOpenConfig()
+    // this.methodOpenConfig()
+    this.methodReadHistoryFile()
   },
 
   computed: {
@@ -219,6 +221,9 @@ new Vue({
       return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
     },
 
+    methodOpenHistoryFile: function (name) {
+      console.log(name)
+    },
 
     setDataSelectItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
@@ -291,10 +296,28 @@ new Vue({
     //   this.readFile("config.json")
     // },
 
+    methodReadHistoryFile: function () {
+      let self = this
+      fs.readdir(__dirname + path.sep + "data" + path.sep, function (err, files) {
+        if (err) throw err;
+        self.dataHistoryFileList = files;
+
+      });
+
+
+    },
 
 
     methodOpenFile: function (event) {
-      const win = BrowserWindow.getFocusedWindow()
+      console.log(this.dataHistoryFileList);
+
+      this.dataHistoryFileList.forEach(function (key) {
+        if (key) {
+          console.log(key);
+        }
+      })
+
+      // const win = BrowserWindow.getFocusedWindow()
       // dialog.showOpenDialog(
       //   win, {
       //     properties: ['openFile'],
@@ -317,22 +340,24 @@ new Vue({
     methodSaveFile: function (event) {
       let temp = []
       this.dataItemList.forEach(function (key) {
-        if (key) {
-          const set = {
-            name: key.name,
-            id: key.id,
-            password: key.password,
-            other1: key.other1,
-            other2: key.other2,
-            text: key.text,
-            tagId: key.tagId,
-            tagPassword: key.tagPassword,
-            tagOther1: key.tagOther1,
-            tagOther2: key.tagOther2,
+          if (key) {
+            const set = {
+              name: key.name,
+              id: key.id,
+              password: key.password,
+              other1: key.other1,
+              other2: key.other2,
+              text: key.text,
+              tagId: key.tagId,
+              tagPassword: key.tagPassword,
+              tagOther1: key.tagOther1,
+              tagOther2: key.tagOther2,
+            }
+            temp.push(set)
           }
-          temp.push(set)
         }
-      })
+
+      )
 
       let targetSaveData = JSON.stringify(temp);
 
@@ -346,6 +371,8 @@ new Vue({
       }
 
       this.writeFile("data" + path.sep + fileName + fileExtension, targetSaveData)
+      dataDialog.save = false
+
     },
 
     // fileを保存（Pathと内容を指定）
