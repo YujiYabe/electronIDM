@@ -22,6 +22,7 @@ new Vue({
   data: {
     encryptKeyword: "",
 
+    dataDirectory: "data",
 
     dataDialog: {
       save: false,
@@ -298,8 +299,10 @@ new Vue({
 
     methodReadHistoryFile: function () {
       let self = this
-      fs.readdir(__dirname + path.sep + "data" + path.sep, function (err, files) {
-        if (err) throw err;
+      fs.readdir(__dirname + path.sep + this.dataDirectory + path.sep, function (err, files) {
+        if (err) {
+          console.log("not found files");
+        }
         self.dataHistoryFileList = files;
 
       });
@@ -340,22 +343,22 @@ new Vue({
     methodSaveFile: function (event) {
       let temp = []
       this.dataItemList.forEach(function (key) {
-          if (key) {
-            const set = {
-              name: key.name,
-              id: key.id,
-              password: key.password,
-              other1: key.other1,
-              other2: key.other2,
-              text: key.text,
-              tagId: key.tagId,
-              tagPassword: key.tagPassword,
-              tagOther1: key.tagOther1,
-              tagOther2: key.tagOther2,
-            }
-            temp.push(set)
+        if (key) {
+          const set = {
+            name: key.name,
+            id: key.id,
+            password: key.password,
+            other1: key.other1,
+            other2: key.other2,
+            text: key.text,
+            tagId: key.tagId,
+            tagPassword: key.tagPassword,
+            tagOther1: key.tagOther1,
+            tagOther2: key.tagOther2,
           }
+          temp.push(set)
         }
+      }
 
       )
 
@@ -370,8 +373,12 @@ new Vue({
         targetSaveData = encrypted.toString()
       }
 
-      this.writeFile("data" + path.sep + fileName + fileExtension, targetSaveData)
-      dataDialog.save = false
+      if (!fs.existsSync(this.dataDirectory)) {
+        fs.mkdirSync(this.dataDirectory);
+      }
+
+      this.writeFile(this.dataDirectory + path.sep + fileName + fileExtension, targetSaveData)
+      this.dataDialog.save = false
 
     },
 
