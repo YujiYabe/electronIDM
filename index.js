@@ -20,20 +20,28 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
-    encryptKeyword: "",
 
-    dataDirectory: "data",
+    dataSaveFile: {
+      boolVisibleIcon: false,
+      encryptKeyword: "",
+      dataDirectory: "data",
+      historyList: null,
+      openFileType: 'normal',
+      saveFileType: 'normal',
+      optionSaveFileName: '',
+      selectHistoryFile: "",
+    },
 
     dataDialog: {
       save: false,
-      open: false,
+      open: true,
     },
 
-    aaa: '',
     width: null,
     isDragged: false,
     leftWidth: 600,
     centWidth: 10,
+
 
     dataPrependIcon: {
       id: false,
@@ -64,7 +72,6 @@ new Vue({
       saveFileType: 'normal',
     },
 
-    dataHistoryFileList: null,
     dataColorList: {
       itemList: "amber lighten-3",
       itemSelect: "pink lighten-3",
@@ -93,7 +100,7 @@ new Vue({
       text: "",
     },
 
-    dataItemtemplate: {
+    dataItemTemplate: {
       name: "",
       id: "",
       password: "",
@@ -111,13 +118,10 @@ new Vue({
   },
   mounted() {
     // this.methodOpenConfig()
-    this.methodReadHistoryFile()
+    this.methodReadHistoryFileList()
   },
 
   computed: {
-    // reversedataItemList() {
-    //     return this.dataItemList.slice().reverse();
-    // },
   },
   methods: {
     // methodOpenConfig: function (time) {
@@ -222,14 +226,6 @@ new Vue({
       return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
     },
 
-    methodOpenHistoryFile: function (name) {
-
-
-      console.log(name)
-
-
-    },
-
     setDataSelectItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
       // console.log(dataItem)
@@ -246,15 +242,15 @@ new Vue({
 
       const set = {
         "name": "created at : " + this.currentDateTimeString(),
-        "id": this.dataItemtemplate.id,
-        "password": this.dataItemtemplate.password,
-        "other1": this.dataItemtemplate.other1,
-        "other2": this.dataItemtemplate.other2,
-        "text": this.dataItemtemplate.text,
-        "tagId": this.dataItemtemplate.tagId,
-        "tagPassword": this.dataItemtemplate.tagPassword,
-        "tagOther1": this.dataItemtemplate.tagOther1,
-        "tagOther2": this.dataItemtemplate.tagOther2,
+        "id": this.dataItemTemplate.id,
+        "password": this.dataItemTemplate.password,
+        "other1": this.dataItemTemplate.other1,
+        "other2": this.dataItemTemplate.other2,
+        "text": this.dataItemTemplate.text,
+        "tagId": this.dataItemTemplate.tagId,
+        "tagPassword": this.dataItemTemplate.tagPassword,
+        "tagOther1": this.dataItemTemplate.tagOther1,
+        "tagOther2": this.dataItemTemplate.tagOther2,
       };
       dataItemList.unshift(set);
       this.dataItemList = dataItemList;
@@ -275,23 +271,23 @@ new Vue({
 
 
     // 指定したファイルを読み込む
-    methodReadFile: function (fileName) {
+    methodReadFile: function () {
       // alert(path)
 
-      fs.readFile(__dirname + path.sep + this.dataDirectory + path.sep + fileName, (error, content) => {
+      fs.readFile(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile, (error, content) => {
         if (error != null) {
           alert('file open error.')
           return
         }
 
         // let data = content
-        let tagetReadData = content.toString()
+        let targetReadData = content.toString()
         // if (isSecret) {
-        //   const decrypted = CryptoJS.AES.decrypt(tagetReadData, this.encryptKeyword)
-        //   tagetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+        //   const decrypted = CryptoJS.AES.decrypt(targetReadData, this.encryptKeyword)
+        //   targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
         //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
         // }
-        this.dataItemList = JSON.parse(tagetReadData); 
+        this.dataItemList = JSON.parse(targetReadData);
         this.dataDialog.open = false
         console.log(this.dataItemList)
 
@@ -299,34 +295,57 @@ new Vue({
       })
     },
 
-    // methodReadConfig: function () {
-    //   this.readFile("config.json")
+    methodSelectOpenFile: function (fileName) {
+      var reg=/(.*)(?:\.([^.]+$))/;
+      console.log(fileName.match(reg)[2]);
+      this.dataSaveFile.openFileType = fileName.match(reg)[2]; 
+      this.dataSaveFile.selectHistoryFile = fileName;
+    },
+
+
+    // methodOpenFile: function () {
+    //   // alert(fileName)
+
+    //   fs.readFile(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep + fileName, (error, content) => {
+    //     if (error != null) {
+    //       alert('file open error.')
+    //       return
+    //     }
+
+    //     // let data = content
+    //     let targetReadData = content.toString()
+    //     // if (isSecret) {
+    //     //   const decrypted = CryptoJS.AES.decrypt(targetReadData, this.encryptKeyword)
+    //     //   targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+    //     //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
+    //     // }
+    //     this.dataItemList = JSON.parse(targetReadData);
+    //     this.dataDialog.open = false
+    //     console.log(this.dataItemList)
+
+    //     // preview.value = decrypted.toString(CryptoJS.enc.Utf8)
+    //   })
     // },
 
-    methodReadHistoryFile: function () {
+
+    methodReadHistoryFileList: function () {
       let self = this
-      fs.readdir(__dirname + path.sep + this.dataDirectory + path.sep, function (err, files) {
+      fs.readdir(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
         if (err) {
           console.log("not found files");
         }
-        self.dataHistoryFileList = files;
+        self.dataSaveFile.historyList = files.slice().reverse();
       });
     },
 
 
-    // methodOpenFile: function (event) {
-    //   console.log(this.dataHistoryFileList);
-
-    //   this.dataHistoryFileList.forEach(function (key) {
-    //     if (key) {
-    //       console.log(key);
-    //     }
-    //   })
-
-    // },
 
     // saveFileボタンが押されたとき
     methodSaveFile: function (event) {
+      if (!fs.existsSync(this.dataSaveFile.dataDirectory)) {
+        fs.mkdirSync(this.dataSaveFile.dataDirectory);
+      }
+
       let temp = []
       this.dataItemList.forEach(function (key) {
         if (key) {
@@ -345,25 +364,26 @@ new Vue({
           temp.push(set)
         }
       }
-
       )
 
       let targetSaveData = JSON.stringify(temp);
 
-      const fileName = this.currentDateTimeString()
+      const fileNameDate = this.currentDateTimeString()
       let fileExtension = ".json"
 
-      if (this.dataConfig.saveFileType == 'encrypt') {
+      if (this.dataSaveFile.saveFileType == 'encrypt') {
         fileExtension = ".encjson"
-        const encrypted = CryptoJS.AES.encrypt(targetSaveData, this.encryptKeyword)
+        const encrypted = CryptoJS.AES.encrypt(targetSaveData, this.dataSaveFile.encryptKeyword)
         targetSaveData = encrypted.toString()
       }
 
-      if (!fs.existsSync(this.dataDirectory)) {
-        fs.mkdirSync(this.dataDirectory);
+      let optionSaveFileName = ''
+      if (this.dataSaveFile.optionSaveFileName) {
+        optionSaveFileName = '_' + this.dataSaveFile.optionSaveFileName
       }
 
-      this.methodWriteFile(this.dataDirectory + path.sep + fileName + fileExtension, targetSaveData)
+      const fileName = this.dataSaveFile.dataDirectory + path.sep + fileNameDate + optionSaveFileName + fileExtension
+      this.methodWriteFile(fileName, targetSaveData)
       this.dataDialog.save = false
 
     },
@@ -381,7 +401,7 @@ new Vue({
       this.isDragged = !this.isDragged
     },
 
-    changeWitdh() {
+    changeWidth() {
       return this.isDragged ? 'pink ' : 'grey'
     },
 
