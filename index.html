@@ -6,15 +6,10 @@
 	<title>sample</title>
 	<link rel="stylesheet" href="./lib/styles.css">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-	<!-- <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-	<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" /> -->
-
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css"> -->
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-
 
 	<link rel="stylesheet/less" href="./lib/additional.less" type="text/css">
 	<script src="./lib/less.min.js?ver=12302"></script>
@@ -109,7 +104,7 @@
 		</div> <!-- dialogOpen -->
 
 
-		<div id="flexbox_container">
+		<div id="flexbox_container" >
 
 			<div id="flexbox_left_pane">
 				<v-app id="vappleft">
@@ -127,7 +122,7 @@
 							<!-- -------------------------------------------------- -->
 							<v-layout justify-start class="mt-5">
 								<v-flex xs12>
-									<v-btn @click="addItem" width="100%" color="primary" depressed rounded dark>add item
+									<v-btn @click="methodAddItem" width="100%" color="primary" depressed rounded dark>add item
 										<v-icon dark right>mdi-plus-circle</v-icon>
 									</v-btn>
 								</v-flex>

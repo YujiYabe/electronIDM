@@ -1,25 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const {
-  BrowserWindow,
-  dialog
-} = require('electron').remote;
+// const {
+//   BrowserWindow,
+//   dialog
+// } = require('electron').remote;
 
 const {
   clipboard
 } = require('electron');
 
-const isSecret = true
-const LEFT_FRAME_MIN_WIDTH = 45;
-const FRAME_ADJUSTED_SETTING = 10;
-
-// html内の要素取得とリスナーの設定
-const preview = document.getElementById('preview');
-
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
+
+    // dataControlWindow:{
+    //   mainFrame: false,
+    // },
+
 
     dataSaveFile: {
       boolVisibleIcon: false,
@@ -37,10 +35,7 @@ new Vue({
       open: true,
     },
 
-    width: null,
     isDragged: false,
-    leftWidth: 600,
-    centWidth: 10,
 
 
     dataPrependIcon: {
@@ -118,6 +113,16 @@ new Vue({
   },
 
   computed: {
+    controlMainWindow: function () {
+      // ダイアログを開いているときは隠す
+      if (this.dataDialog.save == true || this.dataDialog.open == true) { 
+        return false
+      }
+      return true
+    }
+
+
+
   },
   methods: {
     // methodOpenConfig: function (time) {
@@ -184,7 +189,6 @@ new Vue({
 
 
 
-    // selectDataCurrentItem: function (event) {
     selectDataCurrentItem: function (index) {
       let dataItem = Object.create(this.dataItemList[index]);
 
@@ -233,7 +237,7 @@ new Vue({
     },
 
 
-    addItem: function () {
+    methodAddItem: function () {
       let dataItemList = Object.create(this.dataItemList);
 
       const set = {
