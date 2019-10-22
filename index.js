@@ -51,6 +51,8 @@ new Vue({
       other2: false,
     },
 
+    dataFreeWord: '',
+
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
@@ -62,20 +64,35 @@ new Vue({
     },
 
     dataColorList: {
-      itemList: "amber lighten-3",
-      itemSelect: "pink lighten-3",
-      name: "cyan lighten-4",
+      // itemList: "amber lighten-3",
+      // itemSelect: "pink lighten-3",
+      // name: "cyan lighten-4",
 
-      id: "blue lighten-4",
-      password: "green lighten-4",
-      other1: "teal lighten-4",
-      other2: "indigo lighten-4",
-      text: "deep-purple lighten-4",
+      // id: "blue lighten-4",
+      // password: "green lighten-4",
+      // other1: "teal lighten-4",
+      // other2: "indigo lighten-4",
+      // text: "deep-purple lighten-4",
 
-      tagId: "blue",
-      tagPassword: "green",
-      tagOther1: "teal",
-      tagOther2: "indigo",
+      // tagId: "blue",
+      // tagPassword: "green",
+      // tagOther1: "teal",
+      // tagOther2: "indigo",
+      itemList: "",
+      itemSelect: "",
+      name: "",
+
+      id: "",
+      password: "",
+      other1: "",
+      other2: "",
+      text: "",
+
+      tagId: "",
+      tagPassword: "",
+      tagOther1: "",
+      tagOther2: "",
+
     },
 
     dataItemList: [],
@@ -113,7 +130,7 @@ new Vue({
   computed: {
     controlMainWindow: function () {
       // ダイアログを開いているときは隠す
-      if (this.dataDialog.save == true || this.dataDialog.open == true) { 
+      if (this.dataDialog.save == true || this.dataDialog.open == true) {
         return false
       }
       return true
@@ -195,7 +212,7 @@ new Vue({
 
 
     selectDataCurrentItem: function (index) {
-      
+
       let dataItem = Object.create(this.dataItemList[index]);
 
       this.dataSelectItem.index = index;
@@ -272,6 +289,32 @@ new Vue({
       setTimeout(function () {
         self.dataPrependIcon[position] = false
       }, 500)
+    },
+
+    // 整形表現に一致すればクラスis-showを返却
+    methodFilterCondition: function (itemName) {
+      // let dataSelectConstant = this.dataSelectConstant;
+      let freeWordList = this.dataFreeWord.split(" ");
+      if (this.dataFreeWord == "") {
+        // if (itemName.indexOf(dataSelectConstant) != -1) {
+          return "is-show";
+        // }
+      } else {
+        // 正規表現に組み合わせたい文字列
+        let strCombRegex = ".*" ;
+        // let strCombRegex = ".*" + dataSelectConstant + ".*";
+        freeWordList.forEach((value, index, array) => {
+          // strCombRegex = strCombRegex + value + ".*";
+          strCombRegex = ".*" + value + ".*";
+        });
+        // 正規表現オブジェクト ここでは正規表現も文字列で記載する
+        let regexp = new RegExp(strCombRegex, "g");
+        // 検索対象から正規表現にマッチするものを抽出して返す
+        let matchArr = itemName.match(regexp);
+        if (matchArr != null) {
+          return "is-show";
+        }
+      }
     },
 
 
