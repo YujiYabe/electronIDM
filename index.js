@@ -291,43 +291,24 @@ new Vue({
     },
 
     methodSelectOpenFile: function (fileName) {
-      var reg=/(.*)(?:\.([^.]+$))/;
+      var reg = /(.*)(?:\.([^.]+$))/;
       console.log(fileName.match(reg)[2]);
-      this.dataSaveFile.openFileType = fileName.match(reg)[2]; 
+      this.dataSaveFile.openFileType = fileName.match(reg)[2];
       this.dataSaveFile.selectHistoryFile = fileName;
     },
 
-
-    // methodOpenFile: function () {
-    //   // alert(fileName)
-
-    //   fs.readFile(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep + fileName, (error, content) => {
-    //     if (error != null) {
-    //       alert('file open error.')
-    //       return
-    //     }
-
-    //     // let data = content
-    //     let targetReadData = content.toString()
-    //     // if (isSecret) {
-    //     //   const decrypted = CryptoJS.AES.decrypt(targetReadData, this.encryptKeyword)
-    //     //   targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-    //     //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
-    //     // }
-    //     this.dataItemList = JSON.parse(targetReadData);
-    //     this.dataDialog.open = false
-    //     console.log(this.dataItemList)
-
-    //     // preview.value = decrypted.toString(CryptoJS.enc.Utf8)
-    //   })
-    // },
 
 
     methodReadHistoryFileList: function () {
       let self = this
       fs.readdir(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
         if (err) {
+          console.log("error : " + err);
+        }
+        if (files.length == 0) {
+          // バックアップファイルが一つもない場合、ダイアログを開かない
           console.log("not found files");
+          self.dataDialog.open = false
         }
         self.dataSaveFile.historyList = files.slice().reverse();
       });
