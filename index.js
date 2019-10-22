@@ -28,6 +28,7 @@ new Vue({
       saveFileType: 'normal',
       optionSaveFileName: '',
       selectHistoryFile: "",
+      selectHistoryIndex: null,
     },
 
     dataDialog: {
@@ -168,6 +169,10 @@ new Vue({
       return index == this.dataSelectItem.index ? "pink lighten-3" : "amber lighten-3"
     },
 
+    methodSetFileListColor: function (index) {
+      return index == this.dataSaveFile.selectHistoryIndex ? "pink lighten-3" : "amber lighten-3"
+    },
+
     methodSetAllAppend: function (statusString) {
       if (statusString == "neutral") {
         this.dataAppendIcon.all = !this.dataAppendIcon.all
@@ -293,11 +298,13 @@ new Vue({
       })
     },
 
-    methodSelectOpenFile: function (fileName) {
+    methodSelectOpenFile: function (index) {
+      let historyList = Object.create(this.dataSaveFile.historyList);
+      let fileName = historyList[index]
       var reg = /(.*)(?:\.([^.]+$))/;
-      console.log(fileName.match(reg)[2]);
       this.dataSaveFile.openFileType = fileName.match(reg)[2];
       this.dataSaveFile.selectHistoryFile = fileName;
+      this.dataSaveFile.selectHistoryIndex = index;
     },
 
 
