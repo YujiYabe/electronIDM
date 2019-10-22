@@ -14,10 +14,6 @@ new Vue({
   vuetify: new Vuetify(),
   data: {
 
-    // dataControlWindow:{
-    //   mainFrame: false,
-    // },
-
 
     dataSaveFile: {
       boolVisibleIcon: false,
@@ -195,6 +191,7 @@ new Vue({
 
 
     selectDataCurrentItem: function (index) {
+      
       let dataItem = Object.create(this.dataItemList[index]);
 
       this.dataSelectItem.index = index;
