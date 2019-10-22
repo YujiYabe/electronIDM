@@ -14,6 +14,7 @@ new Vue({
   vuetify: new Vuetify(),
   data: {
 
+    dataPosition: null,
 
     dataSaveFile: {
       boolVisibleIcon: false,
@@ -130,6 +131,9 @@ new Vue({
     },
 
 
+    methodHandleScroll() {
+      this.dataPosition = document.documentElement.scrollTop || document.body.scrollTop;
+    },
 
     methodSleep: function (time) {
       const d1 = new Date();

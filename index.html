@@ -111,8 +111,8 @@
 			<div id="flexbox_left_pane">
 				<v-app id="vappleft">
 					<v-content>
-						<v-container fluid grid-list-md>
-							<div>
+						<div class="sticky">
+							<v-container fluid grid-list-md>
 								<v-layout justify-center class="mt-5">
 
 									<v-flex x12 v-if="this.dataSaveFile.historyList != 0">
@@ -125,7 +125,6 @@
 										</v-btn>
 									</v-flex>
 								</v-layout>
-							</div>
 							<!-- -------------------------------------------------- -->
 							<v-layout justify-center class="mt-5">
 								<v-flex xs12>
@@ -134,6 +133,7 @@
 									</v-btn>
 								</v-flex>
 							</v-layout>
+						</div>
 
 							<!-- -------------------------------------------------- -->
 							<v-layout justify-start v-for="(dataItem, index) in dataItemList" :key="index">
