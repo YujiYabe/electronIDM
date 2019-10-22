@@ -68,10 +68,6 @@ new Vue({
       placeholderTag: "changeable",
     },
 
-    dataConfig: {
-      saveFileType: 'normal',
-    },
-
     dataColorList: {
       itemList: "amber lighten-3",
       itemSelect: "pink lighten-3",
@@ -282,16 +278,15 @@ new Vue({
 
         // let data = content
         let targetReadData = content.toString()
-        // if (isSecret) {
-        //   const decrypted = CryptoJS.AES.decrypt(targetReadData, this.encryptKeyword)
-        //   targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-        //   console.log(decrypted.toString(CryptoJS.enc.Utf8))
-        // }
+        if (this.dataSaveFile.openFileType == 'encjson') {
+          const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
+          targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+          console.log(decrypted.toString(CryptoJS.enc.Utf8))
+        }
         this.dataItemList = JSON.parse(targetReadData);
         this.dataDialog.open = false
         console.log(this.dataItemList)
 
-        // preview.value = decrypted.toString(CryptoJS.enc.Utf8)
       })
     },
 

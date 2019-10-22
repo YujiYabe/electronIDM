@@ -81,7 +81,7 @@
 
 						</v-card-text>
 
-						<v-card-actions class="mt-n6 pb-5">
+						<v-card-actions class="mt-n3 pb-5">
 							<v-text-field outlined dense v-if="dataSaveFile.openFileType == 'encjson'"
 								placeholder="password for encrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n4"
 								:type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
@@ -95,7 +95,7 @@
 							</v-btn>
 
 							<v-btn color="primary darken-1" dark @click="methodReadFile">
-								save
+								open
 							</v-btn>
 						</v-card-actions>
 					</v-card>
