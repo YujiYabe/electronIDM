@@ -285,11 +285,10 @@ new Vue({
         if (this.dataSaveFile.openFileType == 'encjson') {
           const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
           targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-          console.log(decrypted.toString(CryptoJS.enc.Utf8))
+          // console.log(decrypted.toString(CryptoJS.enc.Utf8))
         }
         this.dataItemList = JSON.parse(targetReadData);
         this.dataDialog.open = false
-        console.log(this.dataItemList)
 
       })
     },
