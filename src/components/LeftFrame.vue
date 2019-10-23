@@ -25,13 +25,15 @@ export default {
 }
 
 .frame-border {
-  width: 3px;
+  width: 5px;
   background-color: rgb(208, 208, 208);
-  border-left: solid 0.5px rgb(170, 170, 170);
-  border-right: solid 0.5px black;
+  /* border-left: solid 1px rgb(170, 170, 170); */
+  /* border-right: solid 1px black; */
 }
 
 .frame-border:hover {
   cursor: col-resize;
+  background-color: pink;
+
 }
 </style>
