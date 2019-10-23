@@ -1,44 +1,65 @@
 <template>
-  <v-app>
-    <!-- <v-app-bar app>
-      <v-toolbar-title class='headline text-uppercase'>
-        <span>Vuetify</span>
-        <span class='font-weight-light'>MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text href='https://github.com/vuetifyjs/vuetify/releases/latest' target='_blank'>
-        <span class='mr-2'>Latest Release</span>
-      </v-btn>
-    </v-app-bar>-->
-
-    <v-content>
-      <!-- <HelloWorld /> -->
-      <div id="flexbox_rght_pane" v-if="testvalue == null">
-        <RightFrame />
-      </div>
-    </v-content>
-  </v-app>
+  <div
+    class="frame"
+    v-bind:class="{dragged: isDragged}"
+    @mousemove="resizeFrame"
+    @mouseup="endResizeFrame"
+  >
+    <left-frame v-bind:width="leftWidth" @startResize="startResize"></left-frame>
+    <right-frame></right-frame>
+  </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld'
+import LeftFrame from './components/LeftFrame'
 import RightFrame from './components/RightFrame'
 
+const LEFT_FRAME_MIN_WIDTH = 45
+const FRAME_ADJUSTED_SETTING = 2
+
 export default {
-  name: 'App',
   components: {
-    // HelloWorld
+    LeftFrame,
     RightFrame
   },
-  computed: {
-    testvalue () {
-      console.log(this.$store.getters['testvalue'])
-      return this.$store.getters['testvalue']
+  data () {
+    return {
+      isDragged: false,
+      leftWidth: 200
     }
   },
-
-  data: () => ({
-    //
-  })
+  methods: {
+    startResize () {
+      this.isDragged = true
+    },
+    resizeFrame (event) {
+      if (event.buttons === 0) {
+        this.endResizeFrame()
+        return
+      }
+      if (this.isDragged) {
+        if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
+          this.leftWidth = LEFT_FRAME_MIN_WIDTH
+          return
+        }
+        this.leftWidth = event.clientX + FRAME_ADJUSTED_SETTING
+      }
+    },
+    endResizeFrame () {
+      this.isDragged = false
+    }
+  }
 }
 </script>
+
+<style scoped>
+.frame {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.dragged * {
+  cursor: col-resize;
+}
+</style>
