@@ -1,36 +1,44 @@
 <template>
-  <div
-    class="frame"
-    v-bind:class="{dragged: isDragged}"
-    @mousemove="resizeFrame"
-    @mouseup="endResizeFrame"
-  >
-    <left-frame v-bind:width="leftWidth" @startResize="startResize"></left-frame>
-    <right-frame></right-frame>
+
+  <div id="app">
+
+    <div class="content" @mousemove="resizeFrame">
+
+      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">      </div>
+      <div class="cent-frame inner" v-bind:style="{ left:leftWidth + 'px', width:centWidth + 'px'}"  :class="changeWitdh()" @mousedown="startResize">      </div>
+      <div class="rght-frame inner">      </div>
+
+    </div>
   </div>
+
 </template>
 
 <script>
-import LeftFrame from './components/LeftFrame'
-import RightFrame from './components/RightFrame'
+// import LeftFrame from './components/LeftFrame'
+// import RightFrame from './components/RightFrame'
 
 const LEFT_FRAME_MIN_WIDTH = 45
 const FRAME_ADJUSTED_SETTING = 2
 
 export default {
   components: {
-    LeftFrame,
-    RightFrame
+    // LeftFrame,
+    // RightFrame
   },
   data () {
     return {
       isDragged: false,
+      centWidth: 10,
       leftWidth: 200
     }
   },
   methods: {
     startResize () {
       this.isDragged = true
+    },
+    changeWitdh () {
+      return this.isDragged ? 'pink ' : 'grey'
+      // return this.isDragged ? '' : ''
     },
     resizeFrame (event) {
       if (event.buttons === 0) {
@@ -53,6 +61,44 @@ export default {
 </script>
 
 <style scoped>
+  .pink {
+backgroud-color : pink   }
+
+  .grey {
+backgroud-color : grey
+  }
+
+  .left-frame {
+    background-color: rgb(240, 240, 255);
+    height: 100vh;
+  }
+
+  .cent-frame {
+    height: 100vh;
+    /* background-color: rgb(208, 208, 208); */
+    /* border: solid 0.5px white; */
+    /* border-left: solid 0.5px rgb(170, 170, 170); */
+    /* border-right: solid 0.5px black; */
+  }
+
+  .cent-frame:hover {
+    cursor: col-resize;
+  }
+
+  .rght-frame {
+    background-color: white;
+    flex-grow: 1;
+    /* padding-left: 10px; */
+  }
+
+  .content {
+    display: flex;
+  }
+
+  .inner {
+    display: inline-flex;
+  }
+
 .frame {
   display: flex;
   flex-direction: row;
