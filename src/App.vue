@@ -4,9 +4,13 @@
 
     <div class="content" @mousemove="resizeFrame">
 
-      <div class="left-frame inner" v-bind:style="{width:leftWidth + 'px'}">      </div>
-      <div class="cent-frame inner" v-bind:style="{ left:leftWidth + 'px', width:centWidth + 'px'}"  :class="changeWitdh()" @mousedown="startResize">      </div>
-      <div class="rght-frame inner">      </div>
+      <!-- <div class="left-frame inner" :style="{width:leftWidth + 'px'}"> -->
+      <div class="left-frame inner" :style="methodSetWidthFrame('left')">
+      </div>
+      <div class="cent-frame inner" :style="{ left:leftWidth + 'px', width:centWidth + 'px'}"  :class="changeWitdh()" @mousedown="startResize">
+      </div>
+      <div class="rght-frame inner">
+      </div>
 
     </div>
   </div>
@@ -18,7 +22,7 @@
 // import RightFrame from './components/RightFrame'
 
 const LEFT_FRAME_MIN_WIDTH = 45
-const FRAME_ADJUSTED_SETTING = 2
+const FRAME_ADJUSTED_SETTING = -4
 
 export default {
   components: {
@@ -33,9 +37,15 @@ export default {
     }
   },
   methods: {
+    methodSetWidthFrame (name) {
+      // this.isDragged = true
+      return 'width:' + this.leftWidth + 'px'
+    },
+
     startResize () {
       this.isDragged = true
     },
+
     changeWitdh () {
       return this.isDragged ? 'pink ' : 'grey'
       // return this.isDragged ? '' : ''
@@ -62,10 +72,10 @@ export default {
 
 <style scoped>
   .pink {
-backgroud-color : pink   }
+background-color : pink   }
 
   .grey {
-backgroud-color : grey
+background-color : lightgrey
   }
 
   .left-frame {
@@ -75,7 +85,7 @@ backgroud-color : grey
 
   .cent-frame {
     height: 100vh;
-    /* background-color: rgb(208, 208, 208); */
+    /* background-color: lightgrey; */
     /* border: solid 0.5px white; */
     /* border-left: solid 0.5px rgb(170, 170, 170); */
     /* border-right: solid 0.5px black; */
@@ -83,6 +93,7 @@ backgroud-color : grey
 
   .cent-frame:hover {
     cursor: col-resize;
+    /* background-color: pink; */
   }
 
   .rght-frame {
