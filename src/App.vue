@@ -4,12 +4,13 @@
 
     <div class="content" @mousemove="resizeFrame">
 
-      <!-- <div class="left-frame inner" :style="{width:leftWidth + 'px'}"> -->
-      <div class="left-frame inner" :style="methodSetWidthFrame('left')">
+      <div class="left-frame inner" :style="methodSetWidthFrame()">
+      <LeftFrame></LeftFrame>
       </div>
-      <div class="cent-frame inner" :style="{ left:leftWidth + 'px', width:centWidth + 'px'}"  :class="changeWitdh()" @mousedown="startResize">
+      <div class="cent-frame inner" :class="changeWitdh()" @mousedown="startResize" @mouseup="endResizeFrame">
       </div>
       <div class="rght-frame inner">
+      <RightFrame></RightFrame>
       </div>
 
     </div>
@@ -18,27 +19,31 @@
 </template>
 
 <script>
-// import LeftFrame from './components/LeftFrame'
-// import RightFrame from './components/RightFrame'
+import LeftFrame from './components/LeftFrame'
+import RightFrame from './components/RightFrame'
 
 const LEFT_FRAME_MIN_WIDTH = 45
 const FRAME_ADJUSTED_SETTING = -4
 
 export default {
   components: {
-    // LeftFrame,
-    // RightFrame
+    LeftFrame,
+    RightFrame
   },
   data () {
     return {
       isDragged: false,
-      centWidth: 10,
       leftWidth: 200
     }
   },
+  mounted () {
+    // this.methodOpenConfig()
+    // this.$store.actions.setUser()
+    this.$store.dispatch('methodReadHistoryFileList')
+  },
+
   methods: {
-    methodSetWidthFrame (name) {
-      // this.isDragged = true
+    methodSetWidthFrame () {
       return 'width:' + this.leftWidth + 'px'
     },
 
@@ -85,6 +90,7 @@ background-color : lightgrey
 
   .cent-frame {
     height: 100vh;
+    width:10px;
     /* background-color: lightgrey; */
     /* border: solid 0.5px white; */
     /* border-left: solid 0.5px rgb(170, 170, 170); */

@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import fs from 'fs'
+import path from 'path'
+// const fs = require('fs')
+// const path = require('path')
 
 Vue.use(Vuex)
 
@@ -110,8 +114,34 @@ export default new Vuex.Store({
       tagOther2: 'other2'
     }
   },
+  // mounted () {
+  //   // this.methodOpenConfig()
+  //   this.$store.actions.methodReadHistoryFileList()
+  // },
+
   mutations: {},
-  actions: {},
+  actions: {
+    methodReadHistoryFileList: function (state) {
+      let self = state
+      console.log(path.join(__dirname, state.state.dataSaveFile.dataDirectory))
+
+      fs.readdir(path.join(__dirname, state.state.dataSaveFile.dataDirectory), function (err, files) {
+        if (err) {
+          console.log('error : ' + err)
+        }
+        console.log(files)
+        // ふぉるださくせい
+        if (files.length === 0) {
+          // バックアップファイルが一つもない場合、ダイアログを開かない
+          console.log('not found files')
+          self.dataDialog.open = false
+        }
+        self.dataSaveFile.historyList = files.slice().reverse()
+        console.log(files)
+      })
+    }
+  },
+
   modules: {},
   getters: {
     testvalue: state => state.testvalue
