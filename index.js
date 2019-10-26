@@ -1,9 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-// const {
-//   BrowserWindow,
-//   dialog
-// } = require('electron').remote;
 
 const {
   clipboard
@@ -30,7 +26,7 @@ new Vue({
 
     dataDialog: {
       save: false,
-      open: true,
+      open: false,
     },
 
     isDragged: false,
@@ -64,34 +60,20 @@ new Vue({
     },
 
     dataColorList: {
-      // itemList: "amber lighten-3",
-      // itemSelect: "pink lighten-3",
-      // name: "cyan lighten-4",
+      itemList: "amber lighten-3",
+      itemSelect: "pink lighten-3",
+      name: "cyan lighten-4",
 
-      // id: "blue lighten-4",
-      // password: "green lighten-4",
-      // other1: "teal lighten-4",
-      // other2: "indigo lighten-4",
-      // text: "deep-purple lighten-4",
+      id: "blue lighten-4",
+      password: "green lighten-4",
+      other1: "teal lighten-4",
+      other2: "indigo lighten-4",
+      text: "deep-purple lighten-4",
 
-      // tagId: "blue",
-      // tagPassword: "green",
-      // tagOther1: "teal",
-      // tagOther2: "indigo",
-      itemList: "",
-      itemSelect: "",
-      name: "",
-
-      id: "",
-      password: "",
-      other1: "",
-      other2: "",
-      text: "",
-
-      tagId: "",
-      tagPassword: "",
-      tagOther1: "",
-      tagOther2: "",
+      tagId: "blue",
+      tagPassword: "green",
+      tagOther1: "teal",
+      tagOther2: "indigo",
 
     },
 
@@ -122,46 +104,13 @@ new Vue({
 
 
   },
-  mounted() {
-    // this.methodOpenConfig()
+  mounted () {
     this.methodReadHistoryFileList()
   },
 
   computed: {
-    controlMainWindow: function () {
-      // ダイアログを開いているときは隠す
-      if (this.dataDialog.save == true || this.dataDialog.open == true) {
-        return false
-      }
-      return true
-    }
-
-
-
   },
   methods: {
-    // methodOpenConfig: function (time) {
-    // },
-
-    methodOpenConfig: function () {
-
-    },
-
-
-    methodHandleScroll() {
-      this.dataPosition = document.documentElement.scrollTop || document.body.scrollTop;
-    },
-
-    methodSleep: function (time) {
-      const d1 = new Date();
-      while (true) {
-        const d2 = new Date();
-        if (d2 - d1 > time) {
-          return;
-        }
-      }
-    },
-
     methodSetPrependIcon: function (position) {
       return this.dataPrependIcon[position] ? 'mdi-check-bold' : 'mdi-clipboard'
     },
@@ -205,13 +154,7 @@ new Vue({
       this.dataAppendIcon.other2 = this.dataAppendIcon.all
     },
 
-    methodReload: function (event) {
-      location.reload()
-    },
-
-
-
-    selectDataCurrentItem: function (index) {
+    methodSelectDataCurrentItem: function (index) {
 
       let dataItem = Object.create(this.dataItemList[index]);
 
@@ -277,9 +220,8 @@ new Vue({
       };
       dataItemList.unshift(set);
       this.dataItemList = dataItemList;
-      0
-      this.selectDataCurrentItem(0)
-      this.methodSetAllAppend("true")
+      this.methodSelectDataCurrentItem(0);
+      this.methodSetAllAppend("true");
     },
 
     pasteToClipBoard: function (position) {
@@ -293,23 +235,15 @@ new Vue({
 
     // 整形表現に一致すればクラスis-showを返却
     methodFilterCondition: function (itemName) {
-      // let dataSelectConstant = this.dataSelectConstant;
       let freeWordList = this.dataFreeWord.split(" ");
       if (this.dataFreeWord == "") {
-        // if (itemName.indexOf(dataSelectConstant) != -1) {
-          return "is-show";
-        // }
+        return "is-show";
       } else {
-        // 正規表現に組み合わせたい文字列
-        let strCombRegex = ".*" ;
-        // let strCombRegex = ".*" + dataSelectConstant + ".*";
+        let strCombRegex = ".*";
         freeWordList.forEach((value, index, array) => {
-          // strCombRegex = strCombRegex + value + ".*";
           strCombRegex = ".*" + value + ".*";
         });
-        // 正規表現オブジェクト ここでは正規表現も文字列で記載する
         let regexp = new RegExp(strCombRegex, "g");
-        // 検索対象から正規表現にマッチするものを抽出して返す
         let matchArr = itemName.match(regexp);
         if (matchArr != null) {
           return "is-show";
@@ -317,28 +251,21 @@ new Vue({
       }
     },
 
-
-
     // 指定したファイルを読み込む
     methodReadFile: function () {
-      // alert(path)
 
-      fs.readFile(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile, (error, content) => {
+      fs.readFile(this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile, (error, content) => {
         if (error != null) {
           alert('file open error.')
           return
         }
-
-        // let data = content
         let targetReadData = content.toString()
         if (this.dataSaveFile.openFileType == 'encjson') {
           const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
           targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-          // console.log(decrypted.toString(CryptoJS.enc.Utf8))
         }
         this.dataItemList = JSON.parse(targetReadData);
         this.dataDialog.open = false
-
       })
     },
 
@@ -351,11 +278,13 @@ new Vue({
       this.dataSaveFile.selectHistoryIndex = index;
     },
 
-
-
     methodReadHistoryFileList: function () {
+      if (!fs.existsSync(this.dataSaveFile.dataDirectory)) {
+        fs.mkdirSync(this.dataSaveFile.dataDirectory);
+      }
       let self = this
-      fs.readdir(__dirname + path.sep + this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
+
+      fs.readdir(this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
         if (err) {
           console.log("error : " + err);
         }
@@ -363,19 +292,15 @@ new Vue({
           // バックアップファイルが一つもない場合、ダイアログを開かない
           console.log("not found files");
           self.dataDialog.open = false
+        } else {
+          self.dataDialog.open = true
         }
         self.dataSaveFile.historyList = files.slice().reverse();
       });
     },
 
-
-
     // saveFileボタンが押されたとき
     methodSaveFile: function (event) {
-      if (!fs.existsSync(this.dataSaveFile.dataDirectory)) {
-        fs.mkdirSync(this.dataSaveFile.dataDirectory);
-      }
-
       let temp = []
       this.dataItemList.forEach(function (key) {
         if (key) {
@@ -427,11 +352,11 @@ new Vue({
       })
     },
 
-    startResize() {
+    startResize () {
       this.isDragged = !this.isDragged
     },
 
-    changeWidth() {
+    changeWidth () {
       return this.isDragged ? 'pink ' : 'grey'
     },
 

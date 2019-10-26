@@ -4,20 +4,23 @@
 <head>
 	<meta charset="utf-8">
 	<title>sample</title>
-	<link rel="stylesheet" href="./lib/styles.css">
-	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+	<link href='./lib/MaterialIcons.css' rel="stylesheet">
 
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="./lib/Roboto.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+	<link href="./lib/vuetify.min.css" rel="stylesheet">
 
-	<link rel="stylesheet/less" href="./lib/additional.less" type="text/css">
-	<script src="./lib/less.min.js?ver=12302"></script>
-
+	<link href="./lib/additional.less" rel="stylesheet/less" type="text/css">
+	<script src="./lib/less.min.js"></script>
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
-	<div id="app">
+	<div id="app" v-cloak>
 		<div id="dialogSave">
 			<v-row justify="center">
 				<v-dialog v-model="dataDialog.save" max-width="480">
@@ -71,7 +74,7 @@
 								<v-layout justify-center v-for="(historyFile, index) in dataSaveFile.historyList" class="my-2 title"
 									:key="index">
 									<v-flex x12>
-										<v-card class="mx-2 px-2" :id="index" :color="methodSetFileListColor(index)"
+										<v-card flat class="mx-2 px-2" :id="index" :color="methodSetFileListColor(index)"
 											@click="methodSelectOpenFile(index)">
 											{{historyFile}}
 										</v-card>
@@ -137,18 +140,11 @@
 								<!-- -------------------------------------------------- -->
 								<v-layout justify-center class="mt-5">
 									<v-flex xs12>
-										<v-text-field outlined dense 
-										v-model="dataFreeWord"
-										placeholder="filter"
-										class="my-n3">
-									</v-text-field>
-		
-
+										<v-text-field outlined dense v-model="dataFreeWord" placeholder="filter" class="my-n3">
+										</v-text-field>
 									</v-flex>
 								</v-layout>
-
 							</v-container>
-
 						</div>
 
 						<!-- -------------------------------------------------- -->
@@ -159,7 +155,8 @@
 									:data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
 									:data-tagid="dataItem.tagId" :data-tagpassword="dataItem.tagPassword"
 									:data-tagother1="dataItem.tagOther1" :data-tagother2="dataItem.tagOther2"
-									@click="selectDataCurrentItem(index)" class="px-2 py-2 my-1 is-hide" :class="methodFilterCondition(dataItem.name)">
+									@click="methodSelectDataCurrentItem(index)" class="px-2 py-2 my-1 is-hide"
+									:class="methodFilterCondition(dataItem.name)">
 									{{dataItem.name}}
 								</v-card>
 							</v-flex>
@@ -172,7 +169,7 @@
 			</div><!-- flexbox_left_pane -->
 
 
-			<div id="flexbox_cent_line" class="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize">
+			<div id="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize">
 			</div> <!-- flexbox_cent_line -->
 
 			<div id="flexbox_rght_pane" v-if="this.dataSelectItem.index != null">
@@ -234,13 +231,14 @@
 							<v-layout justify-start class="mt-n6">
 								<v-flex xs12>
 									<v-layout justify-start>
+
 										<v-flex xs3>
 											<v-text-field id="tagPassword" outlined dense :background-color="methodSetColor('tagPassword')"
 												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectItem.tagPassword"
 												@change="setDataSelectItem('tagPassword')" tabindex="0">
 											</v-text-field>
-
 										</v-flex>
+
 										<v-flex xs8>
 											<v-text-field id="password" outlined dense :background-color="methodSetColor('password')"
 												v-model="dataSelectItem.password" :prepend-inner-icon="methodSetPrependIcon('password')"
@@ -249,8 +247,8 @@
 												@click:append="methodSetAppendIconStatus('password')" :type="methodSetTextType('password')"
 												@change="setDataSelectItem('password')" tabindex="3">
 											</v-text-field>
-
 										</v-flex>
+
 									</v-layout>
 								</v-flex>
 							</v-layout>
@@ -327,17 +325,9 @@
 
 			</div><!-- flexbox_rght_pane -->
 
-
-
 		</div><!-- flexbox_container -->
 
-
 	</div><!-- app -->
-
-	<style>
-
-	</style>
-
 
 	<style lang="scss">
 		* :not(.v-icon) {
@@ -346,12 +336,7 @@
 	</style>
 
 	<script src="./lib/vue.min.js"></script>
-
-	<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CMutationObserver" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script> -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.js"></script> -->
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+	<script src="./lib/vuetify.min.js"></script>
 	<script src="index.js"></script>
 
 	<script>
@@ -359,7 +344,7 @@
 	</script>
 	<script src="./lib/jquery-ui.min.js"></script>
 	<script src="./lib/crypto-js.min.js"></script>
-	<script src="./lib/edit.js?ver=12302"></script>
+	<script src="./lib/edit.js"></script>
 
 </body>
 
