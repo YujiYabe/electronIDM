@@ -169,7 +169,7 @@
 								<v-layout justify-center class="mt-3 mb-n4">
 									<v-flex xs12>
 										<v-text-field outlined dense v-model="dataFilterWord" background-color="cyan lighten-3"
-											placeholder="filter" class="my-n3">
+											placeholder="filter" class="my-n3" @keyup="resetSelectedItem">
 										</v-text-field>
 									</v-flex>
 								</v-layout>

@@ -254,6 +254,9 @@ new Vue({
         self.dataCopyIcon[position] = false
       }, 500)
     },
+    resetSelectedItem: function () {
+      this.dataSelectedItem.index = null
+    },
 
     // 整形表現に一致すればクラスis-showを返却
     methodFilterCondition: function (itemName) {
@@ -270,6 +273,7 @@ new Vue({
         if (matchArr != null) {
           return "is-show";
         }
+
       }
     },
 
