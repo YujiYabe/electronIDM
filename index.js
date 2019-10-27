@@ -1,5 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const CryptoJS = require('crypto-js');
+
+const LEFT_FRAME_MIN_WIDTH = 45
+const FRAME_ADJUSTED_SETTING = -4
 
 const {
   clipboard
@@ -9,6 +13,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
+    dataLeftFrameWidth: 250,
 
     dataSaveFile: {
       boolVisibleIcon: false,
@@ -379,13 +384,44 @@ new Vue({
       })
     },
 
-    startResize () {
-      this.isDragged = !this.isDragged
+    // startResize () {
+    //   this.isDragged = !this.isDragged
+    // },
+
+    // changeWidth () {
+    //   return this.isDragged ? 'pink ' : 'grey'
+    // },
+
+
+    methodSetWidthFrame () {
+      return 'width:' + this.dataLeftFrameWidth + 'px'
     },
 
-    changeWidth () {
-      return this.isDragged ? 'pink ' : 'grey'
+    startResize () {
+      this.isDragged = true
     },
+
+    changeWitdh () {
+      return this.isDragged ? 'pink ' : 'grey'
+      // return this.isDragged ? '' : ''
+    },
+    resizeFrame (event) {
+      if (event.buttons === 0) {
+        this.endResizeFrame()
+        return
+      }
+      if (this.isDragged) {
+        if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
+          this.dataLeftFrameWidth = LEFT_FRAME_MIN_WIDTH
+          return
+        }
+        this.dataLeftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
+      }
+    },
+    endResizeFrame () {
+      this.isDragged = false
+    }
+
 
   }
 })

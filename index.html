@@ -117,9 +117,9 @@
 		</div> <!-- dialogOpen -->
 
 
-		<div id="flexbox_container">
+		<div id="flexbox_container" @mousemove="resizeFrame">
 
-			<div id="flexbox_left_pane">
+			<div id="flexbox_left_pane" :style="methodSetWidthFrame()">
 				<v-app id="vappleft">
 					<v-content>
 						<div class="sticky">
@@ -200,7 +200,7 @@
 			</div><!-- flexbox_left_pane -->
 
 
-			<div id="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize">
+			<div id="flexbox_cent_line" :class="changeWitdh()" @mousedown="startResize" @mouseup="endResizeFrame">
 			</div> <!-- flexbox_cent_line -->
 
 			<div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null">
@@ -372,13 +372,6 @@
 	<script src="./lib/vue.min.js"></script>
 	<script src="./lib/vuetify.min.js"></script>
 	<script src="index.js"></script>
-
-	<script>
-		window.jQuery = window.$ = require('./lib/jquery.min');
-	</script>
-	<script src="./lib/jquery-ui.min.js"></script>
-	<script src="./lib/crypto-js.min.js"></script>
-	<script src="./lib/edit.js"></script>
 
 </body>
 
