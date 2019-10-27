@@ -9,11 +9,12 @@ const path = require('path')
 
 require('electron-reload')(__dirname);
 
-function createWindow() {
+function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1400,
-    height: 700,
+    titleBarStyle: 'hidden',
+    width: 900,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
@@ -22,9 +23,9 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
-
+  mainWindow.setMenu(null);
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -53,192 +54,8 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
 
-// initWindowMenu();
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-function initWindowMenu() {
-  const template = [
-    {
-      label: "Edit",
-      submenu: [
-        { role: "undo" },
-        { role: "redo" },
-        { type: "separator" },
-        { role: "cut" },
-        { role: "copy" },
-        { role: "paste" },
-        {
-          label: "Paste [url title]",
-          accelerator: "CmdOrCtrl+L",
-          click() {
-            mainWindow.webContents.send("pasteUrlTitle");
-          }
-        },
-        { role: "delete" },
-        { role: "selectall" },
-        { type: "separator" },
-        {
-          label: "Insert [* 1]",
-          accelerator: "CmdOrCtrl+1",
-          click() {
-            mainWindow.webContents.send("insertHeadline1");
-          }
-        },
-        {
-          label: "Insert [** 2]",
-          accelerator: "CmdOrCtrl+2",
-          click() {
-            mainWindow.webContents.send("insertHeadline2");
-          }
-        },
-        {
-          label: "Insert [*** 3]",
-          accelerator: "CmdOrCtrl+3",
-          click() {
-            mainWindow.webContents.send("insertHeadline3");
-          }
-        }
-      ]
-    },
-    {
-      label: "View",
-      submenu: [
-        {
-          label: "go back",
-          accelerator: "CmdOrCtrl+[",
-          click() {
-            mainWindow.webContents.send("goBack");
-          }
-        },
-        {
-          label: "go forward",
-          accelerator: "CmdOrCtrl+]",
-          click() {
-            mainWindow.webContents.send("goForward");
-          }
-        },
-        {
-          label: "new tab",
-          accelerator: "CmdOrCtrl+T",
-          click() {
-            mainWindow.webContents.send("newTab");
-          }
-        },
-        {
-          label: "duplicate tab",
-          click() {
-            mainWindow.webContents.send("duplicateTab");
-          }
-        },
-        {
-          label: "close tab",
-          accelerator: "CmdOrCtrl+W",
-          click() {
-            mainWindow.webContents.send("closeTab");
-          }
-        },
-        {
-          label: "copy url",
-          click() {
-            mainWindow.webContents.send("copyUrl");
-          }
-        },
-        {
-          label: "reload",
-          accelerator: "CmdOrCtrl+R",
-          click() {
-            mainWindow.webContents.send("reload");
-          }
-        },
-        {
-          label: "page list",
-          click() {
-            mainWindow.webContents.send("showPageList");
-          }
-        },
-        {
-          label: "Show linked pages",
-          click() {
-            mainWindow.webContents.send("showLinkedpages");
-          }
-        },
-        {
-          label: "Show user info",
-          click() {
-            mainWindow.webContents.send("showUserInfo");
-          }
-        },
-        { type: "separator" },
-        {
-          label: "Search in window",
-          accelerator: "CmdOrCtrl+F",
-          click() {
-            mainWindow.webContents.send("toggleSearch");
-          }
-        },
-        { type: "separator" },
-        {
-          label: "Show project activties",
-          click() {
-            mainWindow.webContents.send("showProjectActivities")
-          }
-        }
-      ]
-    }
-  ];
 
-  if (!app.isPackaged) {
-    template.unshift({
-      label: "Debug",
-      submenu: [
-        { role: "forceReload" },
-        { role: "toggledevtools" },
-        {
-          label: "open devTools for Tab",
-          click() {
-            mainWindow.webContents.send("openDevToolsForTab");
-          }
-        }
-      ]
-    });
-  }
-
-  if (process.platform === "darwin") {
-    template.unshift({
-      label: app.getName(),
-      submenu: [
-        {
-          label: "about sbe",
-          click() {
-            showAboutWindow();
-          }
-        },
-        { type: "separator" },
-        { role: "services", submenu: [] },
-        { type: "separator" },
-        { role: "hide" },
-        { role: "hideothers" },
-        { role: "unhide" },
-        { type: "separator" },
-        { role: "quit" }
-      ]
-    });
-  } else {
-    template.push({
-      label: "help",
-      submenu: [
-        {
-          label: "about sbe",
-          click() {
-            showAboutWindow();
-          }
-        }
-      ]
-    })
-  }
-
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
-}
-
+Menu.setApplicationMenu(null);

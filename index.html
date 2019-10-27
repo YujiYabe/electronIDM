@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>sample</title>
+	<title>electronIDM</title>
 	<link href='./lib/MaterialIcons.css' rel="stylesheet">
 
 	<link href="./lib/Roboto.css" rel="stylesheet">
@@ -83,7 +83,7 @@
 							</v-card-text>
 							<v-divider></v-divider>
 
-							<v-card-actions v-if="dataSaveFile.selectHistoryIndex != null" class="pb-6">
+							<v-card-actions v-if="dataSaveFile.selectHistoryIndex != null" class="pb-7">
 
 								<v-btn depressed color="red darken-1" dark @click="methodRemoveFile">
 									remove
@@ -92,7 +92,7 @@
 								<v-spacer></v-spacer>
 
 								<v-text-field outlined dense v-if="dataSaveFile.openFileType == 'encjson'"
-									placeholder="password for decrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n6 pt-n4"
+									placeholder="password for decrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n7 pt-n4"
 									:type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
 									:append-icon="dataSaveFile.boolVisibleIcon ? 'visibility' : 'visibility_off'"
 									@click:append="dataSaveFile.boolVisibleIcon = !dataSaveFile.boolVisibleIcon">

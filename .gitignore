@@ -1,3 +1,4 @@
 node_modules
 sample-linux-x64
 data/*
+dist/*

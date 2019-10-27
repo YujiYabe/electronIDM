@@ -301,10 +301,13 @@ new Vue({
     methodSelectOpenFile: function (index) {
       let historyList = Object.create(this.dataSaveFile.historyList);
       let fileName = historyList[index]
-      var reg = /(.*)(?:\.([^.]+$))/;
-      this.dataSaveFile.openFileType = fileName.match(reg)[2];
-      this.dataSaveFile.selectHistoryFile = fileName;
-      this.dataSaveFile.selectHistoryIndex = index;
+      console.log(fileName)
+      if (fileName) {
+        const reg = /(.*)(?:\.([^.]+$))/;
+        this.dataSaveFile.openFileType = fileName.match(reg)[2];
+        this.dataSaveFile.selectHistoryFile = fileName;
+        this.dataSaveFile.selectHistoryIndex = index;
+      }
     },
 
     methodReadHistoryFileList: function () {
@@ -324,9 +327,9 @@ new Vue({
           self.dataDialog.open = false
         } else {
           self.dataDialog.open = true
+          self.dataSaveFile.historyList = files.slice().reverse();
+          self.methodSelectOpenFile(0)
         }
-        self.dataSaveFile.historyList = files.slice().reverse();
-        self.methodSelectOpenFile(0)
       });
     },
 
