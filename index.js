@@ -10,8 +10,6 @@ new Vue({
   vuetify: new Vuetify(),
   data: {
 
-    dataPosition: null,
-
     dataSaveFile: {
       boolVisibleIcon: false,
       encryptKeyword: "",
@@ -32,14 +30,14 @@ new Vue({
     isDragged: false,
 
 
-    dataPrependIcon: {
+    dataCopyIcon: {
       id: false,
       password: false,
       other1: false,
       other2: false,
     },
 
-    dataAppendIcon: {
+    dataVisibleIcon: {
       all: false,
       id: false,
       password: false,
@@ -47,7 +45,7 @@ new Vue({
       other2: false,
     },
 
-    dataFreeWord: '',
+    dataFilterWord: '',
 
     rules: {
       required: value => !!value || 'Required.',
@@ -74,11 +72,12 @@ new Vue({
       tagPassword: "green",
       tagOther1: "teal",
       tagOther2: "indigo",
-
+      targetSelected: "pink lighten-3",
+      targetUnselected: "amber lighten-3",
     },
 
     dataItemList: [],
-    dataSelectItem: {
+    dataSelectedItem: {
       index: null,
       name: "",
       id: "",
@@ -106,86 +105,84 @@ new Vue({
   },
   mounted () {
     this.methodReadHistoryFileList()
+
   },
 
   computed: {
   },
   methods: {
     methodSetPrependIcon: function (position) {
-      return this.dataPrependIcon[position] ? 'mdi-check-bold' : 'mdi-clipboard'
+      return this.dataCopyIcon[position] ? 'mdi-check-bold' : 'mdi-clipboard'
     },
 
     methodSetAppendIcon: function (position) {
-      return this.dataAppendIcon[position] ? 'visibility' : 'visibility_off'
+      return this.dataVisibleIcon[position] ? 'visibility' : 'visibility_off'
     },
 
     methodSetAppendIconStatus: function (position) {
-      this.dataAppendIcon[position] = !this.dataAppendIcon[position]
+      this.dataVisibleIcon[position] = !this.dataVisibleIcon[position]
     },
 
     methodSetTextType: function (position) {
-      return this.dataAppendIcon[position] ? 'text' : 'password'
+      return this.dataVisibleIcon[position] ? 'text' : 'password'
     },
 
     methodSetColor: function (position) {
       return this.dataColorList[position]
     },
 
-    methodSetItemListColor: function (index) {
-      return index == this.dataSelectItem.index ? "pink lighten-3" : "amber lighten-3"
-    },
-
-    methodSetFileListColor: function (index) {
-      return index == this.dataSaveFile.selectHistoryIndex ? "pink lighten-3" : "amber lighten-3"
-    },
-
-    methodSetAllAppend: function (statusString) {
-      if (statusString == "neutral") {
-        this.dataAppendIcon.all = !this.dataAppendIcon.all
-      } else if (statusString == "true") {
-        this.dataAppendIcon.all = true
+    methodSetListColor: function (targetName, index) {
+      if (targetName == 'item') {
+        return index == this.dataSelectedItem.index ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
       } else {
-        this.dataAppendIcon.all = false
+        return index == this.dataSaveFile.selectHistoryIndex ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
+      }
+    },
+
+
+    methodSetAllVisible: function (statusString) {
+      if (statusString == "neutral") {
+        this.dataVisibleIcon.all = !this.dataVisibleIcon.all
+      } else if (statusString == "true") {
+        this.dataVisibleIcon.all = true
+      } else {
+        this.dataVisibleIcon.all = false
       }
 
-      this.dataAppendIcon.id = this.dataAppendIcon.all
-      this.dataAppendIcon.password = this.dataAppendIcon.all
-      this.dataAppendIcon.other1 = this.dataAppendIcon.all
-      this.dataAppendIcon.other2 = this.dataAppendIcon.all
+      this.dataVisibleIcon.id = this.dataVisibleIcon.all
+      this.dataVisibleIcon.password = this.dataVisibleIcon.all
+      this.dataVisibleIcon.other1 = this.dataVisibleIcon.all
+      this.dataVisibleIcon.other2 = this.dataVisibleIcon.all
     },
 
-    methodDeleteItem: function () {
+    methodRemoveItem: function () {
       let dataItemList = Object.create(this.dataItemList);
-      const index = this.dataSelectItem.index;
+      const index = this.dataSelectedItem.index;
       dataItemList.splice(index, 1);
       this.dataItemList = dataItemList
     },
 
-    methodSelectDataCurrentItem: function (index) {
+    methodSetSelectedItem: function (index) {
 
       let dataItem = Object.create(this.dataItemList[index]);
 
-      this.dataSelectItem.index = index;
-      this.dataSelectItem.name = dataItem.name;
-      this.dataSelectItem.id = dataItem.id;
-      this.dataSelectItem.password = dataItem.password;
-      this.dataSelectItem.other1 = dataItem.other1;
-      this.dataSelectItem.other2 = dataItem.other2;
-      this.dataSelectItem.text = dataItem.text;
+      this.dataSelectedItem.index = index;
+      this.dataSelectedItem.name = dataItem.name;
+      this.dataSelectedItem.id = dataItem.id;
+      this.dataSelectedItem.password = dataItem.password;
+      this.dataSelectedItem.other1 = dataItem.other1;
+      this.dataSelectedItem.other2 = dataItem.other2;
+      this.dataSelectedItem.text = dataItem.text;
 
-      this.dataSelectItem.tagId = dataItem.tagId;
-      this.dataSelectItem.tagPassword = dataItem.tagPassword;
-      this.dataSelectItem.tagOther1 = dataItem.tagOther1;
-      this.dataSelectItem.tagOther2 = dataItem.tagOther2;
-      this.methodSetAllAppend("false")
+      this.dataSelectedItem.tagId = dataItem.tagId;
+      this.dataSelectedItem.tagPassword = dataItem.tagPassword;
+      this.dataSelectedItem.tagOther1 = dataItem.tagOther1;
+      this.dataSelectedItem.tagOther2 = dataItem.tagOther2;
+      this.methodSetAllVisible("false")
 
     },
 
-    fillZero: function (number) {
-      return (0 + number).slice(-2);
-    },
-
-    currentDateTimeString: function () {
+    methodDateTimeString: function () {
       let dt = new Date();
       let yyyy = dt.getFullYear();
       let mm = ("00" + (dt.getMonth() + 1)).slice(-2);
@@ -199,51 +196,28 @@ new Vue({
       return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
     },
 
-    setDataSelectItem: function (position) {
-      let dataItem = Object.create(this.dataItemList[this.dataSelectItem.index]);
-      // console.log(dataItem)
-      if (position == "name" && this.dataSelectItem[position] == "") {
-        this.dataSelectItem[position] = "can't empty"
+    methodSetDataItem: function (position) {
+      let dataItem = Object.create(this.dataItemList[this.dataSelectedItem.index]);
+
+      if (position == "name" && this.dataSelectedItem[position] == "") {
+        this.dataSelectedItem[position] = "can't empty"
       }
-      dataItem[position] = this.dataSelectItem[position];
-      this.dataItemList[this.dataSelectItem.index] = dataItem;
+
+      dataItem[position] = this.dataSelectedItem[position];
+      this.dataItemList[this.dataSelectedItem.index] = dataItem;
     },
-
-    methodCopyItem: function () {
-      let dataItemList = Object.create(this.dataItemList);
-
-
-      const set = {
-        "name": this.dataSelectItem.name,
-        "id": this.dataSelectItem.id,
-        "password": this.dataSelectItem.password,
-        "other1": this.dataSelectItem.other1,
-        "other2": this.dataSelectItem.other2,
-        "text": this.dataSelectItem.text,
-        "tagId": this.dataSelectItem.tagId,
-        "tagPassword": this.dataSelectItem.tagPassword,
-        "tagOther1": this.dataSelectItem.tagOther1,
-        "tagOther2": this.dataSelectItem.tagOther2,
-      };
-
-      dataItemList.unshift(set);
-      this.dataItemList = dataItemList;
-      this.methodSelectDataCurrentItem(0);
-      this.methodSetAllAppend("true");
-
-    },
-
 
     methodAddItem: function (type) {
       let dataItemList = Object.create(this.dataItemList)
       let itemType = null
       let afterAddShow = 'false'
+
       if (type == 'new') {
         itemType = Object.create(this.dataItemTemplate)
-        itemType.name = "created at : " + this.currentDateTimeString()
+        itemType.name = "created at : " + this.methodDateTimeString()
         afterAddShow = 'true'
       } else if (type == 'copy') {
-        itemType = Object.create(this.dataSelectItem)
+        itemType = Object.create(this.dataSelectedItem)
         afterAddShow = 'false'
       }
 
@@ -259,25 +233,26 @@ new Vue({
         "tagOther1": itemType.tagOther1,
         "tagOther2": itemType.tagOther2,
       };
+
       dataItemList.unshift(set);
       this.dataItemList = dataItemList;
-      this.methodSelectDataCurrentItem(0);
-      this.methodSetAllAppend(afterAddShow);
+      this.methodSetSelectedItem(0);
+      this.methodSetAllVisible(afterAddShow);
     },
 
-    pasteToClipBoard: function (position) {
+    methodPasteToClipBoard: function (position) {
       let self = this;
-      this.dataPrependIcon[position] = true;
-      clipboard.writeText(this.dataSelectItem[position])
+      this.dataCopyIcon[position] = true;
+      clipboard.writeText(this.dataSelectedItem[position])
       setTimeout(function () {
-        self.dataPrependIcon[position] = false
+        self.dataCopyIcon[position] = false
       }, 500)
     },
 
     // 整形表現に一致すればクラスis-showを返却
     methodFilterCondition: function (itemName) {
-      let freeWordList = this.dataFreeWord.split(" ");
-      if (this.dataFreeWord == "") {
+      let freeWordList = this.dataFilterWord.split(" ");
+      if (this.dataFilterWord == "") {
         return "is-show";
       } else {
         let strCombRegex = ".*";
@@ -294,7 +269,6 @@ new Vue({
 
     // 指定したファイルを読み込む
     methodReadFile: function () {
-
       fs.readFile(this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile, (error, content) => {
         if (error != null) {
           alert('file open error.')
@@ -316,6 +290,7 @@ new Vue({
       // console.log(this.dataSaveFile.historyList[index])
       fs.unlinkSync(this.dataSaveFile.dataDirectory + path.sep + fileName);
       this.methodReadHistoryFileList()
+      this.dataSaveFile.selectHistoryIndex = null
     },
 
     methodSelectOpenFile: function (index) {
@@ -331,6 +306,7 @@ new Vue({
       if (!fs.existsSync(this.dataSaveFile.dataDirectory)) {
         fs.mkdirSync(this.dataSaveFile.dataDirectory);
       }
+
       let self = this
 
       fs.readdir(this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
@@ -345,12 +321,13 @@ new Vue({
           self.dataDialog.open = true
         }
         self.dataSaveFile.historyList = files.slice().reverse();
+        self.methodSelectOpenFile(0)
       });
     },
 
     // saveFileボタンが押されたとき
     methodSaveFile: function (event) {
-      let temp = []
+      let tempArray = []
       this.dataItemList.forEach(function (key) {
         if (key) {
           const set = {
@@ -365,14 +342,14 @@ new Vue({
             tagOther1: key.tagOther1,
             tagOther2: key.tagOther2,
           }
-          temp.push(set)
+          tempArray.push(set)
         }
       }
       )
 
-      let targetSaveData = JSON.stringify(temp);
+      let targetSaveData = JSON.stringify(tempArray);
 
-      const fileNameDate = this.currentDateTimeString()
+      const fileNameDate = this.methodDateTimeString()
       let fileExtension = ".json"
 
       if (this.dataSaveFile.saveFileType == 'encrypt') {
