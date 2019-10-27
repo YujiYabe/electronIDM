@@ -404,7 +404,7 @@ new Vue({
       this.isDragged = true
     },
 
-    changeWitdh () {
+    changeWidth () {
       return this.isDragged ? 'pink ' : 'grey'
       // return this.isDragged ? '' : ''
     },
