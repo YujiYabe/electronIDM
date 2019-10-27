@@ -151,7 +151,7 @@
 								</v-layout>
 
 								<!-- -------------------------------------------------- -->
-								<v-layout justify-center v-if="this.dataItemList.length != 0">
+								<v-layout justify-center v-if="dataSelectedItem.index != null">
 									<v-flex x12>
 										<v-btn @click.stop="methodAddItem('copy')" width="100%" color="cyan" dark depressed rounded>
 											clone
@@ -225,7 +225,7 @@
 								<v-flex xs12>
 									<v-layout justify-start>
 										<v-flex xs11>
-											<v-text-field outlined :rules="[rules.required]" :background-color="methodSetColor('name')"
+											<v-text-field outlined :rules="[dataRules.required]" :background-color="methodSetColor('name')"
 												:placeholder="dataDictionary.placeholderBody" v-model="dataSelectedItem.name"
 												@change="methodSetDataItem('name')" :append-icon="methodSetAppendIcon('all')"
 												@click:append="methodSetAllVisible('neutral')" tabindex="1">
@@ -240,7 +240,7 @@
 								<v-flex xs12>
 									<v-layout justify-start>
 										<v-flex xs3>
-											<v-text-field id="tagId" outlined dense :background-color="methodSetColor('tagId')"
+											<v-text-field id="tagId" dark outlined dense :background-color="methodSetColor('tagId')"
 												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagId"
 												@change="methodSetDataItem('tagId')" tabindex="0">
 											</v-text-field>
@@ -265,9 +265,9 @@
 									<v-layout justify-start>
 
 										<v-flex xs3>
-											<v-text-field id="tagPassword" outlined dense :background-color="methodSetColor('tagPassword')"
-												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagPassword"
-												@change="methodSetDataItem('tagPassword')" tabindex="0">
+											<v-text-field id="tagPassword" dark outlined dense
+												:background-color="methodSetColor('tagPassword')" :placeholder="dataDictionary.placeholderTag"
+												v-model="dataSelectedItem.tagPassword" @change="methodSetDataItem('tagPassword')" tabindex="0">
 											</v-text-field>
 										</v-flex>
 
@@ -291,7 +291,7 @@
 									<v-layout justify-start>
 										<v-flex xs3>
 
-											<v-text-field id="tagOther1" outlined dense :background-color="methodSetColor('tagOther1')"
+											<v-text-field id="tagOther1" dark outlined dense :background-color="methodSetColor('tagOther1')"
 												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther1"
 												@change="methodSetDataItem('tagOther1')" tabindex="0"></v-text-field>
 
@@ -318,7 +318,7 @@
 								<v-flex xs12>
 									<v-layout justify-start>
 										<v-flex xs3>
-											<v-text-field id="tagOther2" outlined dense :background-color="methodSetColor('tagOther2')"
+											<v-text-field id="tagOther2" dark outlined dense :background-color="methodSetColor('tagOther2')"
 												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther2"
 												@change="methodSetDataItem('tagOther2')" tabindex="0">
 											</v-text-field>

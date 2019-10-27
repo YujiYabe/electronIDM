@@ -13,7 +13,10 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: {
-    dataLeftFrameWidth: 250,
+    dataControlFrame: {
+      leftFrameWidth: 400,
+      isDragged: false,
+    },
 
     dataSaveFile: {
       boolVisibleIcon: false,
@@ -31,8 +34,6 @@ new Vue({
       save: false,
       open: false,
     },
-
-    isDragged: false,
 
 
     dataCopyIcon: {
@@ -52,7 +53,7 @@ new Vue({
 
     dataFilterWord: '',
 
-    rules: {
+    dataRules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
     },
@@ -387,42 +388,33 @@ new Vue({
       })
     },
 
-    // startResize () {
-    //   this.isDragged = !this.isDragged
-    // },
-
-    // changeWidth () {
-    //   return this.isDragged ? 'pink ' : 'grey'
-    // },
-
 
     methodSetWidthFrame () {
-      return 'width:' + this.dataLeftFrameWidth + 'px'
+      return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
     },
 
     startResize () {
-      this.isDragged = true
+      this.dataControlFrame.isDragged = true
     },
 
     changeWidth () {
-      return this.isDragged ? 'pink ' : 'grey'
-      // return this.isDragged ? '' : ''
+      return this.dataControlFrame.isDragged ? 'pink ' : 'grey'
     },
     resizeFrame (event) {
       if (event.buttons === 0) {
         this.endResizeFrame()
         return
       }
-      if (this.isDragged) {
+      if (this.dataControlFrame.isDragged) {
         if (event.clientX + FRAME_ADJUSTED_SETTING < LEFT_FRAME_MIN_WIDTH) {
-          this.dataLeftFrameWidth = LEFT_FRAME_MIN_WIDTH
+          this.dataControlFrame.leftFrameWidth = LEFT_FRAME_MIN_WIDTH
           return
         }
-        this.dataLeftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
+        this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
     endResizeFrame () {
-      this.isDragged = false
+      this.dataControlFrame.isDragged = false
     }
 
 
