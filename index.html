@@ -126,7 +126,7 @@
               <v-container fluid grid-list-md class="grey lighten-2">
                 <!-- -------------------------------------------------- -->
                 <v-layout justify-center class="">
-                  <v-flex x6 v-if="this.dataSaveFile.historyList != null">
+                  <v-flex x6 v-if="dataSaveFile.historyList.length != 0">
                     <v-btn depressed dark rounded width="100%" color="blue" @click="dataDialog.open = true">open
                       file
                     </v-btn>
@@ -200,7 +200,7 @@
       </div><!-- flexbox_left_pane -->
 
 
-      <div id="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize" @mouseup="endResizeFrame">
+      <div id="flexbox_cent_line" @mousedown="startResize" @mouseup="endResizeFrame">
       </div> <!-- flexbox_cent_line -->
 
       <!-- <div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null"> -->

@@ -23,7 +23,7 @@ new Vue({
       isEditable: false,
       encryptKeyword: "",
       dataDirectory: "data",
-      historyList: null,
+      historyList: [],
       openFileType: 'normal',
       saveFileType: 'normal',
       optionSaveFileName: '',
@@ -112,6 +112,7 @@ new Vue({
   },
   mounted () {
     this.methodReadHistoryFileList()
+    this.methodSelectOpenFile(0)
 
   },
 
@@ -313,13 +314,15 @@ new Vue({
     },
 
     methodSelectOpenFile: function (index) {
-      let historyList = Object.create(this.dataSaveFile.historyList);
-      let fileName = historyList[index]
-      if (fileName) {
-        const reg = /(.*)(?:\.([^.]+$))/;
-        this.dataSaveFile.openFileType = fileName.match(reg)[2];
-        this.dataSaveFile.selectHistoryFile = fileName;
-        this.dataSaveFile.selectHistoryIndex = index;
+      if (this.dataSaveFile.historyList.length != 0) {
+        let historyList = Object.create(this.dataSaveFile.historyList);
+        let fileName = historyList[index]
+        if (fileName) {
+          const reg = /(.*)(?:\.([^.]+$))/;
+          this.dataSaveFile.openFileType = fileName.match(reg)[2];
+          this.dataSaveFile.selectHistoryFile = fileName;
+          this.dataSaveFile.selectHistoryIndex = index;
+        }
       }
     },
 
@@ -338,11 +341,10 @@ new Vue({
           // バックアップファイルが一つもない場合、ダイアログを開かない
           console.log("not found files");
           self.dataDialog.open = false
-
+          self.dataSaveFile.historyList = []
         } else {
           self.dataDialog.open = true
           self.dataSaveFile.historyList = files.slice().reverse();
-          self.methodSelectOpenFile(0)
         }
       });
     },
@@ -387,6 +389,7 @@ new Vue({
       const fileName = this.dataSaveFile.dataDirectory + path.sep + fileNameDate + optionSaveFileName + fileExtension
       this.methodWriteFile(fileName, targetSaveData)
       this.dataDialog.save = false
+      this.methodReadHistoryFileList()
 
     },
 
@@ -402,6 +405,7 @@ new Vue({
 
 
     methodSetWidthFrame () {
+      // console.log(this.dataControlFrame.leftFrameWidth)
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
     },
 
@@ -412,6 +416,7 @@ new Vue({
     changeWidth () {
       return this.dataControlFrame.isDragged ? 'pink ' : 'grey'
     },
+
     resizeFrame (event) {
       if (event.buttons === 0) {
         this.endResizeFrame()
@@ -422,9 +427,11 @@ new Vue({
           this.dataControlFrame.leftFrameWidth = LEFT_FRAME_MIN_WIDTH
           return
         }
+        console.log(event.clientX)
         this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
+
     endResizeFrame () {
       this.dataControlFrame.isDragged = false
     }
