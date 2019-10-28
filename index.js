@@ -20,6 +20,7 @@ new Vue({
 
     dataSaveFile: {
       boolVisibleIcon: false,
+      isEditable: false,
       encryptKeyword: "",
       dataDirectory: "data",
       historyList: null,
@@ -136,6 +137,10 @@ new Vue({
       return this.dataColorList[position]
     },
 
+    methodSetShowRightPane: function () {
+      return this.dataSelectedItem.index == null ? 'is-hidden' : ''
+    },
+
     methodSetListColor: function (targetName, index) {
       if (targetName == 'item') {
         return index == this.dataSelectedItem.index ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
@@ -165,6 +170,13 @@ new Vue({
       const index = this.dataSelectedItem.index;
       dataItemList.splice(index, 1);
       this.dataItemList = dataItemList
+    },
+
+    methodEditItem: function () {
+      // let dataItemList = Object.create(this.dataItemList);
+      // const index = this.dataSelectedItem.index;
+      // dataItemList.splice(index, 1);
+      // this.dataItemList = dataItemList
     },
 
     methodSetSelectedItem: function (index) {
@@ -285,18 +297,21 @@ new Vue({
         }
         let targetReadData = content.toString()
         if (this.dataSaveFile.openFileType == 'encjson') {
-          const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
-          targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+
+          try {
+            const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
+            targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
+          } catch (e) {
+            alert('password not correct')
+          }
         }
         this.dataItemList = JSON.parse(targetReadData);
         this.dataDialog.open = false
       })
     },
-
     methodRemoveFile: function () {
       const index = this.dataSaveFile.selectHistoryIndex;
       const fileName = this.dataSaveFile.historyList[index]
-      // console.log(this.dataSaveFile.historyList[index])
       fs.unlinkSync(this.dataSaveFile.dataDirectory + path.sep + fileName);
       this.methodReadHistoryFileList()
       this.dataSaveFile.selectHistoryIndex = null
@@ -305,7 +320,6 @@ new Vue({
     methodSelectOpenFile: function (index) {
       let historyList = Object.create(this.dataSaveFile.historyList);
       let fileName = historyList[index]
-      console.log(fileName)
       if (fileName) {
         const reg = /(.*)(?:\.([^.]+$))/;
         this.dataSaveFile.openFileType = fileName.match(reg)[2];

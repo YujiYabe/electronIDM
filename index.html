@@ -2,376 +2,377 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>electronIDM</title>
-	<link href='./lib/MaterialIcons.css' rel="stylesheet">
+  <meta charset="utf-8">
+  <title>electronIDM</title>
+  <link href='./lib/MaterialIcons.css' rel="stylesheet">
 
-	<link href="./lib/Roboto.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-	<link href="./lib/vuetify.min.css" rel="stylesheet">
+  <link href="./lib/Roboto.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="./lib/vuetify.min.css" rel="stylesheet">
 
-	<link href="./lib/additional.less" rel="stylesheet/less" type="text/css">
-	<script src="./lib/less.min.js"></script>
-	<style>
-		[v-cloak] {
-			display: none;
-		}
-	</style>
+  <link href="./lib/additional.less" rel="stylesheet/less" type="text/css">
+  <script src="./lib/less.min.js"></script>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-	<div id="app" v-cloak>
-		<div id="dialogSave">
-			<v-row justify="center">
-				<v-dialog v-model="dataDialog.save" max-width="480">
-					<v-card>
-						<v-card-title class="">save to file</v-card-title>
+  <div id="app" v-cloak>
+    <div id="dialogSave">
+      <v-row justify="center">
+        <v-dialog v-model="dataDialog.save" max-width="480">
+          <v-card>
+            <v-card-title class="">save to file</v-card-title>
 
-						<v-card-text>
-							<v-text-field outlined dense v-model="dataSaveFile.optionSaveFileName" placeholder="save file name option"
-								class="mb-n8">
-							</v-text-field>
+            <v-card-text>
+              <v-text-field outlined dense v-model="dataSaveFile.optionSaveFileName" placeholder="save file name option"
+                class="mb-n8">
+              </v-text-field>
 
-							<v-radio-group v-model="dataSaveFile.saveFileType" :mandatory="true">
-								<v-radio label="normal(json)" value="normal"></v-radio>
-								<v-radio label="encrypt(json with password)" value="encrypt"></v-radio>
-							</v-radio-group>
+              <v-radio-group v-model="dataSaveFile.saveFileType" :mandatory="true">
+                <v-radio label="normal(json)" value="normal"></v-radio>
+                <v-radio label="encrypt(json with password)" value="encrypt"></v-radio>
+              </v-radio-group>
 
-							<v-text-field outlined dense v-if="dataSaveFile.saveFileType == 'encrypt'"
-								placeholder="password for encrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n4"
-								:type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
-								:append-icon="dataSaveFile.boolVisibleIcon ? 'visibility' : 'visibility_off'"
-								@click:append="dataSaveFile.boolVisibleIcon = !dataSaveFile.boolVisibleIcon">
-							</v-text-field>
+              <v-text-field outlined dense v-if="dataSaveFile.saveFileType == 'encrypt'"
+                placeholder="password for encrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n4"
+                :type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
+                :append-icon="dataSaveFile.boolVisibleIcon ? 'visibility' : 'visibility_off'"
+                @click:append="dataSaveFile.boolVisibleIcon = !dataSaveFile.boolVisibleIcon">
+              </v-text-field>
 
-						</v-card-text>
+            </v-card-text>
 
-						<v-card-actions class="mt-n6 pb-5">
-							<v-spacer></v-spacer>
-							<v-btn depressed color="grey darken-1" dark @click="dataDialog.save = false">
-								cancel
-							</v-btn>
+            <v-card-actions class="mt-n6 pb-5">
+              <v-spacer></v-spacer>
+              <v-btn depressed color="grey darken-1" dark @click="dataDialog.save = false">
+                cancel
+              </v-btn>
 
-							<v-btn depressed color="primary darken-1" dark @click="methodSaveFile">
-								save
-							</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-			</v-row>
-		</div> <!-- dialogSave -->
-
-
-		<div id="dialogOpen">
-			<v-row justify="center">
-
-				<v-row justify="center">
-					<v-dialog v-model="dataDialog.open" max-width="480" class="sticky" scrollable>
-						<v-card>
-							<v-card-title>open file</v-card-title>
-							<v-divider></v-divider>
-							<v-card-text style="height: 300px;">
-								<v-layout justify-center v-for="(historyFile, index) in dataSaveFile.historyList" class="my-2 title"
-									:key="index">
-									<v-flex x12>
-										<v-card flat class="mx-2 px-2" :id="index" :color="methodSetListColor('file', index)"
-											@click="methodSelectOpenFile(index)">
-											{{historyFile}}
-										</v-card>
-									</v-flex>
-								</v-layout>
-							</v-card-text>
-							<v-divider></v-divider>
-
-							<v-card-actions v-if="dataSaveFile.selectHistoryIndex != null" class="pb-7">
-
-								<v-btn depressed color="red darken-1" dark @click="methodRemoveFile">
-									remove
-								</v-btn>
-
-								<v-spacer></v-spacer>
-
-								<v-text-field outlined dense v-if="dataSaveFile.openFileType == 'encjson'"
-									placeholder="password for decrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n7 pt-n4"
-									:type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
-									:append-icon="dataSaveFile.boolVisibleIcon ? 'visibility' : 'visibility_off'"
-									@click:append="dataSaveFile.boolVisibleIcon = !dataSaveFile.boolVisibleIcon">
-								</v-text-field>
-
-								<v-spacer></v-spacer>
-
-								<v-btn depressed color="grey darken-1" dark @click="dataDialog.open = false">
-									cancel
-								</v-btn>
-
-								<v-btn depressed color="primary darken-1" dark @click="methodReadFile">
-									open
-								</v-btn>
-							</v-card-actions>
-						</v-card>
+              <v-btn depressed color="primary darken-1" dark @click="methodSaveFile">
+                save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </div> <!-- dialogSave -->
 
 
-					</v-dialog>
-				</v-row>
+    <div id="dialogOpen">
+      <v-row justify="center">
 
-		</div> <!-- dialogOpen -->
+        <v-row justify="center">
+          <v-dialog v-model="dataDialog.open" max-width="480" class="sticky" scrollable>
+            <v-card>
+              <v-card-title>open file</v-card-title>
+              <v-divider></v-divider>
+              <v-card-text style="height: 300px;">
+                <v-layout justify-center v-for="(historyFile, index) in dataSaveFile.historyList" class="my-2 title"
+                  :key="index">
+                  <v-flex x12>
+                    <v-card flat class="mx-2 px-2" :id="index" :color="methodSetListColor('file', index)"
+                      @click="methodSelectOpenFile(index)">
+                      {{historyFile}}
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-divider></v-divider>
 
+              <v-card-actions v-if="dataSaveFile.selectHistoryIndex != null" class="pb-7">
 
-		<div id="flexbox_container" @mousemove="resizeFrame">
+                <v-btn depressed color="red darken-1" dark @click="methodRemoveFile">
+                  remove
+                </v-btn>
 
-			<div id="flexbox_left_pane" :style="methodSetWidthFrame()">
-				<v-app id="vappleft">
-					<v-content>
-						<div class="sticky">
-							<v-container fluid grid-list-md class="grey lighten-2">
-								<!-- -------------------------------------------------- -->
-								<v-layout justify-center class="">
-									<v-flex x12 v-if="this.dataSaveFile.historyList != 0">
-										<v-btn @click.stop="dataDialog.open = true" width="100%" color="blue" depressed rounded dark>open
-											file
-										</v-btn>
-									</v-flex>
+                <v-spacer></v-spacer>
 
-									<v-flex x12>
-										<v-btn @click.stop="dataDialog.save = true" width="100%" color="blue" depressed rounded dark>save
-											file
-										</v-btn>
-									</v-flex>
-								</v-layout>
+                <v-text-field outlined dense v-if="dataSaveFile.openFileType == 'encjson'"
+                  placeholder="password for decrypt" v-model="dataSaveFile.encryptKeyword" class="mb-n7 pt-n4"
+                  :type="dataSaveFile.boolVisibleIcon ? 'text' : 'password'"
+                  :append-icon="dataSaveFile.boolVisibleIcon ? 'visibility' : 'visibility_off'"
+                  @click:append="dataSaveFile.boolVisibleIcon = !dataSaveFile.boolVisibleIcon">
+                </v-text-field>
 
-							</v-container>
-							<v-container fluid grid-list-md class="grey lighten-3">
-								<!-- -------------------------------------------------- -->
-								<v-layout justify-center class="">
-									<v-flex xs12>
-										<v-btn @click="methodAddItem('new')" width="100%" color="cyan" depressed rounded dark>add item
-											<v-icon dark right>mdi-plus-circle</v-icon>
-										</v-btn>
-									</v-flex>
-								</v-layout>
+                <v-spacer></v-spacer>
 
-								<!-- -------------------------------------------------- -->
-								<v-layout justify-center v-if="dataSelectedItem.index != null">
-									<v-flex x12>
-										<v-btn @click.stop="methodAddItem('copy')" width="100%" color="cyan" dark depressed rounded>
-											clone
-										</v-btn>
-									</v-flex>
+                <v-btn depressed color="grey darken-1" dark @click="dataDialog.open = false">
+                  cancel
+                </v-btn>
 
-									<v-flex x12>
-										<v-btn @click.stop="methodRemoveItem" width="100%" color="cyan" depressed rounded dark>
-											remove
-										</v-btn>
-									</v-flex>
-								</v-layout>
-
-								<!-- -------------------------------------------------- -->
-								<v-layout justify-center class="mt-3 mb-n4">
-									<v-flex xs12>
-										<v-text-field outlined dense v-model="dataFilterWord" background-color="cyan lighten-3"
-											placeholder="filter" class="my-n3" @keyup="resetSelectedItem">
-										</v-text-field>
-									</v-flex>
-								</v-layout>
-							</v-container>
-						</div>
-
-						<!-- -------------------------------------------------- -->
-						<div class="itemArea">
-							<v-layout justify-center v-for="(dataItem, index) in dataItemList" :key="index">
-								<v-flex xs11>
-									<v-card flat :id="index" :color="methodSetListColor('item',index)" :data-index="index"
-										:data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
-										:data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
-										:data-tagid="dataItem.tagId" :data-tagpassword="dataItem.tagPassword"
-										:data-tagother1="dataItem.tagOther1" :data-tagother2="dataItem.tagOther2"
-										@click="methodSetSelectedItem(index)" class="px-2 py-2 mt-2 is-hide"
-										:class="methodFilterCondition(dataItem.name)">
-										{{dataItem.name}}
-									</v-card>
-								</v-flex>
-							</v-layout>
-						</div>
-
-						</v-container>
-					</v-content>
-				</v-app>
-
-			</div><!-- flexbox_left_pane -->
+                <v-btn depressed color="primary darken-1" dark @click="methodReadFile">
+                  open
+                </v-btn>
+              </v-card-actions>
+            </v-card>
 
 
-			<div id="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize" @mouseup="endResizeFrame">
-			</div> <!-- flexbox_cent_line -->
+          </v-dialog>
+        </v-row>
 
-			<div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null">
-
-				<v-app id="vappRight" v-if="dataItemList.length > 0 && dataDialog.open == false">
-					<v-content>
-						<v-container fluid grid-list-md>
-							<!-- -------------------------------------------------- -->
-							<v-layout justify-start class="" style="display: none;">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs11>
-											<v-text-field outlined disabled v-model="dataSelectedItem.index">
-											</v-text-field>
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
-
-							<!-- ■■■ name -------------------------------------------------- -->
-							<v-layout justify-start class="">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs11>
-											<v-text-field outlined :rules="[dataRules.required]" :background-color="methodSetColor('name')"
-												:placeholder="dataDictionary.placeholderBody" v-model="dataSelectedItem.name"
-												@change="methodSetDataItem('name')" :append-icon="methodSetAppendIcon('all')"
-												@click:append="methodSetAllVisible('neutral')" tabindex="1">
-											</v-text-field>
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
-
-							<!-- ■■■ id -------------------------------------------------- -->
-							<v-layout justify-start class="mt-n5">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs3>
-											<v-text-field id="tagId" dark outlined dense :background-color="methodSetColor('tagId')"
-												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagId"
-												@change="methodSetDataItem('tagId')" tabindex="0">
-											</v-text-field>
-										</v-flex>
-										<v-flex xs8>
-
-											<v-text-field id="id" outlined dense :background-color="methodSetColor('id')"
-												v-model="dataSelectedItem.id" :prepend-inner-icon="methodSetPrependIcon('id')"
-												@click:prepend-inner="methodPasteToClipBoard('id')"
-												:placeholder="dataDictionary.placeholderBody" :append-icon="methodSetAppendIcon('id')"
-												@click:append="methodSetAppendIconStatus('id')" :type="methodSetTextType('id')"
-												@change="methodSetDataItem('id')" tabindex="2">
-											</v-text-field>
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
-
-							<!-- ■■■ password -------------------------------------------------- -->
-							<v-layout justify-start class="mt-n6">
-								<v-flex xs12>
-									<v-layout justify-start>
-
-										<v-flex xs3>
-											<v-text-field id="tagPassword" dark outlined dense
-												:background-color="methodSetColor('tagPassword')" :placeholder="dataDictionary.placeholderTag"
-												v-model="dataSelectedItem.tagPassword" @change="methodSetDataItem('tagPassword')" tabindex="0">
-											</v-text-field>
-										</v-flex>
-
-										<v-flex xs8>
-											<v-text-field id="password" outlined dense :background-color="methodSetColor('password')"
-												v-model="dataSelectedItem.password" :prepend-inner-icon="methodSetPrependIcon('password')"
-												@click:prepend-inner="methodPasteToClipBoard('password')"
-												:placeholder="dataDictionary.placeholderBody" :append-icon="methodSetAppendIcon('password')"
-												@click:append="methodSetAppendIconStatus('password')" :type="methodSetTextType('password')"
-												@change="methodSetDataItem('password')" tabindex="3">
-											</v-text-field>
-										</v-flex>
-
-									</v-layout>
-								</v-flex>
-							</v-layout>
-
-							<!-- ■■■ other1 -------------------------------------------------- -->
-							<v-layout justify-start class="mt-n6">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs3>
-
-											<v-text-field id="tagOther1" dark outlined dense :background-color="methodSetColor('tagOther1')"
-												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther1"
-												@change="methodSetDataItem('tagOther1')" tabindex="0"></v-text-field>
+    </div> <!-- dialogOpen -->
 
 
-										</v-flex>
-										<v-flex xs8>
+    <div id="flexbox_container" @mousemove="resizeFrame">
+
+      <div id="flexbox_left_pane" :style="methodSetWidthFrame()">
+        <v-app id="vappleft">
+          <v-content>
+            <div class="sticky">
+              <v-container fluid grid-list-md class="grey lighten-2">
+                <!-- -------------------------------------------------- -->
+                <v-layout justify-center class="">
+                  <v-flex x12 v-if="this.dataSaveFile.historyList != 0">
+                    <v-btn @click.stop="dataDialog.open = true" width="100%" color="blue" depressed rounded dark>open
+                      file
+                    </v-btn>
+                  </v-flex>
+
+                  <v-flex x12>
+                    <v-btn @click.stop="dataDialog.save = true" width="100%" color="blue" depressed rounded dark>save
+                      file
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+
+              </v-container>
+              <v-container fluid grid-list-md class="grey lighten-3">
+                <!-- -------------------------------------------------- -->
+                <v-layout justify-center class="">
+                  <v-flex xs12>
+                    <v-btn @click="methodAddItem('new')" width="100%" color="cyan" depressed rounded dark>add item
+                      <v-icon dark right>mdi-plus-circle</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+
+                <!-- -------------------------------------------------- -->
+                <v-layout justify-center v-if="dataSelectedItem.index != null">
+                  <v-flex x12>
+                    <v-btn @click.stop="methodAddItem('copy')" width="100%" color="cyan" dark depressed rounded>
+                      clone
+                    </v-btn>
+                  </v-flex>
+
+                  <v-flex x12>
+                    <v-btn @click.stop="methodRemoveItem" width="100%" color="cyan" depressed rounded dark>
+                      remove
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+
+                <!-- -------------------------------------------------- -->
+                <v-layout justify-center class="mt-3 mb-n4">
+                  <v-flex xs12>
+                    <v-text-field outlined dense v-model="dataFilterWord" background-color="cyan lighten-3"
+                      placeholder="filter" class="my-n3" @keyup="resetSelectedItem">
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <!-- -------------------------------------------------- -->
+            <div class="itemArea">
+              <v-layout justify-center v-for="(dataItem, index) in dataItemList" :key="index">
+                <v-flex xs11>
+                  <v-card flat :id="index" :color="methodSetListColor('item',index)" :data-index="index"
+                    :data-name="dataItem.name" :data-id="dataItem.id" :data-password="dataItem.password"
+                    :data-other1="dataItem.other1" :data-other2="dataItem.other2" :data-text="dataItem.text"
+                    :data-tagid="dataItem.tagId" :data-tagpassword="dataItem.tagPassword"
+                    :data-tagother1="dataItem.tagOther1" :data-tagother2="dataItem.tagOther2"
+                    @click="methodSetSelectedItem(index)" class="px-2 py-2 mt-2 is-hide"
+                    :class="methodFilterCondition(dataItem.name)">
+                    {{dataItem.name}}
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </div>
+
+            </v-container>
+          </v-content>
+        </v-app>
+
+      </div><!-- flexbox_left_pane -->
 
 
-											<v-text-field id="other1" outlined dense :background-color="methodSetColor('other1')"
-												v-model="dataSelectedItem.other1" :prepend-inner-icon="methodSetPrependIcon('other1')"
-												@click:prepend-inner="methodPasteToClipBoard('other1')"
-												:placeholder="dataDictionary.placeholderOther" :append-icon="methodSetAppendIcon('other1')"
-												@click:append="methodSetAppendIconStatus('other1')" :type="methodSetTextType('other1')"
-												@change="methodSetDataItem('other1')" tabindex="4">
-											</v-text-field>
+      <div id="flexbox_cent_line" :class="changeWidth()" @mousedown="startResize" @mouseup="endResizeFrame">
+      </div> <!-- flexbox_cent_line -->
 
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
+      <!-- <div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null"> -->
+      <div id="flexbox_rght_pane" :class="methodSetShowRightPane()">
 
-							<!-- ■■■ other2 -------------------------------------------------- -->
-							<v-layout justify-start class="mt-n6">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs3>
-											<v-text-field id="tagOther2" dark outlined dense :background-color="methodSetColor('tagOther2')"
-												:placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther2"
-												@change="methodSetDataItem('tagOther2')" tabindex="0">
-											</v-text-field>
+        <v-app id="vappRight" v-if="dataItemList.length > 0 && dataDialog.open == false">
+          <v-content>
+            <v-container fluid grid-list-md>
+              <!-- -------------------------------------------------- -->
+              <v-layout justify-start class="" style="display: none;">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-text-field outlined disabled v-model="dataSelectedItem.index">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
 
-										</v-flex>
-										<v-flex xs8>
-											<v-text-field id="other2" outlined dense :background-color="methodSetColor('other2')"
-												v-model="dataSelectedItem.other2" :prepend-inner-icon="methodSetPrependIcon('other2')"
-												@click:prepend-inner="methodPasteToClipBoard('other2')"
-												:placeholder="dataDictionary.placeholderOther" :append-icon="methodSetAppendIcon('other2')"
-												@click:append="methodSetAppendIconStatus('other2')" :type="methodSetTextType('other2')"
-												@change="methodSetDataItem('other2')" tabindex="5">
+              <!-- ■■■ name -------------------------------------------------- -->
+              <v-layout justify-start class="">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-text-field outlined :rules="[dataRules.required]" :background-color="methodSetColor('name')"
+                        :placeholder="dataDictionary.placeholderBody" v-model="dataSelectedItem.name"
+                        @change="methodSetDataItem('name')" :append-icon="methodSetAppendIcon('all')"
+                        @click:append="methodSetAllVisible('neutral')" tabindex="1">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
 
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
+              <!-- ■■■ id -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field id="tagId" dark outlined dense :background-color="methodSetColor('tagId')"
+                        :placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagId"
+                        @change="methodSetDataItem('tagId')" tabindex="0">
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs8>
 
-							<!-- ■■■ text -------------------------------------------------- -->
-							<v-layout justify-start class="mt-n5">
-								<v-flex xs12>
-									<v-layout justify-start>
-										<v-flex xs11>
-											<v-textarea id="text" label="free text area" outlined dense rows="10"
-												:background-color="methodSetColor('text')" v-model="dataSelectedItem.text"
-												@change="methodSetDataItem('text')" auto-grow tabindex="6">
-											</v-textarea>
+                      <v-text-field id="id" outlined dense :background-color="methodSetColor('id')"
+                        v-model="dataSelectedItem.id" :prepend-inner-icon="methodSetPrependIcon('id')"
+                        @click:prepend-inner="methodPasteToClipBoard('id')"
+                        :placeholder="dataDictionary.placeholderBody" :append-icon="methodSetAppendIcon('id')"
+                        @click:append="methodSetAppendIconStatus('id')" :type="methodSetTextType('id')"
+                        @change="methodSetDataItem('id')" tabindex="2">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
 
-										</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
+              <!-- ■■■ password -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+
+                    <v-flex xs3>
+                      <v-text-field id="tagPassword" dark outlined dense
+                        :background-color="methodSetColor('tagPassword')" :placeholder="dataDictionary.placeholderTag"
+                        v-model="dataSelectedItem.tagPassword" @change="methodSetDataItem('tagPassword')" tabindex="0">
+                      </v-text-field>
+                    </v-flex>
+
+                    <v-flex xs8>
+                      <v-text-field id="password" outlined dense :background-color="methodSetColor('password')"
+                        v-model="dataSelectedItem.password" :prepend-inner-icon="methodSetPrependIcon('password')"
+                        @click:prepend-inner="methodPasteToClipBoard('password')"
+                        :placeholder="dataDictionary.placeholderBody" :append-icon="methodSetAppendIcon('password')"
+                        @click:append="methodSetAppendIconStatus('password')" :type="methodSetTextType('password')"
+                        @change="methodSetDataItem('password')" tabindex="3">
+                      </v-text-field>
+                    </v-flex>
+
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- ■■■ other1 -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+
+                      <v-text-field id="tagOther1" dark outlined dense :background-color="methodSetColor('tagOther1')"
+                        :placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther1"
+                        @change="methodSetDataItem('tagOther1')" tabindex="0"></v-text-field>
 
 
-						</v-container>
-					</v-content>
-				</v-app><!-- vappRight -->
+                    </v-flex>
+                    <v-flex xs8>
 
-			</div><!-- flexbox_rght_pane -->
 
-		</div><!-- flexbox_container -->
+                      <v-text-field id="other1" outlined dense :background-color="methodSetColor('other1')"
+                        v-model="dataSelectedItem.other1" :prepend-inner-icon="methodSetPrependIcon('other1')"
+                        @click:prepend-inner="methodPasteToClipBoard('other1')"
+                        :placeholder="dataDictionary.placeholderOther" :append-icon="methodSetAppendIcon('other1')"
+                        @click:append="methodSetAppendIconStatus('other1')" :type="methodSetTextType('other1')"
+                        @change="methodSetDataItem('other1')" tabindex="4">
+                      </v-text-field>
 
-	</div><!-- app -->
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
 
-	<style lang="scss">
-		* :not(.v-icon) {
-			font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
-		}
-	</style>
+              <!-- ■■■ other2 -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n6">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs3>
+                      <v-text-field id="tagOther2" dark outlined dense :background-color="methodSetColor('tagOther2')"
+                        :placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther2"
+                        @change="methodSetDataItem('tagOther2')" tabindex="0">
+                      </v-text-field>
 
-	<script src="./lib/vue.min.js"></script>
-	<script src="./lib/vuetify.min.js"></script>
-	<script src="index.js"></script>
+                    </v-flex>
+                    <v-flex xs8>
+                      <v-text-field id="other2" outlined dense :background-color="methodSetColor('other2')"
+                        v-model="dataSelectedItem.other2" :prepend-inner-icon="methodSetPrependIcon('other2')"
+                        @click:prepend-inner="methodPasteToClipBoard('other2')"
+                        :placeholder="dataDictionary.placeholderOther" :append-icon="methodSetAppendIcon('other2')"
+                        @click:append="methodSetAppendIconStatus('other2')" :type="methodSetTextType('other2')"
+                        @change="methodSetDataItem('other2')" tabindex="5">
+
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+              <!-- ■■■ text -------------------------------------------------- -->
+              <v-layout justify-start class="mt-n5">
+                <v-flex xs12>
+                  <v-layout justify-start>
+                    <v-flex xs11>
+                      <v-textarea id="text" label="free text area" outlined dense rows="10"
+                        :background-color="methodSetColor('text')" v-model="dataSelectedItem.text"
+                        @change="methodSetDataItem('text')" auto-grow tabindex="6">
+                      </v-textarea>
+
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+
+
+            </v-container>
+          </v-content>
+        </v-app><!-- vappRight -->
+
+      </div><!-- flexbox_rght_pane -->
+
+    </div><!-- flexbox_container -->
+
+  </div><!-- app -->
+
+  <style lang="scss">
+    * :not(.v-icon) {
+      font-family: 'Noto Sans Mono CJK JP Regular', 'MS Gothic', 'Osaka', Consolas, 'Courier New', Courier, Monaco, monospace;
+    }
+  </style>
+
+  <script src="./lib/vue.min.js"></script>
+  <script src="./lib/vuetify.min.js"></script>
+  <script src="index.js"></script>
 
 </body>
 
