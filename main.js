@@ -1,7 +1,11 @@
 // https://github.com/kondoumh/sbe/tree/master/src
 
 // Modules to control application life and create native browser window
-const { app, Menu, BrowserWindow } = require('electron')
+const {
+  app,
+  Menu,
+  BrowserWindow
+} = require('electron')
 const path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,7 +13,7 @@ const path = require('path')
 
 require('electron-reload')(__dirname);
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
@@ -25,7 +29,7 @@ function createWindow () {
   mainWindow.loadFile('index.html')
   mainWindow.setMenu(null);
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

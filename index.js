@@ -109,13 +109,12 @@ new Vue({
 
 
   },
-  mounted () {
+  mounted() {
     this.methodReadHistoryFileList()
 
   },
 
-  computed: {
-  },
+  computed: {},
   methods: {
     methodSetPrependIcon: function (position) {
       return this.dataCopyIcon[position] ? 'mdi-check-bold' : 'mdi-clipboard'
@@ -357,8 +356,7 @@ new Vue({
           }
           tempArray.push(set)
         }
-      }
-      )
+      })
 
       let targetSaveData = JSON.stringify(tempArray);
 
@@ -393,18 +391,18 @@ new Vue({
     },
 
 
-    methodSetWidthFrame () {
+    methodSetWidthFrame() {
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
     },
 
-    startResize () {
+    startResize() {
       this.dataControlFrame.isDragged = true
     },
 
-    changeWidth () {
+    changeWidth() {
       return this.dataControlFrame.isDragged ? 'pink ' : 'grey'
     },
-    resizeFrame (event) {
+    resizeFrame(event) {
       if (event.buttons === 0) {
         this.endResizeFrame()
         return
@@ -417,7 +415,7 @@ new Vue({
         this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
-    endResizeFrame () {
+    endResizeFrame() {
       this.dataControlFrame.isDragged = false
     }
 
