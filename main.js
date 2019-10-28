@@ -13,12 +13,13 @@ const path = require('path')
 
 require('electron-reload')(__dirname);
 
-function createWindow() {
+function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
     width: 900,
     height: 600,
+    icon: __dirname + '/build/icon.png',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
@@ -29,7 +30,7 @@ function createWindow() {
   mainWindow.loadFile('index.html')
   mainWindow.setMenu(null);
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

@@ -110,7 +110,7 @@ new Vue({
 
 
   },
-  mounted() {
+  mounted () {
     this.methodReadHistoryFileList()
 
   },
@@ -172,13 +172,6 @@ new Vue({
       this.dataItemList = dataItemList
     },
 
-    methodEditItem: function () {
-      // let dataItemList = Object.create(this.dataItemList);
-      // const index = this.dataSelectedItem.index;
-      // dataItemList.splice(index, 1);
-      // this.dataItemList = dataItemList
-    },
-
     methodSetSelectedItem: function (index) {
 
       let dataItem = Object.create(this.dataItemList[index]);
@@ -233,6 +226,7 @@ new Vue({
         itemType = Object.create(this.dataItemTemplate)
         itemType.name = "created at : " + this.methodDateTimeString()
         afterAddShow = 'true'
+        this.dataFilterWord = null
       } else if (type == 'copy') {
         itemType = Object.create(this.dataSelectedItem)
         afterAddShow = 'false'
@@ -271,10 +265,11 @@ new Vue({
 
     // 整形表現に一致すればクラスis-showを返却
     methodFilterCondition: function (itemName) {
-      let freeWordList = this.dataFilterWord.split(" ");
-      if (this.dataFilterWord == "") {
+      if (this.dataFilterWord == '' || this.dataFilterWord == null) {
         return "is-show";
       } else {
+        console.log(this.dataFilterWord)
+        let freeWordList = this.dataFilterWord.split(" ");
         let strCombRegex = ".*";
         freeWordList.forEach((value, index, array) => {
           strCombRegex = ".*" + value + ".*";
@@ -343,6 +338,7 @@ new Vue({
           // バックアップファイルが一つもない場合、ダイアログを開かない
           console.log("not found files");
           self.dataDialog.open = false
+
         } else {
           self.dataDialog.open = true
           self.dataSaveFile.historyList = files.slice().reverse();
@@ -405,18 +401,18 @@ new Vue({
     },
 
 
-    methodSetWidthFrame() {
+    methodSetWidthFrame () {
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
     },
 
-    startResize() {
+    startResize () {
       this.dataControlFrame.isDragged = true
     },
 
-    changeWidth() {
+    changeWidth () {
       return this.dataControlFrame.isDragged ? 'pink ' : 'grey'
     },
-    resizeFrame(event) {
+    resizeFrame (event) {
       if (event.buttons === 0) {
         this.endResizeFrame()
         return
@@ -429,7 +425,7 @@ new Vue({
         this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
-    endResizeFrame() {
+    endResizeFrame () {
       this.dataControlFrame.isDragged = false
     }
 
