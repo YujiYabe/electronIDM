@@ -7,7 +7,7 @@
       <div class="left-frame inner" :style="methodSetWidthFrame()">
       <LeftFrame></LeftFrame>
       </div>
-      <div class="cent-frame inner" :class="changeWitdh()" @mousedown="startResize" @mouseup="endResizeFrame">
+      <div class="cent-frame inner" :class="changeWitdh()" @mousedown="methodStartResize" @mouseup="methodEndResizeFrame">
       </div>
       <div class="rght-frame inner">
       <RightFrame></RightFrame>
@@ -37,9 +37,7 @@ export default {
     }
   },
   mounted () {
-    // this.methodOpenConfig()
-    // this.$store.actions.setUser()
-    this.$store.dispatch('methodReadHistoryFileList')
+    this.$store.dispatch('actionReaConfigFile')
   },
 
   methods: {
@@ -47,7 +45,7 @@ export default {
       return 'width:' + this.leftWidth + 'px'
     },
 
-    startResize () {
+    methodStartResize () {
       this.isDragged = true
     },
 
@@ -57,7 +55,7 @@ export default {
     },
     resizeFrame (event) {
       if (event.buttons === 0) {
-        this.endResizeFrame()
+        this.methodEndResizeFrame()
         return
       }
       if (this.isDragged) {
@@ -68,7 +66,7 @@ export default {
         this.leftWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
-    endResizeFrame () {
+    methodEndResizeFrame () {
       this.isDragged = false
     }
   }
