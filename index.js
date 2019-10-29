@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-const CryptoJS = require('crypto-js');
 const Util = require('./util');
 
 const LEFT_FRAME_MIN_WIDTH = 45
@@ -263,11 +260,7 @@ new Vue({
     },
 
     methodRemoveFile: function () {
-      const index = this.dataSaveFile.selectHistoryIndex;
-      const fileName = this.dataSaveFile.historyList[index]
-      fs.unlinkSync(this.dataSaveFile.dataDirectory + path.sep + fileName);
-      this.methodReadHistoryFileList()
-      this.dataSaveFile.selectHistoryIndex = null
+      Util.methodRemoveFile(this)
     },
 
     methodSelectOpenFile: function (index) {
@@ -288,45 +281,10 @@ new Vue({
     },
 
     // saveFileボタンが押されたとき
-    methodSaveFile: function (event) {
-      let tempArray = []
-      this.dataItemList.forEach(function (key) {
-        if (key) {
-          const set = Util.methodSetContentItem(key)
-          tempArray.push(set)
-        }
-      })
-
-      let targetSaveData = JSON.stringify(tempArray);
-
-      const fileNameDate = Util.dateTimeString()
-      let fileExtension = ".json"
-
-      if (this.dataSaveFile.saveFileType == 'encrypt') {
-        fileExtension = ".encjson"
-        const encrypted = CryptoJS.AES.encrypt(targetSaveData, this.dataSaveFile.encryptKeyword)
-        targetSaveData = encrypted.toString()
-      }
-
-      let optionSaveFileName = ''
-      if (this.dataSaveFile.optionSaveFileName) {
-        optionSaveFileName = '_' + this.dataSaveFile.optionSaveFileName
-      }
-
-      const fileName = this.dataSaveFile.dataDirectory + path.sep + fileNameDate + optionSaveFileName + fileExtension
-      this.methodWriteFile(fileName, targetSaveData)
-      this.dataDialog.save = false
-      this.methodReadHistoryFileList()
-
+    methodSaveFile: function () {
+      Util.methodSaveFile(this)
     },
 
-    methodWriteFile: function (path, data) {
-      fs.writeFile(path, data, (error) => {
-        if (error != null) {
-          alert('save error.')
-        }
-      })
-    },
 
     methodSetWidthFrame() {
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
