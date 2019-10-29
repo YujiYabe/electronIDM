@@ -117,7 +117,7 @@
     </div> <!-- dialogOpen -->
 
 
-    <div id="flexbox_container" @mousemove="resizeFrame">
+    <div id="flexbox_container" @mousemove="MethodResizeFrame">
 
       <div id="flexbox_left_pane" :style="methodSetWidthFrame()">
         <v-app id="vappleft">
@@ -200,7 +200,7 @@
       </div><!-- flexbox_left_pane -->
 
 
-      <div id="flexbox_cent_line" @mousedown="startResize" @mouseup="endResizeFrame">
+      <div id="flexbox_cent_line" @mousedown="MethodStartResize" @mouseup="methodEndResizeFrame">
       </div> <!-- flexbox_cent_line -->
 
       <!-- <div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null"> -->

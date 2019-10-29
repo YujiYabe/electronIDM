@@ -36,7 +36,6 @@ new Vue({
       open: false,
     },
 
-
     dataCopyIcon: {
       id: false,
       password: false,
@@ -101,19 +100,16 @@ new Vue({
       other1: "",
       other2: "",
       text: "",
-
       tagId: "ID",
       tagPassword: "password",
       tagOther1: "other1",
       tagOther2: "other2",
     }
 
-
   },
-  mounted () {
+  mounted() {
     this.methodReadHistoryFileList()
     this.methodSelectOpenFile(0)
-
   },
 
   computed: {},
@@ -143,10 +139,12 @@ new Vue({
     },
 
     methodSetListColor: function (targetName, index) {
+      const selectColor = this.dataColorList.targetSelected
+      const UnselectColor = this.dataColorList.targetUnselected
       if (targetName == 'item') {
-        return index == this.dataSelectedItem.index ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
+        return index == this.dataSelectedItem.index ? selectColor : UnselectColor
       } else {
-        return index == this.dataSaveFile.selectHistoryIndex ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
+        return index == this.dataSaveFile.selectHistoryIndex ? selectColor : UnselectColor
       }
     },
 
@@ -201,9 +199,6 @@ new Vue({
       let hh = ("00" + dt.getHours()).slice(-2);
       let nn = ("00" + dt.getMinutes()).slice(-2);
       let ss = ("00" + dt.getSeconds()).slice(-2);
-      // let ddd = ("000" + dt.getMilliseconds()).slice(-3);
-      // return yyyy + mm + dd + hh + nn + ss + ddd;
-      // return yyyy + "-" + mm + "-" + dd + " " + hh + ":" + nn + ":" + ss;
       return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
     },
 
@@ -284,13 +279,15 @@ new Vue({
       }
     },
 
-    // 指定したファイルを読み込む
     methodReadFile: function () {
-      fs.readFile(this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile, (error, content) => {
+      const targetPath = this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile
+      fs.readFile(targetPath, (error, content) => {
+
         if (error != null) {
           alert('file open error.')
           return
         }
+
         let targetReadData = content.toString()
         if (this.dataSaveFile.openFileType == 'encjson') {
 
@@ -305,6 +302,7 @@ new Vue({
         this.dataDialog.open = false
       })
     },
+
     methodRemoveFile: function () {
       const index = this.dataSaveFile.selectHistoryIndex;
       const fileName = this.dataSaveFile.historyList[index]
@@ -396,7 +394,6 @@ new Vue({
     // fileを保存（Pathと内容を指定）
     methodWriteFile: function (path, data) {
       fs.writeFile(path, data, (error) => {
-        // fs.writeFileSync(path, data, (error) => {
         if (error != null) {
           alert('save error.')
         }
@@ -404,22 +401,17 @@ new Vue({
     },
 
 
-    methodSetWidthFrame () {
-      // console.log(this.dataControlFrame.leftFrameWidth)
+    methodSetWidthFrame() {
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
     },
 
-    startResize () {
+    MethodStartResize() {
       this.dataControlFrame.isDragged = true
     },
 
-    changeWidth () {
-      return this.dataControlFrame.isDragged ? 'pink ' : 'grey'
-    },
-
-    resizeFrame (event) {
+    MethodResizeFrame(event) {
       if (event.buttons === 0) {
-        this.endResizeFrame()
+        this.methodEndResizeFrame()
         return
       }
       if (this.dataControlFrame.isDragged) {
@@ -432,7 +424,7 @@ new Vue({
       }
     },
 
-    endResizeFrame () {
+    methodEndResizeFrame() {
       this.dataControlFrame.isDragged = false
     }
 
