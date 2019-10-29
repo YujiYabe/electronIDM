@@ -138,12 +138,15 @@ new Vue({
       return this.dataSelectedItem.index == null ? 'is-hidden' : ''
     },
 
-    methodSetItemListColor: function (index) {
-      return index == this.dataSelectedItem.index ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
-    },
+    methodSetListColor: function (targetName, index) {
+      const selectColor = this.dataColorList.targetSelected
+      const UnselectColor = this.dataColorList.targetUnselected
+      let targetType = this.dataSaveFile.selectHistoryIndex;
 
-    methodSetFileListColor: function (index) {
-      return index == this.dataSaveFile.selectHistoryIndex ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
+      if (targetName == 'item') {
+        targetType = this.dataSelectedItem.index;
+      }
+      return index == targetType ? selectColor : UnselectColor
     },
 
     methodSetAllVisible: function (statusString) {
