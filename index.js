@@ -112,7 +112,6 @@ new Vue({
     this.methodReadHistoryFileList()
     this.methodSelectOpenFile(0)
     console.log(Util.dateTimeString())
-
   },
 
   computed: {},
@@ -175,9 +174,7 @@ new Vue({
     },
 
     methodSetSelectedItem: function (index) {
-
       let dataItem = Object.create(this.dataItemList[index]);
-
       this.dataSelectedItem.index = index;
       this.dataSelectedItem.name = dataItem.name;
       this.dataSelectedItem.id = dataItem.id;
@@ -262,27 +259,7 @@ new Vue({
     },
 
     methodReadFile: function () {
-      const targetPath = this.dataSaveFile.dataDirectory + path.sep + this.dataSaveFile.selectHistoryFile
-      fs.readFile(targetPath, (error, content) => {
-
-        if (error != null) {
-          alert('file open error.')
-          return
-        }
-
-        let targetReadData = content.toString()
-        if (this.dataSaveFile.openFileType == 'encjson') {
-
-          try {
-            const decrypted = CryptoJS.AES.decrypt(targetReadData, this.dataSaveFile.encryptKeyword)
-            targetReadData = decrypted.toString(CryptoJS.enc.Utf8)
-          } catch (e) {
-            alert('password not correct')
-          }
-        }
-        this.dataItemList = JSON.parse(targetReadData);
-        this.dataDialog.open = false
-      })
+      Util.readFile(this)
     },
 
     methodRemoveFile: function () {
@@ -307,26 +284,7 @@ new Vue({
     },
 
     methodReadHistoryFileList: function () {
-      if (!fs.existsSync(this.dataSaveFile.dataDirectory)) {
-        fs.mkdirSync(this.dataSaveFile.dataDirectory);
-      }
-
-      let self = this
-
-      fs.readdir(this.dataSaveFile.dataDirectory + path.sep, function (err, files) {
-        if (err) {
-          console.log("error : " + err);
-        }
-        if (files.length == 0) {
-          // バックアップファイルが一つもない場合、ダイアログを開かない
-          console.log("not found files");
-          self.dataDialog.open = false
-          self.dataSaveFile.historyList = []
-        } else {
-          self.dataDialog.open = true
-          self.dataSaveFile.historyList = files.slice().reverse();
-        }
-      });
+      Util.methodReadHistoryFileList(this)
     },
 
     // saveFileボタンが押されたとき
