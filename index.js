@@ -138,16 +138,13 @@ new Vue({
       return this.dataSelectedItem.index == null ? 'is-hidden' : ''
     },
 
-    methodSetListColor: function (targetName, index) {
-      const selectColor = this.dataColorList.targetSelected
-      const UnselectColor = this.dataColorList.targetUnselected
-      if (targetName == 'item') {
-        return index == this.dataSelectedItem.index ? selectColor : UnselectColor
-      } else {
-        return index == this.dataSaveFile.selectHistoryIndex ? selectColor : UnselectColor
-      }
+    methodSetItemListColor: function (index) {
+      return index == this.dataSelectedItem.index ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
     },
 
+    methodSetFileListColor: function (index) {
+      return index == this.dataSaveFile.selectHistoryIndex ? this.dataColorList.targetSelected : this.dataColorList.targetUnselected
+    },
 
     methodSetAllVisible: function (statusString) {
       if (statusString == "neutral") {
@@ -228,6 +225,15 @@ new Vue({
         afterAddShow = 'false'
       }
 
+      const set = this.methodSetContentItem(itemType)
+
+      dataItemList.unshift(set);
+      this.dataItemList = dataItemList;
+      this.methodSetSelectedItem(0);
+      this.methodSetAllVisible(afterAddShow);
+    },
+
+    methodSetContentItem: function (itemType) {
       const set = {
         "name": itemType.name,
         "id": itemType.id,
@@ -240,11 +246,7 @@ new Vue({
         "tagOther1": itemType.tagOther1,
         "tagOther2": itemType.tagOther2,
       };
-
-      dataItemList.unshift(set);
-      this.dataItemList = dataItemList;
-      this.methodSetSelectedItem(0);
-      this.methodSetAllVisible(afterAddShow);
+      return set
     },
 
     methodPasteToClipBoard: function (position) {
@@ -352,18 +354,7 @@ new Vue({
       let tempArray = []
       this.dataItemList.forEach(function (key) {
         if (key) {
-          const set = {
-            name: key.name,
-            id: key.id,
-            password: key.password,
-            other1: key.other1,
-            other2: key.other2,
-            text: key.text,
-            tagId: key.tagId,
-            tagPassword: key.tagPassword,
-            tagOther1: key.tagOther1,
-            tagOther2: key.tagOther2,
-          }
+          const set = this.methodSetContentItem(key)
           tempArray.push(set)
         }
       })
