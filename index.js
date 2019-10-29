@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const CryptoJS = require('crypto-js');
+const Util = require('./util');
 
 const LEFT_FRAME_MIN_WIDTH = 45
 const FRAME_ADJUSTED_SETTING = -4
@@ -110,6 +111,8 @@ new Vue({
   mounted() {
     this.methodReadHistoryFileList()
     this.methodSelectOpenFile(0)
+    console.log(Util.dateTimeString())
+
   },
 
   computed: {},
@@ -191,17 +194,6 @@ new Vue({
 
     },
 
-    methodDateTimeString: function () {
-      let dt = new Date();
-      let yyyy = dt.getFullYear();
-      let mm = ("00" + (dt.getMonth() + 1)).slice(-2);
-      let dd = ("00" + dt.getDate()).slice(-2);
-      let hh = ("00" + dt.getHours()).slice(-2);
-      let nn = ("00" + dt.getMinutes()).slice(-2);
-      let ss = ("00" + dt.getSeconds()).slice(-2);
-      return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
-    },
-
     methodSetDataItem: function (position) {
       let dataItem = Object.create(this.dataItemList[this.dataSelectedItem.index]);
 
@@ -220,7 +212,7 @@ new Vue({
 
       if (type == 'new') {
         itemType = Object.create(this.dataItemTemplate)
-        itemType.name = "created at : " + this.methodDateTimeString()
+        itemType.name = "created at : " + Util.dateTimeString()
         afterAddShow = 'true'
         this.dataFilterWord = null
       } else if (type == 'copy') {
@@ -228,7 +220,7 @@ new Vue({
         afterAddShow = 'false'
       }
 
-      const set = this.methodSetContentItem(itemType)
+      const set = Util.methodSetContentItem(itemType)
 
       dataItemList.unshift(set);
       this.dataItemList = dataItemList;
@@ -236,21 +228,6 @@ new Vue({
       this.methodSetAllVisible(afterAddShow);
     },
 
-    methodSetContentItem: function (itemType) {
-      const set = {
-        "name": itemType.name,
-        "id": itemType.id,
-        "password": itemType.password,
-        "other1": itemType.other1,
-        "other2": itemType.other2,
-        "text": itemType.text,
-        "tagId": itemType.tagId,
-        "tagPassword": itemType.tagPassword,
-        "tagOther1": itemType.tagOther1,
-        "tagOther2": itemType.tagOther2,
-      };
-      return set
-    },
 
     methodPasteToClipBoard: function (position) {
       let self = this;
@@ -357,14 +334,14 @@ new Vue({
       let tempArray = []
       this.dataItemList.forEach(function (key) {
         if (key) {
-          const set = this.methodSetContentItem(key)
+          const set = Util.methodSetContentItem(key)
           tempArray.push(set)
         }
       })
 
       let targetSaveData = JSON.stringify(tempArray);
 
-      const fileNameDate = this.methodDateTimeString()
+      const fileNameDate = Util.dateTimeString()
       let fileExtension = ".json"
 
       if (this.dataSaveFile.saveFileType == 'encrypt') {
@@ -385,7 +362,6 @@ new Vue({
 
     },
 
-    // fileを保存（Pathと内容を指定）
     methodWriteFile: function (path, data) {
       fs.writeFile(path, data, (error) => {
         if (error != null) {
@@ -394,13 +370,8 @@ new Vue({
       })
     },
 
-
     methodSetWidthFrame() {
       return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
-    },
-
-    MethodStartResize() {
-      this.dataControlFrame.isDragged = true
     },
 
     MethodResizeFrame(event) {
@@ -413,7 +384,6 @@ new Vue({
           this.dataControlFrame.leftFrameWidth = LEFT_FRAME_MIN_WIDTH
           return
         }
-        console.log(event.clientX)
         this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
@@ -421,7 +391,6 @@ new Vue({
     methodEndResizeFrame() {
       this.dataControlFrame.isDragged = false
     }
-
 
   }
 })
