@@ -108,7 +108,6 @@ new Vue({
   mounted() {
     this.methodReadHistoryFileList()
     this.methodSelectOpenFile(0)
-    console.log(Util.dateTimeString())
   },
 
   computed: {},
@@ -231,6 +230,7 @@ new Vue({
         self.dataCopyIcon[position] = false
       }, 500)
     },
+
     resetSelectedItem: function () {
       this.dataSelectedItem.index = null
     },
@@ -285,14 +285,9 @@ new Vue({
       Util.methodSaveFile(this)
     },
 
-
-    methodSetWidthFrame() {
-      return 'width:' + this.dataControlFrame.leftFrameWidth + 'px'
-    },
-
     MethodResizeFrame(event) {
       if (event.buttons === 0) {
-        this.methodEndResizeFrame()
+        Util.methodEndResizeFrame(this)
         return
       }
       if (this.dataControlFrame.isDragged) {
@@ -303,10 +298,6 @@ new Vue({
         this.dataControlFrame.leftFrameWidth = event.clientX + FRAME_ADJUSTED_SETTING
       }
     },
-
-    methodEndResizeFrame() {
-      this.dataControlFrame.isDragged = false
-    }
 
   }
 })

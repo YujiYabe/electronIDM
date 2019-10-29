@@ -75,6 +75,11 @@ function methodReadHistoryFileList(self) {
   });
 }
 
+
+function methodEndResizeFrame(self) {
+  self.dataControlFrame.isDragged = false
+}
+
 function methodRemoveFile(self) {
   const index = self.dataSaveFile.selectHistoryIndex;
   const fileName = self.dataSaveFile.historyList[index]
@@ -130,5 +135,5 @@ module.exports = {
   methodRemoveFile,
   methodWriteFile,
   methodSaveFile,
-
+  methodEndResizeFrame,
 };

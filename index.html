@@ -118,8 +118,9 @@
 
 
     <div id="flexbox_container" @mousemove="MethodResizeFrame">
-
-      <div id="flexbox_left_pane" :style="methodSetWidthFrame()">
+      <!-- v-bind:style="{width:centWidth + 'px', left:leftWidth + 'px'}" -->
+      <div id="flexbox_left_pane" :style="{width: + dataControlFrame.leftFrameWidth + 'px'}">
+        <!-- <div id="flexbox_left_pane" :style="methodSetWidthFrame()"> -->
         <v-app id="vappleft">
           <v-content>
             <div class="sticky">
@@ -199,7 +200,7 @@
       </div><!-- flexbox_left_pane -->
 
 
-      <div id="flexbox_cent_line" @mousedown="dataControlFrame.isDragged = true" @mouseup="methodEndResizeFrame">
+      <div id="flexbox_cent_line" @mousedown="dataControlFrame.isDragged = true">
       </div> <!-- flexbox_cent_line -->
 
       <!-- <div id="flexbox_rght_pane" v-if="this.dataSelectedItem.index != null"> -->
