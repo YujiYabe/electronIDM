@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const CryptoJS = require('crypto-js');
+const fs = require('fs')
+const path = require('path')
+const CryptoJS = require('crypto-js')
 
 function readFile(self) {
   const targetPath = self.dataSaveFile.dataDirectory + path.sep + self.dataSaveFile.selectHistoryFile
@@ -19,7 +19,7 @@ function readFile(self) {
         alert('password not correct')
       }
     }
-    self.dataItemList = JSON.parse(targetReadData);
+    self.dataItemList = JSON.parse(targetReadData)
     self.dataDialog.open = false
   })
 }
@@ -33,7 +33,7 @@ function methodSaveFile(self) {
     }
   })
 
-  let targetSaveData = JSON.stringify(tempArray);
+  let targetSaveData = JSON.stringify(tempArray)
 
   let fileExtension = ".json"
 
@@ -56,34 +56,44 @@ function methodSaveFile(self) {
 
 function methodReadHistoryFileList(self) {
   if (!fs.existsSync(self.dataSaveFile.dataDirectory)) {
-    fs.mkdirSync(self.dataSaveFile.dataDirectory);
+    fs.mkdirSync(self.dataSaveFile.dataDirectory)
   }
 
   fs.readdir(self.dataSaveFile.dataDirectory + path.sep, function (err, files) {
     if (err) {
-      console.log("error : " + err);
+      console.log("error : " + err)
     }
     if (files.length == 0) {
       // バックアップファイルが一つもない場合、ダイアログを開かない
-      console.log("not found files");
+      console.log("not found files")
       self.dataDialog.open = false
       self.dataSaveFile.historyList = []
     } else {
       self.dataDialog.open = true
-      self.dataSaveFile.historyList = files.slice().reverse();
+      self.dataSaveFile.historyList = files.slice().reverse()
     }
-  });
+  })
 }
 
+function methodSelectOpenFile(self, index) {
 
-function methodEndResizeFrame(self) {
-  self.dataControlFrame.isDragged = false
+  if (self.dataSaveFile.historyList.length != 0) {
+    let historyList = Object.create(self.dataSaveFile.historyList)
+    let fileName = historyList[index]
+    if (fileName) {
+      const reg = /(.*)(?:\.([^.]+$))/
+      self.dataSaveFile.openFileType = fileName.match(reg)[2]
+      self.dataSaveFile.selectHistoryFile = fileName
+      self.dataSaveFile.selectHistoryIndex = index
+    }
+  }
+
 }
 
 function methodRemoveFile(self) {
-  const index = self.dataSaveFile.selectHistoryIndex;
+  const index = self.dataSaveFile.selectHistoryIndex
   const fileName = self.dataSaveFile.historyList[index]
-  fs.unlinkSync(self.dataSaveFile.dataDirectory + path.sep + fileName);
+  fs.unlinkSync(self.dataSaveFile.dataDirectory + path.sep + fileName)
   self.methodReadHistoryFileList()
   self.dataSaveFile.selectHistoryIndex = null
 }
@@ -101,14 +111,14 @@ function methodWriteFile(self, data, optionSaveFileName, fileExtension) {
 
 
 function dateTimeString() {
-  let dt = new Date();
-  let yyyy = dt.getFullYear();
-  let mm = ("00" + (dt.getMonth() + 1)).slice(-2);
-  let dd = ("00" + dt.getDate()).slice(-2);
-  let hh = ("00" + dt.getHours()).slice(-2);
-  let nn = ("00" + dt.getMinutes()).slice(-2);
-  let ss = ("00" + dt.getSeconds()).slice(-2);
-  return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss;
+  let dt = new Date()
+  let yyyy = dt.getFullYear()
+  let mm = ("00" + (dt.getMonth() + 1)).slice(-2)
+  let dd = ("00" + dt.getDate()).slice(-2)
+  let hh = ("00" + dt.getHours()).slice(-2)
+  let nn = ("00" + dt.getMinutes()).slice(-2)
+  let ss = ("00" + dt.getSeconds()).slice(-2)
+  return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss
 }
 
 function methodSetContentItem(itemType) {
@@ -123,8 +133,12 @@ function methodSetContentItem(itemType) {
     "tagPassword": itemType.tagPassword,
     "tagOther1": itemType.tagOther1,
     "tagOther2": itemType.tagOther2,
-  };
+  }
   return set
+}
+
+function methodEndResizeFrame(self) {
+  self.dataControlFrame.isDragged = false
 }
 
 module.exports = {
@@ -136,4 +150,5 @@ module.exports = {
   methodWriteFile,
   methodSaveFile,
   methodEndResizeFrame,
-};
+  methodSelectOpenFile,
+}
