@@ -1,16 +1,16 @@
 {
   "name": "electron-idm",
   "version": "1.0.0",
-  "description": "simple password manager",
+  "description": "electron-id-manager",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/YujiYabe/electronIDM",
   "keywords": [
     "Electron",
-    "maanger"
+    "manager"
   ],
   "author": "YABE yuji",
   "license": "CC0-1.0",

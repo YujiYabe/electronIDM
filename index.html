@@ -246,8 +246,8 @@
                         @change="methodSetDataItem('tagId')" tabindex="0">
                       </v-text-field>
                     </v-flex>
-                    <v-flex xs8>
 
+                    <v-flex xs8>
                       <v-text-field id="id" outlined dense :background-color="methodSetColor('id')"
                         v-model="dataSelectedItem.id" :prepend-inner-icon="methodSetPrependIcon('id')"
                         @click:prepend-inner="methodPasteToClipBoard('id')"
@@ -291,16 +291,13 @@
                 <v-flex xs12>
                   <v-layout justify-start>
                     <v-flex xs3>
-
                       <v-text-field id="tagOther1" dark outlined dense :background-color="methodSetColor('tagOther1')"
                         :placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther1"
-                        @change="methodSetDataItem('tagOther1')" tabindex="0"></v-text-field>
-
-
+                        @change="methodSetDataItem('tagOther1')" tabindex="0">
+                      </v-text-field>
                     </v-flex>
+
                     <v-flex xs8>
-
-
                       <v-text-field id="other1" outlined dense :background-color="methodSetColor('other1')"
                         v-model="dataSelectedItem.other1" :prepend-inner-icon="methodSetPrependIcon('other1')"
                         @click:prepend-inner="methodPasteToClipBoard('other1')"
@@ -308,8 +305,8 @@
                         @click:append="methodSetAppendIconStatus('other1')" :type="methodSetTextType('other1')"
                         @change="methodSetDataItem('other1')" tabindex="4">
                       </v-text-field>
-
                     </v-flex>
+
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -318,13 +315,14 @@
               <v-layout justify-start class="mt-n6">
                 <v-flex xs12>
                   <v-layout justify-start>
+
                     <v-flex xs3>
                       <v-text-field id="tagOther2" dark outlined dense :background-color="methodSetColor('tagOther2')"
                         :placeholder="dataDictionary.placeholderTag" v-model="dataSelectedItem.tagOther2"
                         @change="methodSetDataItem('tagOther2')" tabindex="0">
                       </v-text-field>
-
                     </v-flex>
+
                     <v-flex xs8>
                       <v-text-field id="other2" outlined dense :background-color="methodSetColor('other2')"
                         v-model="dataSelectedItem.other2" :prepend-inner-icon="methodSetPrependIcon('other2')"
@@ -332,8 +330,8 @@
                         :placeholder="dataDictionary.placeholderOther" :append-icon="methodSetAppendIcon('other2')"
                         @click:append="methodSetAppendIconStatus('other2')" :type="methodSetTextType('other2')"
                         @change="methodSetDataItem('other2')" tabindex="5">
-
                     </v-flex>
+
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -342,26 +340,22 @@
               <v-layout justify-start class="mt-n5">
                 <v-flex xs12>
                   <v-layout justify-start>
+
                     <v-flex xs11>
                       <v-textarea id="text" label="free text area" outlined dense rows="10"
                         :background-color="methodSetColor('text')" v-model="dataSelectedItem.text"
                         @change="methodSetDataItem('text')" auto-grow tabindex="6">
                       </v-textarea>
-
                     </v-flex>
+
                   </v-layout>
                 </v-flex>
               </v-layout>
-
-
             </v-container>
           </v-content>
         </v-app><!-- vappRight -->
-
       </div><!-- flexbox_rght_pane -->
-
     </div><!-- flexbox_container -->
-
   </div><!-- app -->
 
   <style lang="scss">

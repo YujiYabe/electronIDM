@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const CryptoJS = require('crypto-js')
 
-function readFile(self) {
+function readFile (self) {
   const targetPath = self.dataSaveFile.dataDirectory + path.sep + self.dataSaveFile.selectHistoryFile
   fs.readFile(targetPath, (error, content) => {
     if (error != null) {
@@ -24,7 +24,7 @@ function readFile(self) {
   })
 }
 
-function methodSaveFile(self) {
+function methodSaveFile (self) {
   let tempArray = []
   self.dataItemList.forEach(function (key) {
     if (key) {
@@ -50,11 +50,10 @@ function methodSaveFile(self) {
 
   methodWriteFile(self, targetSaveData, optionSaveFileName, fileExtension)
   self.dataDialog.save = false
-  self.methodReadHistoryFileList()
+  methodReadHistoryFileList(self)
 }
 
-
-function methodReadHistoryFileList(self) {
+function methodReadHistoryFileList (self) {
   if (!fs.existsSync(self.dataSaveFile.dataDirectory)) {
     fs.mkdirSync(self.dataSaveFile.dataDirectory)
   }
@@ -75,7 +74,7 @@ function methodReadHistoryFileList(self) {
   })
 }
 
-function methodSelectOpenFile(self, index) {
+function methodSelectOpenFile (self, index) {
 
   if (self.dataSaveFile.historyList.length != 0) {
     let historyList = Object.create(self.dataSaveFile.historyList)
@@ -90,17 +89,17 @@ function methodSelectOpenFile(self, index) {
 
 }
 
-function methodRemoveFile(self) {
+function methodRemoveFile (self) {
   const index = self.dataSaveFile.selectHistoryIndex
   const fileName = self.dataSaveFile.historyList[index]
   fs.unlinkSync(self.dataSaveFile.dataDirectory + path.sep + fileName)
-  self.methodReadHistoryFileList()
+  methodReadHistoryFileList(self)
   self.dataSaveFile.selectHistoryIndex = null
 }
 
 
 
-function methodWriteFile(self, data, optionSaveFileName, fileExtension) {
+function methodWriteFile (self, data, optionSaveFileName, fileExtension) {
   const fileName = self.dataSaveFile.dataDirectory + path.sep + Util.dateTimeString() + optionSaveFileName + fileExtension
   fs.writeFile(fileName, data, (error) => {
     if (error != null) {
@@ -110,7 +109,7 @@ function methodWriteFile(self, data, optionSaveFileName, fileExtension) {
 }
 
 
-function dateTimeString() {
+function dateTimeString () {
   let dt = new Date()
   let yyyy = dt.getFullYear()
   let mm = ("00" + (dt.getMonth() + 1)).slice(-2)
@@ -121,7 +120,7 @@ function dateTimeString() {
   return yyyy + "-" + mm + "-" + dd + "--" + hh + "-" + nn + "-" + ss
 }
 
-function methodSetContentItem(itemType) {
+function methodSetContentItem (itemType) {
   const set = {
     "name": itemType.name,
     "id": itemType.id,
@@ -137,7 +136,7 @@ function methodSetContentItem(itemType) {
   return set
 }
 
-function methodEndResizeFrame(self) {
+function methodEndResizeFrame (self) {
   self.dataControlFrame.isDragged = false
 }
 
