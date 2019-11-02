@@ -12,9 +12,8 @@
 - electron
 - vue.js
 
-## ダウンロードURL
-https://github.com/YujiYabe/electronIDM
-
+## ダウンロードURL(linux only:appImage)
+https://drive.google.com/open?id=18m2e1vAmuYwBbDqT5bHe-hDhLDpDUGRv
 
 ## portfolio
 https://yujiyabe.github.io/portfolio
